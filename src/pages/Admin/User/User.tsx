@@ -124,6 +124,10 @@ const User = () => {
     navigate("/users/create")
   }
 
+  const updateUser = () => {
+    navigate("/users/update")
+  }
+
   return (
     <div>
         <div className="flex justify-between items-center rounded-md shadow-lg h-[60px] px-[1rem]">
@@ -174,7 +178,7 @@ const User = () => {
                           <TableCell>{user.coupon}</TableCell>
                           <TableCell>{user.createdAt}</TableCell>
                           <TableCell className="flex gap-3 mt-4">
-                            <Button size='icon' variant='outline' className="cursor-pointer">
+                            <Button size='icon' variant='outline' className="cursor-pointer" onClick={updateUser}>
                               <Edit className="text-blue-500"/>
                             </Button>
                             <Button size='icon' variant='outline' className="cursor-pointer">
