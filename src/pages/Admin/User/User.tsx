@@ -173,7 +173,7 @@ const User = () => {
                           <TableCell>{user.points}</TableCell>
                           <TableCell>{user.coupon}</TableCell>
                           <TableCell>{user.createdAt}</TableCell>
-                          <TableCell className="flex gap-3">
+                          <TableCell className="flex gap-3 mt-4">
                             <Button size='icon' variant='outline' className="cursor-pointer">
                               <Edit className="text-blue-500"/>
                             </Button>
