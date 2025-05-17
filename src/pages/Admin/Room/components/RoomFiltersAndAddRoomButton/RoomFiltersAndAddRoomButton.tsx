@@ -121,7 +121,6 @@ export default function RoomFiltersAndAddRoomButton({
         }}
         text={"Add Room"}
       />
-      /
     </div>
   );
 }
