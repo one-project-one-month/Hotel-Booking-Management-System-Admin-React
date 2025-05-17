@@ -16,73 +16,72 @@ import NotFound from "@/pages/Error/NotFound";
 import Layout from "@/shared/Layout";
 
 const Data = [
-    {
-        path:"auth/login",
-        Component:Login
-    },
-    {
-        path:"/",
-        Component:Layout,
-        children:[
-            {
-                path:"dashboard",
-                Component:Dashboard
-            },
-            {
-                path:"users",
-                Component:User
-            },
-            {
-                path:"users/create",
-                Component:CreateUser
-            },
-            {
-                path:"users/update",
-                Component:UpdateUser
-            },
-            {
-                path:"rooms",
-                Component:Room
-            },
-            {
-                path:"rooms/create",
-                Component:CreateRoom
-            },
-            {
-                path:"rooms/update",
-                Component:UpdateRoom
-            },
-            {
-                path:"booking",
-                Component:Booking
-            },
-            {
-                path:"booking/view",
-                Component:ViewBooking
-            },
-            {
-                path:"cupon",
-                Component:Cupon
-            },
-            {
-                path:"cupon/create",
-                Component:CreateCupon
-            },
-            {
-                path:"cupon/update",
-                Component:UpdateCupon
-            },
-            {
-                path:"logout",
-                Component:Logout
-            }
-        ]
-    },
-    {
-        path:"*",
-        Component:NotFound
-    }
-]
-
+  {
+    path: "auth/login",
+    Component: Login,
+  },
+  {
+    path: "/",
+    Component: Layout,
+    children: [
+      {
+        path: "dashboard",
+        Component: Dashboard,
+      },
+      {
+        path: "users",
+        Component: User,
+      },
+      {
+        path: "users/create",
+        Component: CreateUser,
+      },
+      {
+        path: "users/update",
+        Component: UpdateUser,
+      },
+      {
+        path: "rooms",
+        Component: Room,
+      },
+      {
+        path: "rooms/create",
+        Component: CreateRoom,
+      },
+      {
+        path: "rooms/update/:id",
+        Component: UpdateRoom,
+      },
+      {
+        path: "booking",
+        Component: Booking,
+      },
+      {
+        path: "booking/view",
+        Component: ViewBooking,
+      },
+      {
+        path: "cupon",
+        Component: Cupon,
+      },
+      {
+        path: "cupon/create",
+        Component: CreateCupon,
+      },
+      {
+        path: "cupon/update",
+        Component: UpdateCupon,
+      },
+      {
+        path: "logout",
+        Component: Logout,
+      },
+    ],
+  },
+  {
+    path: "*",
+    Component: NotFound,
+  },
+];
 
 export default Data;
