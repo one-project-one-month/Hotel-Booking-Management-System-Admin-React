@@ -14,6 +14,9 @@ import { Avatar } from "@radix-ui/react-avatar"
 
 
 const SideLayout = () => {
+
+  const route = window.location.pathname;
+
   return (
     <Sidebar>
       <SidebarContent>
@@ -26,8 +29,8 @@ const SideLayout = () => {
             <SidebarMenu>
               {menuItem.map((item) => (
                 <SidebarMenuItem key={item.text}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.route} className="my-2">
+                  <SidebarMenuButton asChild isActive={route === item.route ? true:false}>
+                    <a href={item.route} className="my-1 py-[25px]">
                         <img src={item.icon} alt="itemIcon" className="w-[25px] h-[25px] mr-3"/>
                         <span>{item.text}</span>
                     </a>

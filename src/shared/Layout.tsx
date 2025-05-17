@@ -14,7 +14,7 @@ const Layout = () => {
               <SidebarTrigger className="cursor-pointer"/>
               <Bell />
             </div>
-            <div className="p-3">
+            <div className="px-5 py-2">
               <Outlet />
             </div>
          </div>
