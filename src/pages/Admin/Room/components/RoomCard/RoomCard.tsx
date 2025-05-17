@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Card, CardContent } from "@/components/ui/card";
 import type { Room, RoomStatus } from "@/utils/types/roomTypes/roomTypes.ts";
 import { Badge } from "@/components/ui/badge.tsx";
@@ -9,6 +10,7 @@ import { ConfirmDeleteDialog } from "@/components/shared/ConfirmDeleteDialog/Con
 import { SelectorDropDown } from "@/components/shared/SelectorDropDown/SelectorDropDown.tsx";
 import { roomStatusToSelect } from "@/utils/dummy.ts";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const badgeBgColors: { [key in RoomStatus]: string } = {
   Available: "bg-green-100",
   Booked: "bg-red-100",
@@ -17,6 +19,7 @@ export const badgeBgColors: { [key in RoomStatus]: string } = {
   Maintenance: "bg-gray-200",
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const badgeTextColors: { [key in RoomStatus]: string } = {
   Available: "text-green-700",
   Booked: "text-red-700",
