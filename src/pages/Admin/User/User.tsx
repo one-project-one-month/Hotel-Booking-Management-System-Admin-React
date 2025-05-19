@@ -20,99 +20,10 @@ import { Edit, Filter, Plus, Trash } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useNavigate } from "react-router-dom"
+import { users } from "@/utils/dummy"
 
 
-// eslint-disable-next-line react-refresh/only-export-components, @typescript-eslint/no-explicit-any
-export const users:any = [
-  {
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phNo:928388383,
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  },
-   {
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phNo:928388383,
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  },
-   {
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phNo:928388383,
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  }, {
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phNo:928388383,
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  },
-   {
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phNo:928388383,
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  },
-   {
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phNo:928388383,
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  },
-   {
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phNo:928388383,
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  }, {
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phNo:928388383,
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  },
-   {
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phNo:928388383,
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  }
-]
+
 
 
 const User = () => {
@@ -124,8 +35,8 @@ const User = () => {
     navigate("/users/create")
   }
 
-  const updateUser = () => {
-    navigate("/users/update")
+  const updateUser = (id:number) => {
+    navigate(`/users/update/${id}`)
   }
 
   return (
@@ -164,7 +75,7 @@ const User = () => {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 users.map((user:any)=>{
                   return (
-                      <TableRow>
+                      <TableRow key={user.id}>
                         <TableCell>
                           <div className="w-[70px] h-[70px]  rounded-md shadow-lg mx-auto">
                             <img src={user.profile} alt="user.profile" className="w-full h-full rounded-md shadow-lg"/>
@@ -172,13 +83,13 @@ const User = () => {
                           </TableCell>
                           <TableCell>{user.name}</TableCell>
                           <TableCell>{user.email}</TableCell>
-                          <TableCell>{user.phNo}</TableCell>
+                          <TableCell>{user.phNumber}</TableCell>
                           <TableCell>{user.role}</TableCell>
                           <TableCell>{user.points}</TableCell>
                           <TableCell>{user.coupon}</TableCell>
                           <TableCell>{user.createdAt}</TableCell>
                           <TableCell className="flex gap-3 mt-4">
-                            <Button size='icon' variant='outline' className="cursor-pointer" onClick={updateUser}>
+                            <Button size='icon' variant='outline' className="cursor-pointer" onClick={()=>updateUser(user.id)}>
                               <Edit className="text-blue-500"/>
                             </Button>
                             <Button size='icon' variant='outline' className="cursor-pointer">

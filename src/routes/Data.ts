@@ -37,7 +37,7 @@ const Data = [
         Component: CreateUser,
       },
       {
-        path: "users/update",
+        path: "users/update/:id",
         Component: UpdateUser,
       },
       {
@@ -57,7 +57,7 @@ const Data = [
         Component: Booking,
       },
       {
-        path: "booking/view",
+        path: "booking/view/:id",
         Component: ViewBooking,
       },
       {

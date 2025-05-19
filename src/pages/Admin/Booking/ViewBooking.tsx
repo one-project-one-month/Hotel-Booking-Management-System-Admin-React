@@ -1,7 +1,11 @@
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useParams } from "react-router-dom"
 
 const ViewBooking = () => {
+  const {id} = useParams();
+  console.log(id)
+
   return (
    <div>
       <div className="shadow-lg mt-2 h-[82vh] rounded-md p-2 px-[60px] w-[50%] mx-auto">

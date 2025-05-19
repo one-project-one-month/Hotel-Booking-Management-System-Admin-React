@@ -20,120 +20,9 @@ import { Eye, Filter, } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useNavigate } from "react-router-dom"
+import { bookings } from "@/utils/dummy"
 
-// eslint-disable-next-line react-refresh/only-export-components, @typescript-eslint/no-explicit-any
-export const bookings:any = [
-  {
-    customerName:"Arkar",
-    roomNo:"104",
-    checkIn:"3:00AM",
-    checkOut:"12:00PM",
-    guestCount:4,
-    depositAmount:10000,
-    totalAmount:30000,
-    status:"Approved",
-    createdAt:"24/5/2000"
-  },
-  {
-    customerName:"Arkar",
-    roomNo:"104",
-    checkIn:"3:00AM",
-    checkOut:"12:00PM",
-    guestCount:4,
-    depositAmount:10000,
-    totalAmount:30000,
-    status:"Pending",
-    createdAt:"24/5/2000"
-  },
-  {
-    customerName:"Arkar",
-    roomNo:"104",
-    checkIn:"3:00AM",
-    checkOut:"12:00PM",
-    guestCount:4,
-    depositAmount:10000,
-    totalAmount:30000,
-    status:"Pending",
-    createdAt:"24/5/2000"
-  },
-  {
-    customerName:"Arkar",
-    roomNo:"104",
-    checkIn:"3:00AM",
-    checkOut:"12:00PM",
-    guestCount:4,
-    depositAmount:10000,
-    totalAmount:30000,
-    status:"Pending",
-    createdAt:"24/5/2000"
-  },
-  {
-    customerName:"Arkar",
-    roomNo:"104",
-    checkIn:"3:00AM",
-    checkOut:"12:00PM",
-    guestCount:4,
-    depositAmount:10000,
-    totalAmount:30000,
-    status:"Pending",
-    createdAt:"24/5/2000"
-  },
-  {
-    customerName:"Arkar",
-    roomNo:"104",
-    checkIn:"3:00AM",
-    checkOut:"12:00PM",
-    guestCount:4,
-    depositAmount:10000,
-    totalAmount:30000,
-    status:"Cancel",
-    createdAt:"24/5/2000"
-  },
-  {
-    customerName:"Arkar",
-    roomNo:"104",
-    checkIn:"3:00AM",
-    checkOut:"12:00PM",
-    guestCount:4,
-    depositAmount:10000,
-    totalAmount:30000,
-    status:"Pending",
-    createdAt:"24/5/2000"
-  },
-  {
-    customerName:"Arkar",
-    roomNo:"104",
-    checkIn:"3:00AM",
-    checkOut:"12:00PM",
-    guestCount:4,
-    depositAmount:10000,
-    totalAmount:30000,
-    status:"Pending",
-    createdAt:"24/5/2000"
-  },
-  {
-    customerName:"Arkar",
-    roomNo:"104",
-    checkIn:"3:00AM",
-    checkOut:"12:00PM",
-    guestCount:4,
-    depositAmount:10000,
-    totalAmount:30000,
-    status:"Pending",
-    createdAt:"24/5/2000"
-  },
-  {
-    customerName:"Arkar",
-    roomNo:"104",
-    checkIn:"3:00AM",
-    checkOut:"12:00PM",
-    guestCount:4,
-    depositAmount:10000,
-    totalAmount:30000,
-    status:"Approved",
-    createdAt:"24/5/2000"
-  },
-]
+
 
 
 
@@ -141,8 +30,8 @@ const Booking = () => {
 
   const navigate = useNavigate();
 
-  const viewBooking = () => {
-    navigate("/booking/view")
+  const viewBooking = (id:number) => {
+    navigate(`/booking/view/${id}`)
   }
 
 
@@ -181,7 +70,7 @@ const Booking = () => {
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     bookings.map((booking:any)=>{
                       return (
-                          <TableRow>
+                          <TableRow key={booking.id}>
                               <TableCell>{booking.customerName}</TableCell>
                               <TableCell>{booking.roomNo}</TableCell>
                               <TableCell>{booking.checkIn}</TableCell>
@@ -199,7 +88,7 @@ const Booking = () => {
                                           <Button className="text-red-600 cursor-pointer hover:text-red-500" variant='outline'>Cancel</Button>
                                         </>
                                   ):(
-                                        <Button size='icon' variant='outline' className="cursor-pointer" onClick={viewBooking}>
+                                        <Button size='icon' variant='outline' className="cursor-pointer" onClick={()=>viewBooking(booking.id)}>
                                           <Eye className="text-blue-500"/>
                                         </Button>
                                   )

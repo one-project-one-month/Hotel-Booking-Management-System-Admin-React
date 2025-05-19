@@ -84,6 +84,7 @@ export default function RoomFiltersAndAddRoomButton({
             (room) => room.guest_limit === Number(selectedLimit),
           );
     setRoomsToBeShown(roomsByGuestLimit);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedRoomType, selectedStatus, selectedLimit, searchedRooms]);
 
   return (

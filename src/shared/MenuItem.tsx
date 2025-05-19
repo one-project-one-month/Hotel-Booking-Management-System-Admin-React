@@ -1,8 +1,8 @@
-import type { MenuItem } from "@/utils/type"
+
 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const MenuItem = ({item}: any) => {
+const MenuItem = ({item}:any) => {
   return (
     <a href={item.route}>
         <img src={item.icon} alt="itemIcon" className="w-[25px] h-[25px]"/>
