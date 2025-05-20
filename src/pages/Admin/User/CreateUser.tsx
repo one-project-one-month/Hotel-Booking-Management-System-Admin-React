@@ -53,11 +53,11 @@ const CreateUser = () => {
   }
 
   return (
-    <div className="relative h-[90vh]">
+    <div className="relative h-[calc(100vh-100px)]">
       <h3 className="text-2xl font-semibold">Create User</h3>
-       <div className="h-[70vh] px-5 rounded-md mt-10 shadow-lg ">
+       <div className="h-[65vh] px-5 rounded-md mt-10 shadow-lg ">
           <Form  {...form}>
-            <form className="grid grid-cols-3 gap-5" onSubmit={form.handleSubmit(onSubmit)}>
+            <form className=" grid grid-cols-3 gap-5" onSubmit={form.handleSubmit(onSubmit)}>
               <div>
                 <InputFormField
                   control={form.control}
@@ -100,7 +100,7 @@ const CreateUser = () => {
               <div className="w-[180px] h-[180px] shadow-lg rounded-md mx-auto mt-4">
                 <img src={images} alt="profile_img" className="w-full h-full rounded-md"/>
               </div>
-              <div className="absolute bottom-0 right-[35%] flex gap-10">
+              <div className="absolute bottom-0 right-[40%] flex gap-10">
                 <Button variant='outline' className="bg-red-600 text-white w-[150px] py-5 cursor-pointer hover:bg-red-500 hover:text-white" onClick={cancelClick}>Cancel</Button>
                 <Button type="submit" className="bg-green-600 w-[150px] py-5 cursor-pointer hover:bg-green-500">Create</Button>
               </div>

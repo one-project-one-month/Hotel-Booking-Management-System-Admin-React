@@ -26,7 +26,7 @@ const ViewBooking = () => {
           </div>
           <h3  className="flex gap-3">Guest Count: <p className="font-semibold">4</p></h3>
         </div>
-        <div className="h-[280px] overflow-auto w-[500px]">
+        <div className="h-[280px] overflow-auto w-[100%]">
           <Table className="mt-4 border-2">
             <TableHeader>
               <TableRow>

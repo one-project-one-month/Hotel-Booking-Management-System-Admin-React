@@ -55,7 +55,7 @@ const User = () => {
             </Button>
           </div>
         </div>
-        <div className="h-[73vh] overflow-auto rounded-md shadow-lg mt-[10px] px-[10px]">
+        <div className="h-[calc(100vh-200px)] overflow-auto rounded-md shadow-lg mt-[10px] px-[10px]">
           <Table>
             <TableHeader>
               <TableRow>
