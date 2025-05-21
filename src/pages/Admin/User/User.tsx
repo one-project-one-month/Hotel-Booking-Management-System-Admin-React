@@ -20,13 +20,19 @@ import { Edit, Filter, Plus, Trash } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useNavigate } from "react-router-dom"
-import { users } from "@/utils/dummy"
+// import { users } from "@/utils/dummy"
+import { useUser } from "@/hooks/useUser"
+import moment from 'moment'
 
 
 
 
 
 const User = () => {
+
+  const {data:user,isLoading,isError} = useUser()
+
+
 
   const navigate = useNavigate();
 
@@ -37,6 +43,14 @@ const User = () => {
 
   const updateUser = (id:number) => {
     navigate(`/users/update/${id}`)
+  }
+
+  if(isLoading){
+    return <div>Loading</div>
+  }
+
+  if(isError){
+    return <div>Error</div>
   }
 
   return (
@@ -62,10 +76,10 @@ const User = () => {
                 <TableHead  className="w-[100px] text-center text-md">Profile</TableHead>
                 <TableHead className="w-[100px] text-md">Name</TableHead>
                 <TableHead className="w-[100px] text-md">Email</TableHead>
-                <TableHead className="w-[100px] text-md">Ph Number</TableHead>
+                <TableHead className="w-[100px] text-md text-center">Ph Number</TableHead>
                 <TableHead  className="w-[100px] text-md">Role</TableHead>
-                <TableHead  className="w-[100px] text-md">Points</TableHead>
-                <TableHead  className="w-[100px] text-md">Coupon</TableHead>
+                <TableHead  className="w-[100px] text-md text-center">Points</TableHead>
+                <TableHead  className="w-[100px] text-md text-center">Coupon</TableHead>
                 <TableHead  className="w-[100px] text-md">CreatedAt</TableHead>
                 <TableHead  className="w-[100px] text-md">Action</TableHead>
               </TableRow>
@@ -73,21 +87,21 @@ const User = () => {
             <TableBody>
               {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                users.map((user:any)=>{
+                user?.data.data.map((user:any)=>{
                   return (
-                      <TableRow key={user.id}>
+                      <TableRow key={user._id}>
                         <TableCell>
                           <div className="w-[70px] h-[70px]  rounded-md shadow-lg mx-auto">
                             <img src={user.profile} alt="user.profile" className="w-full h-full rounded-md shadow-lg"/>
                           </div>
                           </TableCell>
-                          <TableCell>{user.name}</TableCell>
+                          <TableCell className="capitalize">{user.name}</TableCell>
                           <TableCell>{user.email}</TableCell>
-                          <TableCell>{user.phNumber}</TableCell>
+                          <TableCell className="text-center">{user.phone ? `"0"+${user.phone}` : "-"}</TableCell>
                           <TableCell>{user.role}</TableCell>
-                          <TableCell>{user.points}</TableCell>
-                          <TableCell>{user.coupon}</TableCell>
-                          <TableCell>{user.createdAt}</TableCell>
+                          <TableCell className="text-center">{user.points}</TableCell>
+                          <TableCell className="text-center">{user.coupon}</TableCell>
+                          <TableCell>{moment(user.createdAt).format('lll')}</TableCell>
                           <TableCell className="flex gap-3 mt-4">
                             <Button size='icon' variant='outline' className="cursor-pointer" onClick={()=>updateUser(user.id)}>
                               <Edit className="text-blue-500"/>

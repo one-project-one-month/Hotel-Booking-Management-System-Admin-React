@@ -22,7 +22,7 @@ const Data = [
   },
   {
     path: "/",
-    Component: Layout,
+    Component:Layout,
     children: [
       {
         path: "dashboard",

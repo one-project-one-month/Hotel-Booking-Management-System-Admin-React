@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
+import Axios from "@/config/ApiConfig";
 import { Eye, EyeClosed } from "lucide-react"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -53,7 +54,7 @@ const Login = () => {
 
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const login = (e:any) => {
+  const login = async(e:any) => {
 
          e.preventDefault();
 
@@ -67,6 +68,13 @@ const Login = () => {
         }
 
         if(users.email !== '' && users.password !== ''){
+
+          await Axios.post("users/login",users).then((res)=>{
+            if(res.data.status === 200){
+              localStorage.setItem("token",res.data.token)
+            }
+          })
+
           toast("Login Successfully",{position:"top-center",style:{backgroundColor:"#228B22",color:"white",border:'none',height:'60px',display:'flex',justifyContent:'center',alignItems:'center',fontSize:"16px"}})
           navigate("/dashboard")
         }
