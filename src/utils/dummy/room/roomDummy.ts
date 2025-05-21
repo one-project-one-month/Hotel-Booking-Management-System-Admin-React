@@ -1,37 +1,4 @@
-import type { Room } from "@/utils/types/roomTypes/roomTypes.ts";
-
-export const menuItem = [
-  {
-    route: "/dashboard",
-    text: "Dashboard",
-    icon: "/images/layout-dashboard.png",
-  },
-  {
-    route: "/users",
-    text: "UserLists",
-    icon: "/images/user (2).png",
-  },
-  {
-    route: "/rooms",
-    text: "Rooms",
-    icon: "/images/room.png",
-  },
-  {
-    route: "/cupon",
-    text: "CuponLists",
-    icon: "/images/cupon-lists.png",
-  },
-  {
-    route: "/booking",
-    text: "Bookings",
-    icon: "/images/history.png",
-  },
-  {
-    route: "/logout",
-    text: "Logout",
-    icon: "/images/log-out.png",
-  },
-];
+import type { Room, RoomStatus } from "@/utils/types/roomTypes/roomTypes.ts";
 
 export const dummyRooms: Room[] = [
   {
@@ -298,11 +265,19 @@ export const roomStatusToSelect = [
   "Check Out",
   "Maintenance",
 ];
-export const guestLimitsToSelect = ["1", "2", "3", "4", " 5", "6"];
 
-export const imageUrlsToSelect = [
-  "/images/Twin.jpg",
-  "/images/Single.jpg",
-  "/images/DeluxeRoom.jpg",
-  "/images/Family.jpg",
-];
+export const badgeBgColors: { [key in RoomStatus]: string } = {
+  Available: "bg-green-100",
+  Booked: "bg-red-100",
+  "Check In": "bg-amber-100",
+  "Check Out": "bg-blue-100",
+  Maintenance: "bg-gray-200",
+};
+
+export const badgeTextColors: { [key in RoomStatus]: string } = {
+  Available: "text-green-700",
+  Booked: "text-red-700",
+  "Check In": "text-amber-700",
+  "Check Out": "text-blue-700",
+  Maintenance: "text-gray-700",
+};

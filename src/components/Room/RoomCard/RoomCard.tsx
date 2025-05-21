@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Card, CardContent } from "@/components/ui/card";
-import type { Room, RoomStatus } from "@/utils/types/roomTypes/roomTypes.ts";
+import { Card, CardContent } from "@/components/ui/card.tsx";
+import type { Room } from "@/utils/types/roomTypes/roomTypes.ts";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Heart, Users } from "lucide-react";
 import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
@@ -8,25 +8,11 @@ import { ActionDropdown } from "@/components/shared/ActionDropdown/ActionDropdow
 import { useNavigate } from "react-router-dom";
 import { ConfirmDeleteDialog } from "@/components/shared/ConfirmDeleteDialog/ConfirmDeleteDialog.tsx";
 import { SelectorDropDown } from "@/components/shared/SelectorDropDown/SelectorDropDown.tsx";
-import { roomStatusToSelect } from "@/utils/dummy.ts";
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const badgeBgColors: { [key in RoomStatus]: string } = {
-  Available: "bg-green-100",
-  Booked: "bg-red-100",
-  "Check In": "bg-amber-100",
-  "Check Out": "bg-blue-100",
-  Maintenance: "bg-gray-200",
-};
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const badgeTextColors: { [key in RoomStatus]: string } = {
-  Available: "text-green-700",
-  Booked: "text-red-700",
-  "Check In": "text-amber-700",
-  "Check Out": "text-blue-700",
-  Maintenance: "text-gray-700",
-};
+import {
+  badgeBgColors,
+  badgeTextColors,
+  roomStatusToSelect,
+} from "@/utils/dummy/room/roomDummy.ts";
 
 interface Props {
   room: Room;
@@ -73,7 +59,10 @@ export function RoomCard({ room, rooms, setRooms }: Props) {
 
   useEffect(() => {
     if (currentStatus !== room.status) {
-      rooms.map((r) => (r.id === room.id ? (r.status = currentStatus) : r));
+      const newRooms = rooms.map((r) =>
+        r.id === room.id ? { ...r, status: currentStatus } : r,
+      );
+      setRooms(newRooms);
     }
   }, [currentStatus]);
 

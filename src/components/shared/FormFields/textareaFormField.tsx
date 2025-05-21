@@ -4,20 +4,21 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form.tsx";
-import { Input } from "@/components/ui/input.tsx";
+
+import { Textarea } from "@/components/ui/textarea.tsx";
 import { Label } from "@/components/ui/label.tsx";
 
 interface Props {
   control: any;
-  type: string;
+
   name: string;
   placeholder: string;
   label: string;
 }
-export default function InputFormField({
+export default function TextAreaFormField({
   control,
   name,
-  type,
+
   placeholder,
   label,
 }: Props) {
@@ -30,7 +31,7 @@ export default function InputFormField({
         render={({ field }) => (
           <FormItem>
             <FormControl>
-              <Input type={type} placeholder={placeholder} {...field} />
+              <Textarea placeholder={placeholder} {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>

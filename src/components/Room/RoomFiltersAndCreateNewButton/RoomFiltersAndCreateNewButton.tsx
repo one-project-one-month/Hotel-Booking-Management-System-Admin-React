@@ -17,21 +17,21 @@ import type {
   RoomStatus,
   RoomTypes,
 } from "@/utils/types/roomTypes/roomTypes.ts";
+
+import { useNavigate } from "react-router-dom";
+import CreateNewButton from "@/components/shared/CustomButtons/AddNewButton/CreateNewButton.tsx";
 import {
   guestLimitForFilter,
   roomStatusForFilter,
   roomTypesForFilter,
-} from "@/utils/dummy.ts";
-
-import { useNavigate } from "react-router-dom";
-import AddNewButton from "@/components/shared/CustomButtons/AddNewButton/AddNewButton.tsx";
+} from "@/utils/dummy/room/roomDummy.ts";
 
 interface Props {
   rooms: Room[];
   setRoomsToBeShown: Dispatch<SetStateAction<Room[]>>;
 }
 
-export default function RoomFiltersAndAddRoomButton({
+export default function RoomFiltersAndCreateNewButton({
   rooms,
   setRoomsToBeShown,
 }: Props) {
@@ -84,7 +84,7 @@ export default function RoomFiltersAndAddRoomButton({
             (room) => room.guest_limit === Number(selectedLimit),
           );
     setRoomsToBeShown(roomsByGuestLimit);
-  }, [selectedRoomType, selectedStatus, selectedLimit, searchedRooms]);
+  }, [selectedRoomType, selectedStatus, selectedLimit, searchedRooms, rooms]);
 
   return (
     <div className="flex gap-4 items-start ">
@@ -115,11 +115,11 @@ export default function RoomFiltersAndAddRoomButton({
         setSelected={setSelectedLimit as Dispatch<SetStateAction<string>>}
         options={guestLimitForFilter}
       />
-      <AddNewButton
+
+      <CreateNewButton
         onClick={() => {
           navigate("/rooms/create");
         }}
-        text={"Add Room"}
       />
     </div>
   );

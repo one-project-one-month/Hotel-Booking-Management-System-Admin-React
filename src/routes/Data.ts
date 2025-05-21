@@ -61,15 +61,15 @@ const Data = [
         Component: ViewBooking,
       },
       {
-        path: "cupon",
+        path: "cupons",
         Component: Cupon,
       },
       {
-        path: "cupon/create",
+        path: "cupons/create",
         Component: CreateCupon,
       },
       {
-        path: "cupon/update",
+        path: "cupons/update",
         Component: UpdateCupon,
       },
       {
