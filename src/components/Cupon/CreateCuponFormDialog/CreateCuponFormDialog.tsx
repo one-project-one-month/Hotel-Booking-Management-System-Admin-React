@@ -20,7 +20,7 @@ import * as React from "react";
 import InputFormField from "@/components/shared/FormFields/inputFormField.tsx";
 
 const createCuponFormSchema = z.object({
-  code: z.string().min(1, { message: "Code is required" }),
+  // code: z.string().min(1, { message: "Code is required" }),
   discount_pct: z.string().min(1, { message: "Discount Price is required" }),
   expiry_date: z.string().min(1, { message: "Expiry date is required" }),
 });
@@ -65,13 +65,13 @@ export function CreateCuponFormDialog() {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="grid gap-4 py-4">
-              <InputFormField
-                control={form.control}
-                name={"code"}
-                placeholder={"Enter code"}
-                label={"Code"}
-                type="text"
-              />
+              {/*<InputFormField*/}
+              {/*  control={form.control}*/}
+              {/*  name={"code"}*/}
+              {/*  placeholder={"Enter code"}*/}
+              {/*  label={"Code"}*/}
+              {/*  type="text"*/}
+              {/*/>*/}
 
               <InputFormField
                 control={form.control}

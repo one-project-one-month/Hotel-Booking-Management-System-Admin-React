@@ -18,7 +18,7 @@ export default function CuponTableRow({
   setCuponsToBeShown,
 }: Props) {
   const [openConfirmDeleteDialog, setOpenConfirmDeleteDialog] = useState(false);
-  const handleClickeDelete = () => {
+  const handleClickDelete = () => {
     setOpenConfirmDeleteDialog(true);
   };
   const handleConfirmDeleteCupon = () => {
@@ -41,7 +41,7 @@ export default function CuponTableRow({
           size="icon"
           variant="outline"
           className="cursor-pointer"
-          onClick={handleClickeDelete}
+          onClick={handleClickDelete}
         >
           <Trash className="text-red-500" />
         </Button>

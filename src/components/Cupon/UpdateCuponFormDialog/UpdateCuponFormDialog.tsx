@@ -23,7 +23,7 @@ import { useEffect } from "react";
 
 const updateCuponFormSchema = z.object({
   id: z.number().min(1, { message: "Id is required" }),
-  code: z.string().min(1, { message: "Code is required" }),
+  // code: z.string().min(1, { message: "Code is required" }),
   discount_pct: z.string().min(1, { message: "Discount Price is required" }),
   expiry_date: z.string().min(1, { message: "Expiry date is required" }),
 });
@@ -42,7 +42,7 @@ export function UpdateCuponFormDialog({ cuponId }: Props) {
     mode: "onChange",
     defaultValues: {
       id: cuponToBeUpdated?.id ?? cuponId,
-      code: cuponToBeUpdated?.code ?? "",
+      // code: cuponToBeUpdated?.code ?? "",
       discount_pct: cuponToBeUpdated?.discount_pct.toString() ?? "",
       expiry_date: cuponToBeUpdated?.expiry_date ?? "",
     },
@@ -84,13 +84,13 @@ export function UpdateCuponFormDialog({ cuponId }: Props) {
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="grid gap-4 py-4">
               <Input {...form.register("id")} value={cuponId} type={"hidden"} />
-              <InputFormField
-                control={form.control}
-                name={"code"}
-                placeholder={"Enter code"}
-                label={"Code"}
-                type="text"
-              />
+              {/*<InputFormField*/}
+              {/*  control={form.control}*/}
+              {/*  name={"code"}*/}
+              {/*  placeholder={"Enter code"}*/}
+              {/*  label={"Code"}*/}
+              {/*  type="text"*/}
+              {/*/>*/}
 
               <InputFormField
                 control={form.control}
