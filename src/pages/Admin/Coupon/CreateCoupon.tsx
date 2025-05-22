@@ -1,5 +1,5 @@
 
-const CreateCupon = () => {
+const CreateCoupon = () => {
   return (
     <div>
       Create Cupon
@@ -7,4 +7,4 @@ const CreateCupon = () => {
   )
 }
 
-export default CreateCupon
+export default CreateCoupon

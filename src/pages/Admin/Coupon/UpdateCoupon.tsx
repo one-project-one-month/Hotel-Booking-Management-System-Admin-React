@@ -1,6 +1,6 @@
 
 
-const UpdateCupon = () => {
+const UpdateCoupon = () => {
   return (
     <div>
       UpdateCupon
@@ -8,4 +8,4 @@ const UpdateCupon = () => {
   )
 }
 
-export default UpdateCupon
+export default UpdateCoupon

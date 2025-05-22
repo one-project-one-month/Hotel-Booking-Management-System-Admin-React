@@ -20,7 +20,7 @@ import { Eye, Filter, } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useNavigate } from "react-router-dom"
-import { bookings } from "@/utils/dummy"
+import { bookings } from "@/utils/dummy/dummy.ts"
 
 
 

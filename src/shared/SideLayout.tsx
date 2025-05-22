@@ -8,7 +8,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { menuItem } from "@/utils/dummy"
+import { menuItem } from "@/utils/dummy/dummy.ts"
 import { Avatar } from "@radix-ui/react-avatar"
 
 
