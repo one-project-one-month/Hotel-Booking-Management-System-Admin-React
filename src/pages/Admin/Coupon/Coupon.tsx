@@ -19,8 +19,14 @@ import {type Coupon} from "@/utils/types/couponTypes/couponTypes.ts";
 import CouponTableHeader from "@/components/Coupon/CouponTableHeader/CouponTableHeader.tsx";
 import CouponTableRow from "@/components/Coupon/CouponTableRow/CouponTableRow.tsx";
 
-const Coupon = () => {
+export  default  function  Coupon () {
     const [couponsToBeShown, setCouponsToBeShown] = useState<Coupon[]>(coupons);
+    const [currentPage, setCurrentPage] = useState(1);
+    const couponsPerPage = 10;
+
+    const startIndex = (currentPage - 1) * couponsPerPage;
+    const endIndex = startIndex + couponsPerPage;
+    const currenCoupons = couponsToBeShown.slice(startIndex, endIndex);
 
     const handleSearchCoupon = (e: ChangeEvent<HTMLInputElement>) => {
         const searchedValue = e.target.value.toLowerCase();
@@ -54,7 +60,7 @@ const Coupon = () => {
                 <Table>
                     <CouponTableHeader />
                     <TableBody>
-                        {couponsToBeShown.map((coupon, index) => {
+                        {currenCoupons.map((coupon, index) => {
                             return (
                                 <CouponTableRow
                                     key={coupon.id}
@@ -71,24 +77,24 @@ const Coupon = () => {
                 <Pagination className="justify-end">
                     <PaginationContent>
                         <PaginationItem>
-                            <PaginationPrevious href="#" />
+                            <PaginationPrevious href="#" onClick={() => setCurrentPage(currentPage - 1)}/>
                         </PaginationItem>
                         <PaginationItem>
-                            <PaginationLink href="#">1</PaginationLink>
+                            <PaginationLink href="#" isActive={currentPage==1} onClick={()=>setCurrentPage(1)}>1</PaginationLink>
                         </PaginationItem>
                         <PaginationItem>
-                            <PaginationLink href="#" isActive>
+                            <PaginationLink href="#" isActive={currentPage==2} onClick={()=>setCurrentPage(2)}>
                                 2
                             </PaginationLink>
                         </PaginationItem>
                         <PaginationItem>
-                            <PaginationLink href="#">3</PaginationLink>
+                            <PaginationLink href="#" isActive={currentPage==3} onClick={()=>setCurrentPage(3)}>3</PaginationLink>
                         </PaginationItem>
                         <PaginationItem>
                             <PaginationEllipsis />
                         </PaginationItem>
                         <PaginationItem>
-                            <PaginationNext href="#" />
+                            <PaginationNext href="#" onClick={() => setCurrentPage(currentPage + 1)}/>
                         </PaginationItem>
                     </PaginationContent>
                 </Pagination>
@@ -97,4 +103,4 @@ const Coupon = () => {
     );
 };
 
-export default Coupon;
+
