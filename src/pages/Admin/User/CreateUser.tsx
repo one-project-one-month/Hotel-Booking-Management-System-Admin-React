@@ -62,18 +62,31 @@ const CreateUser = () => {
 
   const onSubmit =async(values:z.infer<typeof createUserFormSchema>) => {
     const data = {...values,imgUrl:image}
-    const res = await mutation.mutateAsync(data)
-    if(res.status === 201){
-      reset({
-        name: "",
-        email: "",
-        password: "",
-        phoneNumber: ""
-      })
-      setImage("")
-      navigate("/users")
-    }
+    try {
+      const res = await mutation.mutateAsync(data)
+      if(res.status === 201){
+        reset({
+          name: "",
+          email: "",
+          password: "",
+          phoneNumber: ""
+        })
+        setImage("")
+        alert("User Create Successfully")
+        navigate("/users")
+      }
     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error:any) {
+      alert(error?.response?.data.message)
+      reset({
+          name: "",
+          email: "",
+          password: "",
+          phoneNumber: ""
+        })
+    }
+   
   }
 
 
