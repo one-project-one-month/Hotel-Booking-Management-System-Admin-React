@@ -11,7 +11,7 @@ export interface Booking {
     createdAt:string
 }
 
-export type status = 
-    |"Approved"
-    |"Pending"
-    |"Cancel"
+export type status = "Booked" | "Check-In" | "Check-Out" | "Maintance" | "Available";
+
+
+

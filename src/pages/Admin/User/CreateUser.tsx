@@ -64,6 +64,7 @@ const CreateUser = () => {
                   name={"name"}
                   placeholder={"Enter Name"}
                   label={"Name"}
+                  type={"text"}
                 />
               </div>
               <div>
@@ -72,6 +73,7 @@ const CreateUser = () => {
                   name={"email"}
                   placeholder={"Enter Email"}
                   label={"Email"}
+                  type={"text"}
                 />
               </div>
               <div>
@@ -80,6 +82,7 @@ const CreateUser = () => {
                   name={"phoneNumber"}
                   placeholder={"Enter Phone Number"}
                   label={"Phone Number"}
+                  type={"text"}
                 />
               </div>
               <div>
@@ -88,6 +91,7 @@ const CreateUser = () => {
                   name={"password"}
                   placeholder={"Enter Password"}
                   label={"Password"}
+                  type={"text"}
                 />
               </div>
               <div>

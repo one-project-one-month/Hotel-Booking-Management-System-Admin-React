@@ -77,6 +77,7 @@ const UpdateUser = () => {
                 name={"name"}
                 placeholder={"Enter Name"}
                 label={"Name"}
+                type={"text"}
               />
             </div>
             <div>
@@ -85,6 +86,7 @@ const UpdateUser = () => {
                 name={"email"}
                 placeholder={"Enter Email"}
                 label={"Email"}
+                type={"text"}
               />
             </div>
             <div>
@@ -93,6 +95,7 @@ const UpdateUser = () => {
                 name={"phoneNumber"}
                 placeholder={"Enter Phone Number"}
                 label={"Phone Number"}
+                type={"text"}
               />
             </div>
             <div>
@@ -101,6 +104,7 @@ const UpdateUser = () => {
                 name={"password"}
                 placeholder={"Enter Password"}
                 label={"Password"}
+                type={"text"}
               />
             </div>
             <div>
@@ -109,6 +113,7 @@ const UpdateUser = () => {
                 name={"points"}
                 placeholder={"Enter Points"}
                 label={"Points"}
+                type={"text"}
               />
             </div>
             <div>
@@ -117,6 +122,7 @@ const UpdateUser = () => {
                 name={"coupon"}
                 placeholder={"Enter Coupon"}
                 label={"coupon"}
+                type={"text"}
               />
             </div>
             <div>
@@ -125,6 +131,7 @@ const UpdateUser = () => {
                 name={"role"}
                 placeholder={"Enter Role"}
                 label={"Role"}
+                type={"text"}
               />
             </div>
             <div>

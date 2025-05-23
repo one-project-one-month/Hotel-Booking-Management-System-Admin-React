@@ -20,9 +20,11 @@ import { Edit, Filter, Plus, Trash } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useNavigate } from "react-router-dom"
-// import { users } from "@/utils/dummy"
-import { useUser } from "@/hooks/useUser"
+// import { useUser } from "@/hooks/useUser"
 import moment from 'moment'
+import {  useState, type ChangeEvent } from "react"
+import type { User } from "@/utils/types/UserTypes/userTypes"
+import { users } from "@/utils/dummy/dummy"
 
 
 
@@ -30,7 +32,9 @@ import moment from 'moment'
 
 const User = () => {
 
-  const {data:user,isLoading,isError} = useUser()
+  // const {data:user,isLoading,isError} = useUser();
+  // const userList = user?.data.data
+  const [filterUser,setFilterUser] = useState<User[]>(users)
 
 
 
@@ -45,20 +49,29 @@ const User = () => {
     navigate(`/users/update/${id}`)
   }
 
-  if(isLoading){
-    return <div>Loading</div>
-  }
+  // if(isLoading){
+  //   return <div>Loading</div>
+  // }
 
-  if(isError){
-    return <div>Error</div>
-  }
+  // if(isError){
+  //   return <div>Error</div>
+  // }
+
+  
+    const userChange = (event: ChangeEvent<HTMLInputElement>) => {
+           const filter = users.filter((user:User)=> {
+            return user.name.toLowerCase().includes(event.target.value.toLowerCase()) || user.email.toLowerCase().includes(event.target.value.toLowerCase())
+        })
+        setFilterUser(filter)
+       
+    }
 
   return (
     <div>
         <div className="flex justify-between items-center rounded-md shadow-lg h-[60px] px-[1rem]">
           <h3 className="text-2xl font-semibold">User Listings</h3>
           <div>
-            <Input placeholder="Search User" className="w-[500px]"/>
+            <Input placeholder="Search User" className="w-[500px]" onChange={userChange}/>
           </div>
           <div className="flex gap-5">
             <Button className="cursor-pointer" variant='secondary' onClick={createUser}>
@@ -86,10 +99,9 @@ const User = () => {
             </TableHeader>
             <TableBody>
               {
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                user?.data.data.map((user:any)=>{
+                filterUser.map((user:User)=>{
                   return (
-                      <TableRow key={user._id}>
+                      <TableRow>
                         <TableCell>
                           <div className="w-[70px] h-[70px]  rounded-md shadow-lg mx-auto">
                             <img src={user.profile} alt="user.profile" className="w-full h-full rounded-md shadow-lg"/>
@@ -97,7 +109,7 @@ const User = () => {
                           </TableCell>
                           <TableCell className="capitalize">{user.name}</TableCell>
                           <TableCell>{user.email}</TableCell>
-                          <TableCell className="text-center">{user.phone ? `"0"+${user.phone}` : "-"}</TableCell>
+                          <TableCell className="text-center">{user.phoneNumber ? `0${user.phoneNumber}` : "-"}</TableCell>
                           <TableCell>{user.role}</TableCell>
                           <TableCell className="text-center">{user.points}</TableCell>
                           <TableCell className="text-center">{user.coupon}</TableCell>
@@ -117,6 +129,13 @@ const User = () => {
               
             </TableBody>
           </Table>
+           {
+                    filterUser.length === 0 && (
+                      <div className="flex justify-center items-center mt-[200px]">
+                        <p className="text-xl">No User found.</p>
+                      </div>
+                    )
+              }
         </div>
         <div className="w-full mt-[10px] h-[60px] flex rounded-md shadow-lg">
               <Pagination className="justify-end">
