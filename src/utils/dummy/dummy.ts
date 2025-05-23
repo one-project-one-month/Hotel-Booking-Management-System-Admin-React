@@ -1,6 +1,6 @@
 
-import type { Booking } from "../types/BookingTypes/bookingTypes.ts";
-import type { menuItems, User } from "../types/UserTypes/userTypes.ts";
+import type { Book } from "../types/BookingTypes/bookingTypes.ts";
+import type { menuItems } from "../types/UserTypes/userTypes.ts";
 
 export const menuItem:menuItems[] = [
   {
@@ -36,117 +36,9 @@ export const menuItem:menuItems[] = [
 ];
 
 
-export const users:User[] = [
-  {
-    id:1,
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phoneNumber:"928388383",
-        password:"arkar",
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  },
-   {
-    id:2,
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phoneNumber:"928388383",
-        password:"arkar",
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  },
-   {
-    id:3,
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phoneNumber:"928388383",
-        password:"arkar",
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  }, {
-    id:4,
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phoneNumber:"928388383",
-        password:"arkar",
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  },
-   {
-    id:5,
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phoneNumber:"928388383",
-        password:"arkar",
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  },
-   {
-    id:6,
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phoneNumber:"928388383",
-        password:"arkar",
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  },
-   {
-    id:7,
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phoneNumber:"928388383",
-        password:"arkar",
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  }, {
-    id:8,
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phoneNumber:"928388383",
-        password:"arkar",
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  },
-   {
-    id:9,
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phoneNumber:"928388383",
-    password:"arkar",
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  }
-]
 
 
-export const bookings:Booking[] = [
+export const bookings:Book[] = [
   {
     id:1,
     customerName:"Arkar",
@@ -156,19 +48,19 @@ export const bookings:Booking[] = [
     guestCount:4,
     depositAmount:10000,
     totalAmount:30000,
-    status:"Approved",
+    status:"Check-In",
     createdAt:"24/5/2000"
   },
   {
     id:2,
-    customerName:"Arkar",
+    customerName:"KyawKyaw",
     roomNo:"104",
     checkIn:"3:00AM",
     checkOut:"12:00PM",
     guestCount:4,
-    depositAmount:10000,
+    depositAmount:30000,
     totalAmount:30000,
-    status:"Pending",
+    status:"Check-In",
     createdAt:"24/5/2000"
   },
   {
@@ -180,7 +72,7 @@ export const bookings:Booking[] = [
     guestCount:4,
     depositAmount:10000,
     totalAmount:30000,
-    status:"Pending",
+    status:"Check-In",
     createdAt:"24/5/2000"
   },
   {
@@ -192,7 +84,7 @@ export const bookings:Booking[] = [
     guestCount:4,
     depositAmount:10000,
     totalAmount:30000,
-    status:"Pending",
+    status:"Check-In",
     createdAt:"24/5/2000"
   },
   {
@@ -204,7 +96,7 @@ export const bookings:Booking[] = [
     guestCount:4,
     depositAmount:10000,
     totalAmount:30000,
-    status:"Pending",
+    status:"Check-In",
     createdAt:"24/5/2000"
   },
   {
@@ -216,7 +108,7 @@ export const bookings:Booking[] = [
     guestCount:4,
     depositAmount:10000,
     totalAmount:30000,
-    status:"Cancel",
+    status:"Booked",
     createdAt:"24/5/2000"
   },
   {
@@ -228,7 +120,7 @@ export const bookings:Booking[] = [
     guestCount:4,
     depositAmount:10000,
     totalAmount:30000,
-    status:"Pending",
+    status:"Check-In",
     createdAt:"24/5/2000"
   },
   {
@@ -240,7 +132,7 @@ export const bookings:Booking[] = [
     guestCount:4,
     depositAmount:10000,
     totalAmount:30000,
-    status:"Pending",
+    status:"Booked",
     createdAt:"24/5/2000"
   },
   {
@@ -252,7 +144,7 @@ export const bookings:Booking[] = [
     guestCount:4,
     depositAmount:10000,
     totalAmount:30000,
-    status:"Pending",
+    status:"Check-Out",
     createdAt:"24/5/2000"
   },
   {
@@ -264,7 +156,7 @@ export const bookings:Booking[] = [
     guestCount:4,
     depositAmount:10000,
     totalAmount:30000,
-    status:"Approved",
+    status:"Maintance",
     createdAt:"24/5/2000"
   },
 ]

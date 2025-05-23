@@ -14,7 +14,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table.tsx";
-import {bookings, users} from "@/utils/dummy/dummy.ts";
+import {bookings} from "@/utils/dummy/dummy.ts";
 
 
 
@@ -126,7 +126,7 @@ const Dashboard = () => {
                     </CardContent>
                 </Card>
             </div>
-            <div className="mt-10 px-5">
+            {/* <div className="mt-10 px-5">
                 <Card>
                     <CardHeader>
                         <CardTitle>Newest Users </CardTitle>
@@ -183,7 +183,7 @@ const Dashboard = () => {
                         </div>
                     </CardContent>
                 </Card>
-            </div>
+            </div> */}
 
             {/*<div className="grid grid-cols-2 mt-10">*/}
             {/*  <div> Quick Actions</div>*/}

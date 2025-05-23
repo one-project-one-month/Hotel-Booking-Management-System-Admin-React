@@ -2,6 +2,7 @@ import InputFormField from "@/components/shared/FormFields/inputFormField"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { useUser } from "@/hooks/useUser"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
@@ -12,7 +13,7 @@ import { z } from "zod"
     name:z.string().min(1, { message: "Name is required." }),
     email:z.string().min(1,{message:"Email is required."}),
     password:z.string().min(1,{message:"Password is required."}),
-    phoneNumber:z.string().min(1,{message:"Phone Number is required"})
+    phoneNumber:z.string().min(1,{message:"Phone Number is required" })
   })
 
 const CreateUser = () => {
@@ -34,6 +35,8 @@ const CreateUser = () => {
       },
     });
 
+    const {control,reset,handleSubmit} = form
+
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const imageUpload = (event:any) =>{
@@ -43,51 +46,77 @@ const CreateUser = () => {
       setImage(url)
     }
   }
+
+  const {mutation} = useUser()
  
   const cancelClick = () => {
+    reset({
+        name: "",
+        email: "",
+        password: "",
+        phoneNumber: ""
+    })
+    setImage("")
     navigate("/users")
   }
 
-  const onSubmit = (values:z.infer<typeof createUserFormSchema>) => {
-    console.log(values)
+  const onSubmit =async(values:z.infer<typeof createUserFormSchema>) => {
+    const data = {...values,imgUrl:image}
+    const res = await mutation.mutateAsync(data)
+    if(res.status === 201){
+      reset({
+        name: "",
+        email: "",
+        password: "",
+        phoneNumber: ""
+      })
+      setImage("")
+      navigate("/users")
+    }
+    
   }
+
 
   return (
     <div className="relative h-[calc(100vh-100px)]">
       <h3 className="text-2xl font-semibold">Create User</h3>
        <div className="h-[65vh] px-5 rounded-md mt-10 shadow-lg ">
-          <Form  {...form}>
-            <form className=" grid grid-cols-3 gap-5" onSubmit={form.handleSubmit(onSubmit)}>
+            <Form {...form}>
+              <form className=" grid grid-cols-3 gap-5" onSubmit={handleSubmit(onSubmit)}>
               <div>
                 <InputFormField
-                  control={form.control}
+                  control={control}
                   name={"name"}
                   placeholder={"Enter Name"}
                   label={"Name"}
+                  type={"text"}
                 />
               </div>
               <div>
                 <InputFormField
-                  control={form.control}
+                  control={control}
                   name={"email"}
                   placeholder={"Enter Email"}
                   label={"Email"}
+                  type={"text"}
                 />
               </div>
               <div>
                 <InputFormField
-                  control={form.control}
+                  control={control}
                   name={"phoneNumber"}
                   placeholder={"Enter Phone Number"}
                   label={"Phone Number"}
+                  type={"number"}
                 />
               </div>
               <div>
                 <InputFormField
-                  control={form.control}
+                  control={control}
                   name={"password"}
                   placeholder={"Enter Password"}
                   label={"Password"}
+                  type={"text"}
                 />
               </div>
               <div>
@@ -101,11 +130,11 @@ const CreateUser = () => {
                 <img src={images} alt="profile_img" className="w-full h-full rounded-md"/>
               </div>
               <div className="absolute bottom-0 right-[40%] flex gap-10">
-                <Button variant='outline' className="bg-red-600 text-white w-[150px] py-5 cursor-pointer hover:bg-red-500 hover:text-white" onClick={cancelClick}>Cancel</Button>
-                <Button type="submit" className="bg-green-600 w-[150px] py-5 cursor-pointer hover:bg-green-500">Create</Button>
+                <Button variant='outline' className="bg-red-600 text-white w-[150px] py-5 cursor-pointer hover:bg-red-500 hover:text-white" onClick={cancelClick} disabled={mutation.isPending && mutation.isError}>Cancel</Button>
+                <Button type="submit" className="bg-green-600 w-[150px] py-5 cursor-pointer hover:bg-green-500" disabled={mutation.isPending && mutation.isError}>Create</Button>
               </div>
-            </form>
-          </Form>
+              </form>
+            </Form>
       </div>
     </div>
   )
