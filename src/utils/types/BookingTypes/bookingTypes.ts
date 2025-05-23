@@ -1,4 +1,4 @@
-export interface Booking {
+export interface Book {
     id:number,
     customerName:string,
     roomNo:string,

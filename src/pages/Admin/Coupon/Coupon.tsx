@@ -15,12 +15,12 @@ import { Input } from "@/components/ui/input";
 import { coupons } from "@/utils/dummy/coupon/couponDummy.ts";
 import { CreateCouponFormDialog } from "@/components/Coupon/CreateCouponFormDialog/CreateCouponFormDialog.tsx";
 import { type ChangeEvent, useState } from "react";
-import {type Coupon} from "@/utils/types/couponTypes/couponTypes.ts";
+import {type CouponList} from "@/utils/types/couponTypes/couponTypes.ts";
 import CouponTableHeader from "@/components/Coupon/CouponTableHeader/CouponTableHeader.tsx";
 import CouponTableRow from "@/components/Coupon/CouponTableRow/CouponTableRow.tsx";
 
 const Coupon = () => {
-    const [couponsToBeShown, setCouponsToBeShown] = useState<Coupon[]>(coupons);
+    const [couponsToBeShown, setCouponsToBeShown] = useState<CouponList[]>(coupons);
 
     const handleSearchCoupon = (e: ChangeEvent<HTMLInputElement>) => {
         const searchedValue = e.target.value.toLowerCase();

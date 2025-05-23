@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { bookings } from "@/utils/dummy/dummy.ts"
 
-import type { Booking } from "@/utils/types/BookingTypes/bookingTypes"
+import type { Book } from "@/utils/types/BookingTypes/bookingTypes"
 import TableBooking from "@/components/Booking/TableBooking"
 import { useState, type ChangeEvent } from "react"
 
@@ -29,7 +29,7 @@ import { useState, type ChangeEvent } from "react"
 
 
 const Booking = () => {
-  const [filterBooking,setFilterBooking] = useState<Booking[]>(bookings)
+  const [filterBooking,setFilterBooking] = useState<Book[]>(bookings)
 
   const bookingChange = (event: ChangeEvent<HTMLInputElement>) => {
          const filter =bookings.filter((booking)=> {
@@ -70,7 +70,7 @@ const Booking = () => {
                 </TableHeader>
                 <TableBody>
                   {
-                    filterBooking.map((booking:Booking)=>{
+                    filterBooking.map((booking:Book)=>{
                       return (
                           <TableBooking booking={booking}/>
                       )

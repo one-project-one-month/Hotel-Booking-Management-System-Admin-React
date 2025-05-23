@@ -1,4 +1,4 @@
-export interface Coupon {
+export interface CouponList {
     id: number;
     code: string;
     discount_pct: number;

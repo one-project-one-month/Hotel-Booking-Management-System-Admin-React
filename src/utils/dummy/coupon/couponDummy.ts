@@ -1,7 +1,7 @@
-import type {Coupon} from "@/utils/types/couponTypes/couponTypes.ts";
+import type {CouponList} from "@/utils/types/couponTypes/couponTypes.ts";
 
 
-export const coupons: Coupon[] = [
+export const coupons: CouponList[] = [
     {
         id: 1,
         code: "WELCOME10",

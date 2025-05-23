@@ -20,11 +20,10 @@ import { Edit, Filter, Plus, Trash } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useNavigate } from "react-router-dom"
-// import { useUser } from "@/hooks/useUser"
+import {  useUser } from "@/hooks/useUser"
 import moment from 'moment'
-import {  useState, type ChangeEvent } from "react"
-import type { User } from "@/utils/types/UserTypes/userTypes"
-import { users } from "@/utils/dummy/dummy"
+import {  useEffect, useState, type ChangeEvent } from "react"
+import type { Username } from "@/utils/types/UserTypes/userTypes"
 
 
 
@@ -32,10 +31,25 @@ import { users } from "@/utils/dummy/dummy"
 
 const User = () => {
 
-  // const {data:user,isLoading,isError} = useUser();
-  // const userList = user?.data.data
-  const [filterUser,setFilterUser] = useState<User[]>(users)
+  const {query,deleteMutation} = useUser();
+  const {isSuccess,isError,data:user,isLoading} = query
 
+  const [filterUser,setFilterUser] = useState<Username[]>([])
+
+  const deleteUser = (id:string) =>{
+    if(window.confirm()){
+       deleteMutation.mutate(id)
+    }
+  }
+
+
+  useEffect(()=>{
+
+    if(isSuccess && user){
+      setFilterUser(user)
+    }
+
+  },[user,isSuccess])
 
 
   const navigate = useNavigate();
@@ -45,21 +59,21 @@ const User = () => {
     navigate("/users/create")
   }
 
-  const updateUser = (id:number) => {
+  const updateUser = (id:string) => {
     navigate(`/users/update/${id}`)
   }
 
-  // if(isLoading){
-  //   return <div>Loading</div>
-  // }
+  if(isLoading){
+    return <div>Loading</div>
+  }
 
-  // if(isError){
-  //   return <div>Error</div>
-  // }
+  if(isError){
+    return <div>Error</div>
+  }
 
   
     const userChange = (event: ChangeEvent<HTMLInputElement>) => {
-           const filter = users.filter((user:User)=> {
+           const filter = user.filter((user:Username)=> {
             return user.name.toLowerCase().includes(event.target.value.toLowerCase()) || user.email.toLowerCase().includes(event.target.value.toLowerCase())
         })
         setFilterUser(filter)
@@ -99,12 +113,12 @@ const User = () => {
             </TableHeader>
             <TableBody>
               {
-                filterUser.map((user:User)=>{
+                filterUser?.map((user:Username)=>{
                   return (
-                      <TableRow>
+                      <TableRow key={user._id}>
                         <TableCell>
                           <div className="w-[70px] h-[70px]  rounded-md shadow-lg mx-auto">
-                            <img src={user.profile} alt="user.profile" className="w-full h-full rounded-md shadow-lg"/>
+                            <img src={user.imgUrl} alt="user.profile" className="w-full h-full rounded-md shadow-lg"/>
                           </div>
                           </TableCell>
                           <TableCell className="capitalize">{user.name}</TableCell>
@@ -113,12 +127,12 @@ const User = () => {
                           <TableCell>{user.role}</TableCell>
                           <TableCell className="text-center">{user.points}</TableCell>
                           <TableCell className="text-center">{user.coupon}</TableCell>
-                          <TableCell>{moment(user.createdAt).format('lll')}</TableCell>
+                          <TableCell>{moment(user.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</TableCell>
                           <TableCell className="flex gap-3 mt-4">
-                            <Button size='icon' variant='outline' className="cursor-pointer" onClick={()=>updateUser(user.id)}>
+                            <Button size='icon' variant='outline' className="cursor-pointer" onClick={()=>updateUser(user._id)}>
                               <Edit className="text-blue-500"/>
                             </Button>
-                            <Button size='icon' variant='outline' className="cursor-pointer">
+                            <Button size='icon' variant='outline' className="cursor-pointer" onClick={()=>deleteUser(user._id)}>
                               <Trash className="text-red-500"/>
                             </Button>
                           </TableCell>
@@ -130,7 +144,7 @@ const User = () => {
             </TableBody>
           </Table>
            {
-                    filterUser.length === 0 && (
+                    filterUser.length === 0 || filterUser === undefined && (
                       <div className="flex justify-center items-center mt-[200px]">
                         <p className="text-xl">No User found.</p>
                       </div>

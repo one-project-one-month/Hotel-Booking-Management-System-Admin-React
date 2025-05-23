@@ -2,15 +2,15 @@ import { TableCell, TableRow } from "@/components/ui/table.tsx";
 import { UpdateCouponFormDialog } from "@/components/Coupon/UpdateCouponFormDialog/UpdateCouponFormDialog.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Trash } from "lucide-react";
-import {type Coupon} from "@/utils/types/couponTypes/couponTypes.ts";
+import {type CouponList} from "@/utils/types/couponTypes/couponTypes.ts";
 import { type Dispatch, type SetStateAction, useState } from "react";
 import { ConfirmDeleteDialog } from "@/components/shared/ConfirmDeleteDialog/ConfirmDeleteDialog.tsx";
 import { coupons } from "@/utils/dummy/coupon/couponDummy.ts";
 
 interface Props {
-    coupon: Coupon;
+    coupon: CouponList;
     index: number;
-    setCuponsToBeShown: Dispatch<SetStateAction<Coupon[]>>;
+    setCuponsToBeShown: Dispatch<SetStateAction<CouponList[]>>;
 }
 export default function CouponTableRow({
                                           coupon,

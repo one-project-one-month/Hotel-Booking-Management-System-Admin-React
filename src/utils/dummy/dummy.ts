@@ -1,6 +1,6 @@
 
-import type { Booking } from "../types/BookingTypes/bookingTypes.ts";
-import type { menuItems, User } from "../types/UserTypes/userTypes.ts";
+import type { Book } from "../types/BookingTypes/bookingTypes.ts";
+import type { menuItems } from "../types/UserTypes/userTypes.ts";
 
 export const menuItem:menuItems[] = [
   {
@@ -36,117 +36,9 @@ export const menuItem:menuItems[] = [
 ];
 
 
-export const users:User[] = [
-  {
-    id:1,
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"admin@gmail.com",
-    phoneNumber:"928388383",
-        password:"arkar",
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  },
-   {
-    id:2,
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phoneNumber:"928388383",
-        password:"arkar",
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  },
-   {
-    id:3,
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phoneNumber:"928388383",
-        password:"arkar",
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  }, {
-    id:4,
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phoneNumber:"928388383",
-        password:"arkar",
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  },
-   {
-    id:5,
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phoneNumber:"928388383",
-        password:"arkar",
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  },
-   {
-    id:6,
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phoneNumber:"928388383",
-        password:"arkar",
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  },
-   {
-    id:7,
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phoneNumber:"928388383",
-        password:"arkar",
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  }, {
-    id:8,
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phoneNumber:"928388383",
-        password:"arkar",
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  },
-   {
-    id:9,
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phoneNumber:"928388383",
-    password:"arkar",
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  }
-]
 
 
-export const bookings:Booking[] = [
+export const bookings:Book[] = [
   {
     id:1,
     customerName:"Arkar",

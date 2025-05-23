@@ -4,10 +4,10 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import DropDown from "./DropDown";
-import type { Booking } from "@/utils/types/BookingTypes/bookingTypes";
+import type { Book } from "@/utils/types/BookingTypes/bookingTypes";
 
 interface Props{
-    booking:Booking
+    booking:Book
 }
 
 const TableBooking = ({booking}:Props) => {
