@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button.tsx";
 import { Plus } from "lucide-react";
 
 interface Props {
-  onClick: () => void;
+  onClick?: () => void;
 }
 export default function CreateNewButton({ onClick }: Props) {
   return (

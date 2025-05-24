@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { coupons } from "@/utils/dummy/coupon/couponDummy.ts";
 import { CreateCouponFormDialog } from "@/components/Coupon/CreateCouponFormDialog/CreateCouponFormDialog.tsx";
 import { type ChangeEvent, useState } from "react";
-import {type Coupon} from "@/utils/types/couponTypes/couponTypes.ts";
+import {type CouponList as Coupon} from "@/utils/types/couponTypes/couponTypes.ts";
 import CouponTableHeader from "@/components/Coupon/CouponTableHeader/CouponTableHeader.tsx";
 import CouponTableRow from "@/components/Coupon/CouponTableRow/CouponTableRow.tsx";
 

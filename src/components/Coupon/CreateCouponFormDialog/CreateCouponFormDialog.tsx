@@ -311,7 +311,7 @@ export function CreateCouponFormDialog() {
     return (
         <Dialog modal={false}>
             <DialogTrigger asChild>
-                <CreateNewButton onClick={() => {}} />
+                <CreateNewButton  />
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
