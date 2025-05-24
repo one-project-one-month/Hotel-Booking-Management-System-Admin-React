@@ -8,7 +8,7 @@ const ViewBooking = () => {
 
   return (
    <div>
-      <div className="shadow-lg mt-2 h-[82vh] rounded-md p-2 px-[60px] w-[50%] mx-auto">
+      <div className="shadow-lg mt-8 h-[70vh] rounded-md p-2 px-[60px] w-[40%] mx-auto">
         <div className="flex flex-col justify-center items-center">
           <h3 className="text-3xl font-semibold">Hotel Receipt</h3>
           <div className="flex p-4 gap-2 items-center">
@@ -62,8 +62,8 @@ const ViewBooking = () => {
               </TableFooter>
           </Table>
         </div>
-        <div className="mt-2 flex justify-end">
-          <Button className="w-[100px] cursor-pointer">Print</Button>
+        <div className="mt-2 flex justify-end w-[100%]">
+          <Button className="w-[150px] cursor-pointer">Print Invoice</Button>
         </div>
       </div>
    </div>

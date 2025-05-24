@@ -161,7 +161,7 @@ const CreateRoom = () => {
                 </div>
               </div>
             </div>
-            <div className="flex gap-10 justify-center mt-1">
+            <div className="flex gap-10 justify-center mt-4">
               <CancelButton handleClickCancel={handleClickCancel} />
               <SubmitButton text={"Create"} />
             </div>

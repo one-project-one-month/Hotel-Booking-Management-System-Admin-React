@@ -1,7 +1,7 @@
 export interface Book {
     id:number,
     customerName:string,
-    roomNo:string,
+    roomNo:number,
     checkIn:string,
     checkOut:string,
     guestCount:number,
@@ -15,3 +15,13 @@ export type status = "Booked" | "Check-In" | "Check-Out" | "Maintance" | "Availa
 
 
 
+export type CheckType = {
+    id:string,
+    customerName:string;
+    roomNo:number,
+    checkIn:string,
+    checkOut:string,
+    extraCharges:number
+    status:status
+    createdAt:string
+}
