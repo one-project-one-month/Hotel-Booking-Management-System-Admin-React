@@ -14,9 +14,10 @@ interface Props {
   status?: string;
   active?: boolean;
   viewBooking?:() => void;
+  updateBooking?:() => void;
 }
 
-const DropDown = ({ CheckIn, Maintance, CheckOut, status, active,viewBooking }: Props) => {
+const DropDown = ({ CheckIn, Maintance, CheckOut, status, active,viewBooking,updateBooking }: Props) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -68,7 +69,7 @@ const DropDown = ({ CheckIn, Maintance, CheckOut, status, active,viewBooking }: 
             <>
               <DropdownMenuItem
                 className="cursor-pointer text-purple-600 hover:text-purple-700 bg-transparent hover:bg-purple-100 focus:bg-purple-100 focus:text-purple-700"
-                onClick={Maintance}
+                onClick={updateBooking}
               >
                 Update Booking Room
               </DropdownMenuItem>

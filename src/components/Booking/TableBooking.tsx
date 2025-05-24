@@ -17,11 +17,13 @@ const TableBooking = ({booking}:Props) => {
 
     const CheckInClick = () =>{
         localStorage.removeItem("CheckId")
+        localStorage.removeItem("updateBooking")
         navigate(`/booking/${booking.id}`)
     }
 
     const CheckOutClick = () => {
         localStorage.removeItem("CheckId")
+        localStorage.removeItem("updateBooking")
         navigate(`/booking/${booking.id}`)
     }
 

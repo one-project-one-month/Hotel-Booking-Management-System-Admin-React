@@ -8,19 +8,23 @@ import {
 } from "@/components/ui/table";
 import { checkTable } from "@/utils/dummy/dummy";
 import ViewBooking from "./ViewBooking";
-import {useEffect, useState } from "react";
-
+import { useEffect, useState } from "react";
+import ModalBooking from "@/components/Booking/ModalBooking";
 
 const CheckTable = () => {
+  const [active, setActive] = useState(false);
+  const [modal, setModal] = useState(false);
 
-    const [active ,setActive] = useState(false)
-
-    useEffect(()=>{
-        const checkId = localStorage.getItem("CheckId")
-        if(checkId){
-            setActive(true)
-        }
-    },[active])
+  useEffect(() => {
+    const checkId = localStorage.getItem("CheckId");
+    if (checkId) {
+      setActive(true);
+    }
+    const updateBooking = localStorage.getItem("updateBooking");
+    if (updateBooking) {
+      setModal(true);
+    }
+  }, [active]);
 
   return (
     <>
@@ -40,7 +44,11 @@ const CheckTable = () => {
               Status
             </TableHead>
             <TableHead className="w-[100px] text-md">CreatedAt</TableHead>
-            <TableHead className="w-[100px] text-md text-center">
+
+            <TableHead
+              className="w-[50px] text-md text-center"
+              hidden={active || modal}
+            >
               Action
             </TableHead>
           </TableRow>
@@ -52,11 +60,8 @@ const CheckTable = () => {
         </TableBody>
       </Table>
       <div>
-        {
-            active && (
-                <ViewBooking />
-            )
-        }
+        {active && <ViewBooking />}
+        {modal && <ModalBooking />}
       </div>
     </>
   );

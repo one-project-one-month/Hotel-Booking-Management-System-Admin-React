@@ -8,7 +8,7 @@ const ViewBooking = () => {
 
   return (
    <div>
-      <div className="shadow-lg mt-8 h-[70vh] rounded-md p-2 px-[60px] w-[40%] mx-auto">
+      <div className="shadow-lg mt-8 h-[65vh] rounded-md p-2 px-[60px] w-[40%] mx-auto">
         <div className="flex flex-col justify-center items-center">
           <h3 className="text-3xl font-semibold">Hotel Receipt</h3>
           <div className="flex p-4 gap-2 items-center">
@@ -26,7 +26,7 @@ const ViewBooking = () => {
           </div>
           <h3  className="flex gap-3">Guest Count: <p className="font-semibold">4</p></h3>
         </div>
-        <div className="h-[280px] overflow-auto w-[100%]">
+        <div className="h-[220px] overflow-auto w-[100%]">
           <Table className="mt-4 border-2">
             <TableHeader>
               <TableRow>
@@ -62,7 +62,7 @@ const ViewBooking = () => {
               </TableFooter>
           </Table>
         </div>
-        <div className="mt-2 flex justify-end w-[100%]">
+        <div className="mt-8 ml-[65px] flex justify-end w-[100%]">
           <Button className="w-[150px] cursor-pointer">Print Invoice</Button>
         </div>
       </div>

@@ -5,6 +5,7 @@ import {
 } from "@/components/ui/table"
 import DropDown from "./DropDown";
 import type { CheckType } from "@/utils/types/BookingTypes/bookingTypes";
+import { useEffect, useState } from "react";
 
 
 interface Props {
@@ -12,6 +13,8 @@ interface Props {
 }
 
 const TableCheck = ({check}:Props) => {
+
+  const [active,setActive] = useState(false)
 
     const CheckOutClick = () => {
         console.log(check.id)
@@ -24,6 +27,22 @@ const TableCheck = ({check}:Props) => {
         localStorage.setItem("CheckId",check.id)
         window.location.reload()
     }
+
+    const updateBooking = () => {
+      console.log(check.id)
+      localStorage.setItem("updateBooking",check.id)
+      window.location.reload()
+    }
+
+    useEffect(()=>{
+      const checkId = localStorage.getItem('CheckId')
+      const updateBooking = localStorage.getItem("updateBooking")
+
+      if(checkId || updateBooking){
+        setActive(true)
+      }
+
+    },[active])
 
 
   return (
@@ -43,9 +62,14 @@ const TableCheck = ({check}:Props) => {
         {check.status}
       </TableCell>
       <TableCell>{check.createdAt}</TableCell>
-      <TableCell className="flex gap-3 items-center justify-center">
-        <DropDown CheckOut={CheckOutClick} status={check.status} active={true} viewBooking={viewBooking}/>
-      </TableCell>
+      {
+        !active && (
+             <TableCell className="flex gap-3 items-center justify-center">
+                <DropDown CheckOut={CheckOutClick} status={check.status} active={true} viewBooking={viewBooking} updateBooking={updateBooking}/>
+              </TableCell>
+        )
+      }
+     
     </TableRow>
   )
 }

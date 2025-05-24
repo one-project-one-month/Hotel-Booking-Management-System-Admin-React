@@ -304,6 +304,7 @@ export function CreateCouponFormDialog() {
             const expDate = `${year}-${month}-${day}`;
 
             form.setValue("expiry_date", expDate);
+            console.log(expDate)
         };
 
         getExpDate();
