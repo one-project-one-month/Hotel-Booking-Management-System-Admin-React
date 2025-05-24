@@ -169,7 +169,7 @@ export const checkTable:CheckType[] = [
     roomNo:104,
     checkIn:"3:00AM",
     checkOut:"12:00PM",
-    status:"Check-In",
+    status:"Check-Out",
     extraCharges:100,
     createdAt:"24/5/2000"
   }

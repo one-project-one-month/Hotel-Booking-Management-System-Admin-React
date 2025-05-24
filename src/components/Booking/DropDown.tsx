@@ -43,7 +43,7 @@ const DropDown = ({ CheckIn, Maintance, CheckOut, status, active,viewBooking,upd
               CheckOut
             </DropdownMenuItem>
           )}
-          {status === "Check-Out" && (
+          {status === "Check-Out" && !active && (
             <>
               <DropdownMenuItem
                 className="cursor-pointer text-red-600 hover:text-red-700 bg-transparent hover:bg-red-100 focus:bg-red-100 focus:text-red-700"
@@ -67,12 +67,17 @@ const DropDown = ({ CheckIn, Maintance, CheckOut, status, active,viewBooking,upd
 
           {active && (
             <>
-              <DropdownMenuItem
+            {
+              status !== 'Check-Out' && (
+                   <DropdownMenuItem
                 className="cursor-pointer text-purple-600 hover:text-purple-700 bg-transparent hover:bg-purple-100 focus:bg-purple-100 focus:text-purple-700"
                 onClick={updateBooking}
               >
                 Update Booking Room
               </DropdownMenuItem>
+              )
+            }
+           
               <DropdownMenuItem
                 className="cursor-pointer text-blue-600 hover:text-blue-700 bg-transparent hover:bg-blue-100 focus:bg-blue-100 focus:text-blue-700"
                 onClick={viewBooking}
