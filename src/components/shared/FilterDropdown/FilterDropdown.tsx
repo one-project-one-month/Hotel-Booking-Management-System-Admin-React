@@ -54,7 +54,7 @@ export default function FilterDropdown({
           </DropdownMenuRadioGroup>
         </DropdownMenuContent>
       </DropdownMenu>
-      <span>{label}</span>
+      <span className="text-sm">{label}</span>
     </div>
   );
 }

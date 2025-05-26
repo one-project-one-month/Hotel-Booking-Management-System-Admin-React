@@ -14,6 +14,7 @@ import Logout from "@/pages/auth/Logout";
 import NotFound from "@/pages/Error/NotFound";
 import Layout from "@/shared/Layout";
 import Coupon from "@/pages/Admin/Coupon/Coupon.tsx";
+import RoomDetails from "@/pages/Admin/Room/RoomDetails.tsx";
 
 const Data = [
   {
@@ -22,7 +23,7 @@ const Data = [
   },
   {
     path: "/",
-    Component:Layout,
+    Component: Layout,
     children: [
       {
         path: "dashboard",
@@ -43,6 +44,10 @@ const Data = [
       {
         path: "rooms",
         Component: Room,
+      },
+      {
+        path: "rooms/details/:id",
+        Component: RoomDetails,
       },
       {
         path: "rooms/create",

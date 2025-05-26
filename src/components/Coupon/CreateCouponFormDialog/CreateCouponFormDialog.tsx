@@ -307,7 +307,7 @@ export function CreateCouponFormDialog() {
         };
 
         getExpDate();
-    }, [date]);
+    }, [date,form]);
     return (
         <Dialog modal={false}>
             <DialogTrigger asChild>
