@@ -138,7 +138,7 @@ export const bookings:Book[] = [
   {
     id:9,
     customerName:"Arkar",
-    roomNo:104,
+    roomNo:106,
     checkIn:"3:00AM",
     checkOut:"12:00PM",
     guestCount:4,
@@ -150,7 +150,7 @@ export const bookings:Book[] = [
   {
     id:10,
     customerName:"Arkar",
-    roomNo:104,
+    roomNo:107,
     checkIn:"3:00AM",
     checkOut:"12:00PM",
     guestCount:4,

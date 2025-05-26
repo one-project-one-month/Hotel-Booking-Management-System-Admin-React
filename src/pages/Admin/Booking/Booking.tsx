@@ -62,7 +62,8 @@ const Booking = () => {
         booking.customerName
           .toLowerCase()
           .includes(event.target.value.toLowerCase()) ||
-        booking.depositAmount.toString().includes(event.target.value.toString())
+        booking.depositAmount.toString().includes(event.target.value.toString()) ||
+        booking.roomNo.toString().includes(event.target.value.toString())
       );
     });
     setFilterBooking(filter);

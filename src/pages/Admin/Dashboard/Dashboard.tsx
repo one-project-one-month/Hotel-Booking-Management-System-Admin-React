@@ -1,5 +1,7 @@
-import { BedDouble, BellRing, LogIn, LogOut } from "lucide-react";
+import { BedDouble, BellRing, PersonStanding , Ticket  } from "lucide-react";
 import DashboardStatCard from "@/components/Dashbord/DashboardStatCard/DashboardStatCard.tsx";
+import UserChart from "@/components/Dashbord/UserChart";
+import BookingChart from "@/components/Dashbord/BookingChart";
 
 
 
@@ -7,7 +9,7 @@ import DashboardStatCard from "@/components/Dashbord/DashboardStatCard/Dashboard
 const Dashboard = () => {
     return (
         <div>
-            <div className="grid grid-cols-4 h-[120px] gap-5 mt-3 auto-rows-[100%] px-5">
+            <div className="grid grid-cols-4 h-[120px] gap-5 mt-5 auto-rows-[90%]">
                 <DashboardStatCard
                     bgColor={"bg-[#59CBFF]"}
                     count={875}
@@ -24,14 +26,24 @@ const Dashboard = () => {
                     bgColor={"bg-[#FED077] "}
                     count={67}
                     label={"New UserList"}
-                    Icon={(props) => <LogIn {...props} />}
+                    Icon={(props) => <PersonStanding  {...props} />}
                 />
                 <DashboardStatCard
                     bgColor={"bg-[#FF996B]"}
                     count={74}
                     label={"Used Coupon"}
-                    Icon={(props) => <LogOut {...props} />}
+                    Icon={(props) => <Ticket  {...props} />}
                 />
+            </div>
+            <div className="grid grid-cols-2 gap-5 mt-8">
+                <div className="h-[calc(100vh-300px)] rounded-xl shadow-lg px-3">
+                    <h3 className="p-3 text-2xl font-bold">User Lists</h3>
+                    <UserChart />
+                </div>
+                <div  className="h-[calc(100vh-300px)] rounded-xl shadow-lg px-3">
+                    <h3 className="p-3 text-2xl font-bold">Booking Lists</h3>
+                    <BookingChart />
+                </div>
             </div>
         </div>
     );

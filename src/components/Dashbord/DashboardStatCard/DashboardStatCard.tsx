@@ -19,11 +19,11 @@ export default function DashboardStatCard({
         >
             <div className="flex items-center gap-5">
                 <div>
-                    <h3 className="text-3xl font-bold">{count}</h3>
+                    <h3 className="text-2xl font-bold">{count}</h3>
                     <p>{label}</p>
                 </div>
                 <div>
-                    <Icon size={45} />
+                    <Icon size={30} />
                 </div>
             </div>
         </div>
