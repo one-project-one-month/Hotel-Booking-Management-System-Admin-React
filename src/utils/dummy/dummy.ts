@@ -1,5 +1,5 @@
 
-import type { Book } from "../types/BookingTypes/bookingTypes.ts";
+import type { Book, CheckType } from "../types/BookingTypes/bookingTypes.ts";
 import type { menuItems } from "../types/UserTypes/userTypes.ts";
 
 export const menuItem:menuItems[] = [
@@ -42,7 +42,7 @@ export const bookings:Book[] = [
   {
     id:1,
     customerName:"Arkar",
-    roomNo:"104",
+    roomNo:104,
     checkIn:"3:00AM",
     checkOut:"12:00PM",
     guestCount:4,
@@ -54,7 +54,7 @@ export const bookings:Book[] = [
   {
     id:2,
     customerName:"KyawKyaw",
-    roomNo:"104",
+    roomNo:104,
     checkIn:"3:00AM",
     checkOut:"12:00PM",
     guestCount:4,
@@ -66,7 +66,7 @@ export const bookings:Book[] = [
   {
     id:3,
     customerName:"Arkar",
-    roomNo:"104",
+    roomNo:104,
     checkIn:"3:00AM",
     checkOut:"12:00PM",
     guestCount:4,
@@ -78,7 +78,7 @@ export const bookings:Book[] = [
   {
     id:4,
     customerName:"Arkar",
-    roomNo:"104",
+    roomNo:104,
     checkIn:"3:00AM",
     checkOut:"12:00PM",
     guestCount:4,
@@ -90,7 +90,7 @@ export const bookings:Book[] = [
   {
     id:5,
     customerName:"Arkar",
-    roomNo:"104",
+    roomNo:104,
     checkIn:"3:00AM",
     checkOut:"12:00PM",
     guestCount:4,
@@ -102,7 +102,7 @@ export const bookings:Book[] = [
   {
     id:6,
     customerName:"Arkar",
-    roomNo:"104",
+    roomNo:104,
     checkIn:"3:00AM",
     checkOut:"12:00PM",
     guestCount:4,
@@ -114,7 +114,7 @@ export const bookings:Book[] = [
   {
     id:7,
     customerName:"Arkar",
-    roomNo:"104",
+    roomNo:104,
     checkIn:"3:00AM",
     checkOut:"12:00PM",
     guestCount:4,
@@ -126,7 +126,7 @@ export const bookings:Book[] = [
   {
     id:8,
     customerName:"Arkar",
-    roomNo:"104",
+    roomNo:104,
     checkIn:"3:00AM",
     checkOut:"12:00PM",
     guestCount:4,
@@ -138,7 +138,7 @@ export const bookings:Book[] = [
   {
     id:9,
     customerName:"Arkar",
-    roomNo:"104",
+    roomNo:104,
     checkIn:"3:00AM",
     checkOut:"12:00PM",
     guestCount:4,
@@ -150,7 +150,7 @@ export const bookings:Book[] = [
   {
     id:10,
     customerName:"Arkar",
-    roomNo:"104",
+    roomNo:104,
     checkIn:"3:00AM",
     checkOut:"12:00PM",
     guestCount:4,
@@ -159,4 +159,18 @@ export const bookings:Book[] = [
     status:"Maintance",
     createdAt:"24/5/2000"
   },
+]
+
+
+export const checkTable:CheckType[] = [
+  {
+    id:"1",
+    customerName:"Arkar",
+    roomNo:104,
+    checkIn:"3:00AM",
+    checkOut:"12:00PM",
+    status:"Check-Out",
+    extraCharges:100,
+    createdAt:"24/5/2000"
+  }
 ]

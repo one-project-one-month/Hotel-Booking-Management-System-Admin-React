@@ -5,6 +5,7 @@ import {
 } from "@/components/ui/table"
 import DropDown from "./DropDown";
 import type { Book } from "@/utils/types/BookingTypes/bookingTypes";
+import { useNavigate } from "react-router-dom";
 
 interface Props{
     booking:Book
@@ -12,12 +13,18 @@ interface Props{
 
 const TableBooking = ({booking}:Props) => {
 
+  const navigate = useNavigate()
+
     const CheckInClick = () =>{
-        console.log(booking.id)
+        localStorage.removeItem("CheckId")
+        localStorage.removeItem("updateBooking")
+        navigate(`/booking/${booking.id}`)
     }
 
     const CheckOutClick = () => {
-        console.log(booking.id)
+        localStorage.removeItem("CheckId")
+        localStorage.removeItem("updateBooking")
+        navigate(`/booking/${booking.id}`)
     }
 
     const maintanceClick = () => {
@@ -35,11 +42,11 @@ const TableBooking = ({booking}:Props) => {
       <TableCell className="text-right">{booking.totalAmount}Ks</TableCell>
       <TableCell
         className={
-          booking.status === "Available"
-            ? "text-blue-500 text-center"
+          booking.status === "Check-Out"
+            ? "text-orange-600 text-center"
             : booking.status === "Check-In"
-            ? "text-green-500 text-center"
-            : "text-red-500 text-center"
+            ? "text-green-600 text-center" : booking.status === 'Booked'? "text-blue-600 text-center"
+            : "text-red-600 text-center"
         }
       >
         {booking.status}

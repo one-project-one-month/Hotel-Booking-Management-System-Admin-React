@@ -1,5 +1,4 @@
 import Booking from "@/pages/Admin/Booking/Booking";
-import ViewBooking from "@/pages/Admin/Booking/ViewBooking";
 import CreateCoupon from "@/pages/Admin/Coupon/CreateCoupon.tsx";
 import UpdateCoupon from "@/pages/Admin/Coupon/UpdateCoupon.tsx";
 import Dashboard from "@/pages/Admin/Dashboard/Dashboard";
@@ -13,6 +12,7 @@ import Login from "@/pages/auth/Login";
 import Logout from "@/pages/auth/Logout";
 import NotFound from "@/pages/Error/NotFound";
 import Layout from "@/shared/Layout";
+import CheckTable from "@/pages/Admin/Booking/CheckTable";
 import Coupon from "@/pages/Admin/Coupon/Coupon.tsx";
 import RoomDetails from "@/pages/Admin/Room/RoomDetails.tsx";
 
@@ -62,8 +62,8 @@ const Data = [
         Component: Booking,
       },
       {
-        path: "booking/view/:id",
-        Component: ViewBooking,
+        path:"booking/:id",
+        Component:CheckTable
       },
       {
         path: "coupon",
