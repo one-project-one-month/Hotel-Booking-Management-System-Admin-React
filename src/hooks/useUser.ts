@@ -47,7 +47,7 @@ const getIdUser = async(id:string) =>{
 
 const deleteUser = async(id:string) => {
     const data = await Axios.delete(`/users/${id}`)
-    console.log(data)
+    return data;
 }
 
 export const useUser = () => {

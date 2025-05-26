@@ -21,13 +21,26 @@ import { bookings } from "@/utils/dummy/dummy.ts";
 
 import type { Book } from "@/utils/types/BookingTypes/bookingTypes";
 import TableBooking from "@/components/Booking/TableBooking";
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
+import useBooking from "@/hooks/useBooking";
 
 const Booking = () => {
+
+  const {query} = useBooking()
+
+  const {data:booking,isLoading,isError,isSuccess} = query;
+
   const [filterBooking, setFilterBooking] = useState<Book[]>(bookings);
   const [currentPage, setCurrentPage] = useState(1);
   const itemPerPage = 5;
   const pages: number[] = [];
+
+
+    useEffect(() => {
+      if (isSuccess && booking) {
+        setFilterBooking(booking);
+      }
+    }, [booking, isSuccess]);
 
   const prevClick = () => {
     if (currentPage > pages.length) {
@@ -68,6 +81,14 @@ const Booking = () => {
     });
     setFilterBooking(filter);
   };
+
+   if (isLoading) {
+    return <div>Loading</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
 
   return (
     <div>
