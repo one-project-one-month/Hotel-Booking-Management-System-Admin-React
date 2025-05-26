@@ -35,6 +35,12 @@ const User = () => {
   const {isSuccess,isError,data:user,isLoading} = query
 
   const [filterUser,setFilterUser] = useState<Username[]>([])
+   const [currentPage, setCurrentPage] = useState(1);
+    const couponsPerPage = 5;
+
+    const startIndex = (currentPage - 1) * couponsPerPage;
+    const endIndex = startIndex + couponsPerPage;
+    const currentUser = filterUser.slice(startIndex, endIndex);
 
   const deleteUser = (id:string) =>{
     if(window.confirm()){
@@ -113,7 +119,7 @@ const User = () => {
             </TableHeader>
             <TableBody>
               {
-                filterUser?.map((user:Username)=>{
+                currentUser?.map((user:Username)=>{
                   return (
                       <TableRow key={user._id}>
                         <TableCell>
@@ -144,7 +150,7 @@ const User = () => {
             </TableBody>
           </Table>
            {
-                    filterUser.length === 0 || filterUser === undefined && (
+                    currentUser.length === 0 && (
                       <div className="flex justify-center items-center mt-[200px]">
                         <p className="text-xl">No User found.</p>
                       </div>
@@ -154,25 +160,25 @@ const User = () => {
         <div className="w-full mt-[10px] h-[60px] flex rounded-md shadow-lg">
               <Pagination className="justify-end">
                 <PaginationContent>
-                  <PaginationItem>
-                    <PaginationPrevious href="#" />
+                  <PaginationItem >
+                    <PaginationPrevious href="#" onClick={() => setCurrentPage(currentPage - 1)}/>
                   </PaginationItem>
                   <PaginationItem>
-                    <PaginationLink href="#">1</PaginationLink>
+                    <PaginationLink href="#" isActive={currentPage === 1} onClick={()=>setCurrentPage(1)}>1</PaginationLink>
                   </PaginationItem>
                   <PaginationItem>
-                    <PaginationLink href="#" isActive>
+                    <PaginationLink href="#" isActive={currentPage === 2} onClick={()=>setCurrentPage(2)}>
                       2
                     </PaginationLink>
                   </PaginationItem>
                   <PaginationItem>
-                    <PaginationLink href="#">3</PaginationLink>
+                    <PaginationLink href="#" isActive={currentPage === 3} onClick={()=>setCurrentPage(3)}>3</PaginationLink>
                   </PaginationItem>
+                        <PaginationItem>
+                          <PaginationEllipsis />
+                        </PaginationItem>
                   <PaginationItem>
-                    <PaginationEllipsis />
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationNext href="#" />
+                    <PaginationNext href="#" onClick={() => setCurrentPage(currentPage + 1)}/>
                   </PaginationItem>
                 </PaginationContent>
               </Pagination>

@@ -12,7 +12,7 @@ const Room = () => {
   const [roomsToBeShown, setRoomsToBeShown] = useState<TypeOfRoom[]>(rooms);
 
   return (
-    <div>
+    <div className="h-[calc(100vh-500px)]">
       <div className="rounded-md shadow-lg  p-[1rem] ">
         <div className="flex justify-between  ">
           <h3 className="text-2xl font-semibold">Rooms</h3>
@@ -38,7 +38,7 @@ const Room = () => {
               </p>
             </div>
           </div>
-          <div className="h-[70vh] overflow-auto overflow-x-hidden px-1">
+          <div className="h-[calc(100vh-270px)] overflow-auto overflow-x-hidden px-1">
             {roomsToBeShown.length ? (
               roomsToBeShown.map((room) => (
                 <RoomCard
@@ -70,7 +70,7 @@ const Room = () => {
             </div>
           </div>
 
-          <div className="h-[70vh] overflow-auto overflow-x-hidden px-1">
+          <div className="h-[calc(100vh-270px)] overflow-auto overflow-x-hidden px-1">
             {roomsToBeShown.length ? (
               roomsToBeShown.map((room) => (
                 <RoomCard
