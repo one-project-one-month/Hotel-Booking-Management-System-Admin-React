@@ -64,7 +64,7 @@ const TableCheck = ({check}:Props) => {
       <TableCell>{check.createdAt}</TableCell>
       {
         !active && (
-             <TableCell className="flex gap-3 items-center justify-center">
+             <TableCell className="flex justify-center py-4 items-center">
                 <DropDown CheckOut={CheckOutClick} status={check.status} active={true} viewBooking={viewBooking} updateBooking={updateBooking}/>
               </TableCell>
         )

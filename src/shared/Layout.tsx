@@ -18,7 +18,7 @@ const Layout = () => {
   })
 
   return (
-    <div>
+    <div className="select-none">
       <SidebarProvider  defaultOpen={true}>
         <SideLayout />
          <div className="flex flex-col w-[100%]">

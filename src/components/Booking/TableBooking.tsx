@@ -6,7 +6,6 @@ import {
 import DropDown from "./DropDown";
 import type { Book } from "@/utils/types/BookingTypes/bookingTypes";
 import { useNavigate } from "react-router-dom";
-
 interface Props{
     booking:Book
 }
@@ -52,8 +51,8 @@ const TableBooking = ({booking}:Props) => {
         {booking.status}
       </TableCell>
       <TableCell>{booking.createdAt}</TableCell>
-      <TableCell className="flex gap-3 items-center justify-center">
-        <DropDown CheckIn={CheckInClick} CheckOut={CheckOutClick} Maintance={maintanceClick} status={booking.status}/>
+      <TableCell className="flex justify-center py-4 items-center">
+            <DropDown CheckIn={CheckInClick} CheckOut={CheckOutClick} Maintance={maintanceClick} status={booking.status}/>
       </TableCell>
     </TableRow>
   );

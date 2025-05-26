@@ -15,9 +15,9 @@ export default function DashboardStatCard({
                                           }: Props) {
     return (
         <div
-            className={`bg-[ ${bgColor} flex items-center justify-center rounded-2xl text-white`}
+            className={`bg-[ ${bgColor} flex items-center justify-center rounded-md shadow-lg text-white`}
         >
-            <div className="flex items-center gap-5 ">
+            <div className="flex items-center gap-5">
                 <div>
                     <h3 className="text-3xl font-bold">{count}</h3>
                     <p>{label}</p>
