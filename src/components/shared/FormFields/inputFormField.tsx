@@ -18,7 +18,7 @@ export default function InputFormField({
                                            control,
                                            name,
                                            type,
-                                           placeholder,
+                                            placeholder,
                                            label,
                                        }: Props) {
     return (

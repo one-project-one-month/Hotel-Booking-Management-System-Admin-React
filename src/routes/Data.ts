@@ -1,6 +1,5 @@
 import Booking from "@/pages/Admin/Booking/Booking";
 import CreateCoupon from "@/pages/Admin/Coupon/CreateCoupon.tsx";
-import Cupon from "@/pages/Admin/Coupon/Coupon.tsx";
 import UpdateCoupon from "@/pages/Admin/Coupon/UpdateCoupon.tsx";
 import Dashboard from "@/pages/Admin/Dashboard/Dashboard";
 import CreateRoom from "@/pages/Admin/Room/CreateRoom";
@@ -14,6 +13,7 @@ import Logout from "@/pages/auth/Logout";
 import NotFound from "@/pages/Error/NotFound";
 import Layout from "@/shared/Layout";
 import CheckTable from "@/pages/Admin/Booking/CheckTable";
+import Coupon from "@/pages/Admin/Coupon/Coupon.tsx";
 
 const Data = [
   {
@@ -62,7 +62,7 @@ const Data = [
       },
       {
         path: "coupon",
-        Component: Cupon,
+        Component: Coupon,
       },
       {
         path: "coupon/create",
