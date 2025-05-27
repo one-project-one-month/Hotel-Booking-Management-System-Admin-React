@@ -32,7 +32,7 @@ export default function InputFormField({
                 render={({ field }) => (
                     <FormItem>
                         <FormControl>
-                            <Input type={type} placeholder={placeholder} {...field} disabled={disabled}/>
+                            <Input type={type} placeholder={placeholder} {...field} disabled={disabled} className="[&::-webkit-inner-spin-button]:appearance-none"/>
                         </FormControl>
                         <FormMessage />
                     </FormItem>

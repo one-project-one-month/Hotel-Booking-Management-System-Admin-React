@@ -6,6 +6,7 @@ import {
 import DropDown from "./DropDown";
 import type { Book } from "@/utils/types/BookingTypes/bookingTypes";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 interface Props{
     booking:Book
 }
@@ -34,8 +35,8 @@ const TableBooking = ({booking}:Props) => {
     <TableRow key={booking.id}>
       <TableCell>{booking.customerName}</TableCell>
       <TableCell className="text-center">{booking.roomNo}</TableCell>
-      <TableCell>{booking.checkIn}</TableCell>
-      <TableCell>{booking.checkOut}</TableCell>
+      <TableCell>{moment(booking.checkIn).format('MMMM Do YYYY, h:mm:ss A')}</TableCell>
+      <TableCell>{moment(booking.checkOut).format('MMMM Do YYYY, h:mm:ss A')}</TableCell>
       <TableCell className="text-center">{booking.guestCount}</TableCell>
       <TableCell className="text-right">{booking.depositAmount}Ks</TableCell>
       <TableCell className="text-right">{booking.totalAmount}Ks</TableCell>
@@ -50,7 +51,7 @@ const TableBooking = ({booking}:Props) => {
       >
         {booking.status}
       </TableCell>
-      <TableCell>{booking.createdAt}</TableCell>
+      <TableCell>{moment(booking.createdAt).format('MMMM Do YYYY, h:mm:ss A')}</TableCell>
       <TableCell className="flex justify-center py-4 items-center">
             <DropDown CheckIn={CheckInClick} CheckOut={CheckOutClick} Maintance={maintanceClick} status={booking.status}/>
       </TableCell>

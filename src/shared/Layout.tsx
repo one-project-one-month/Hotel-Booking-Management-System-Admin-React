@@ -18,7 +18,7 @@ const Layout = () => {
   })
 
   return (
-    <div className="select-none">
+    <div className="select-none overflow-hidden">
       <SidebarProvider  defaultOpen={true}>
         <SideLayout />
          <div className="flex flex-col w-[100%]">
