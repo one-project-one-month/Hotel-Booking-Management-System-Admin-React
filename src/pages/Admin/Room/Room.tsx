@@ -5,7 +5,7 @@ import type { Room as TypeOfRoom } from "@/utils/types/roomTypes/roomTypes.ts";
 import { useState } from "react";
 
 import { dummyRooms } from "@/utils/dummy/room/roomDummy.ts";
-import { BedDouble, Star } from "lucide-react";
+import { House, Star } from "lucide-react";
 
 const Room = () => {
   const [rooms, setRooms] = useState<TypeOfRoom[]>(dummyRooms);
@@ -58,7 +58,7 @@ const Room = () => {
         <div className="p-4 overflow-auto">
           <div className="flex items-center gap-3 mb-5 shadow-lg px-[1rem] pb-[1rem] rounded-md ">
             <div className="p-2 rounded-lg bg-blue-50 border border-blue-100">
-              <BedDouble className="w-5 h-5 text-blue-500" />
+              <House className="w-5 h-5 text-blue-500" />
             </div>
             <div>
               <h1 className="text-xl font-semibold text-gray-800">
