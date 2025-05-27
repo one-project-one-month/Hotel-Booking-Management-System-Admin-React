@@ -1,13 +1,4 @@
 import { Table, TableBody } from "@/components/ui/table";
-
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import { Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,6 +8,7 @@ import { type ChangeEvent, useState } from "react";
 import { type CouponList as Coupon } from "@/utils/types/couponTypes/couponTypes.ts";
 import CouponTableHeader from "@/components/Coupon/CouponTableHeader/CouponTableHeader.tsx";
 import CouponTableRow from "@/components/Coupon/CouponTableRow/CouponTableRow.tsx";
+import PaginationTable from "@/components/shared/TablePagination/PaginationTable";
 
 export default function Coupon() {
   const [couponsToBeShown, setCouponsToBeShown] = useState<Coupon[]>(coupons);
@@ -97,29 +89,7 @@ export default function Coupon() {
         </Table>
       </div>
       <div className="w-full mt-[10px] h-[60px] flex rounded-md shadow-lg">
-        <Pagination className="justify-end">
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="#" onClick={prevClick} />
-            </PaginationItem>
-            {pages.map((p, index) => {
-              return (
-                <PaginationItem key={index}>
-                  <PaginationLink
-                    href="#"
-                    isActive={currentPage === p}
-                    onClick={() => pageClick(p)}
-                  >
-                    {p}
-                  </PaginationLink>
-                </PaginationItem>
-              );
-            })}
-            <PaginationItem>
-              <PaginationNext href="#" onClick={nextClick} />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+            <PaginationTable prevClick={prevClick} pages={pages} currentPage={currentPage} nextClick={nextClick} pageClick={pageClick}/>
       </div>
     </div>
   );

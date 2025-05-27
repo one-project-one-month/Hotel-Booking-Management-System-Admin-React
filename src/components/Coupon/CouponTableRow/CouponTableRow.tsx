@@ -6,6 +6,7 @@ import {type CouponList} from "@/utils/types/couponTypes/couponTypes.ts";
 import { type Dispatch, type SetStateAction, useState } from "react";
 import { ConfirmDeleteDialog } from "@/components/shared/ConfirmDeleteDialog/ConfirmDeleteDialog.tsx";
 import { coupons } from "@/utils/dummy/coupon/couponDummy.ts";
+import moment from "moment";
 
 interface Props {
     coupon: CouponList;
@@ -32,7 +33,7 @@ export default function CouponTableRow({
             <TableCell>${coupon.discount_pct}</TableCell>
             <TableCell>{coupon.expiry_date}</TableCell>
             <TableCell>{coupon.is_active ? "True" : "False"}</TableCell>
-            <TableCell>{coupon.created_at}</TableCell>
+            <TableCell>{moment(coupon.created_at).format("MMMM Do YYYY, h:mm:ss A")}</TableCell>
             <TableCell>{coupon.is_claimed ? "True" : "False"}</TableCell>
 
             <TableCell className="flex gap-3 mt-4">

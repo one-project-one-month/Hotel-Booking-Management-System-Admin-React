@@ -13,6 +13,7 @@ interface Props {
     name: string;
     placeholder: string;
     label: string;
+    disabled?:boolean
 }
 export default function InputFormField({
                                            control,
@@ -20,6 +21,7 @@ export default function InputFormField({
                                            type,
                                             placeholder,
                                            label,
+                                           disabled
                                        }: Props) {
     return (
         <div className="flex flex-col gap-2">
@@ -30,7 +32,7 @@ export default function InputFormField({
                 render={({ field }) => (
                     <FormItem>
                         <FormControl>
-                            <Input type={type} placeholder={placeholder} {...field} />
+                            <Input type={type} placeholder={placeholder} {...field} disabled={disabled} className="[&::-webkit-inner-spin-button]:appearance-none"/>
                         </FormControl>
                         <FormMessage />
                     </FormItem>

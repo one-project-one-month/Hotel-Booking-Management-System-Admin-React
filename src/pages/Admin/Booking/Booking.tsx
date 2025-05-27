@@ -1,33 +1,33 @@
 import {
   Table,
   TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
 } from "@/components/ui/table";
 
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
-import { Filter } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { bookings } from "@/utils/dummy/dummy.ts";
 
 import type { Book } from "@/utils/types/BookingTypes/bookingTypes";
 import TableBooking from "@/components/Booking/TableBooking";
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
+import useBooking from "@/hooks/useBooking";
+import TableHeaders from "@/components/Booking/TableHeader";
+import PaginationTable from "@/components/shared/TablePagination/PaginationTable";
+import BookingInput from "@/components/Booking/BookingInput";
 
 const Booking = () => {
-  const [filterBooking, setFilterBooking] = useState<Book[]>(bookings);
+
+  const {query} = useBooking()
+  const {data:booking,isLoading,isError,isSuccess} = query;
+  const [filterBooking, setFilterBooking] = useState<Book[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemPerPage = 5;
   const pages: number[] = [];
+
+
+    useEffect(() => {
+      if (isSuccess && booking) {
+        setFilterBooking(booking);
+      }
+    }, [booking, isSuccess]);
 
   const prevClick = () => {
     if (currentPage > pages.length) {
@@ -69,52 +69,23 @@ const Booking = () => {
     setFilterBooking(filter);
   };
 
+   if (isLoading) {
+    return <div>Loading</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
+
   return (
     <div>
-      <div className="flex justify-between items-center rounded-md shadow-lg h-[60px] px-[1rem]">
-        <h3 className="text-2xl font-semibold">Booking Listings</h3>
-        <div>
-          <Input
-            placeholder="Search Booking"
-            className="w-[500px]"
-            onChange={bookingChange}
-          />
-        </div>
-        <div className="flex gap-5">
-          <Button size="icon" className="cursor-pointer" variant="secondary">
-            <Filter />
-          </Button>
-        </div>
-      </div>
-      <div className="h-[calc(100vh-200px)] overflow-auto rounded-md shadow-lg mt-[10px] px-[10px]">
+      <BookingInput bookingChange={bookingChange}/>
+      <div className="h-[calc(100vh-200px)] w-full overflow-auto rounded-md shadow-lg mt-[10px] px-[10px]">
         <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[150px] text-md">Customer Name</TableHead>
-              <TableHead className="w-[100px] text-md text-center">
-                Room Number
-              </TableHead>
-              <TableHead className="w-[100px] text-md">Check_In</TableHead>
-              <TableHead className="w-[100px] text-md">Check_Out</TableHead>
-              <TableHead className="w-[100px] text-center text-md">
-                Guest Count
-              </TableHead>
-              <TableHead className="w-[100px] text-md">
-                Deposit Amount
-              </TableHead>
-              <TableHead className="w-[100px] text-md">Total Amount</TableHead>
-              <TableHead className="w-[100px] text-md text-center">
-                Status
-              </TableHead>
-              <TableHead className="w-[100px] text-md">CreatedAt</TableHead>
-              <TableHead className="w-[100px] text-md text-center">
-                Action
-              </TableHead>
-            </TableRow>
-          </TableHeader>
+          <TableHeaders />
           <TableBody>
             {currentBooking.map((booking: Book) => {
-              return <TableBooking booking={booking} />;
+              return <TableBooking booking={booking} key={booking._id}/>;
             })}
           </TableBody>
         </Table>
@@ -125,29 +96,7 @@ const Booking = () => {
         )}
       </div>
       <div className="w-full mt-[10px] h-[60px] flex rounded-md shadow-lg">
-        <Pagination className="justify-end">
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="#" onClick={prevClick} />
-            </PaginationItem>
-            {pages.map((p, index) => {
-              return (
-                <PaginationItem key={index}>
-                  <PaginationLink
-                    href="#"
-                    isActive={currentPage === p}
-                    onClick={() => pageClick(p)}
-                  >
-                    {p}
-                  </PaginationLink>
-                </PaginationItem>
-              );
-            })}
-            <PaginationItem>
-              <PaginationNext href="#" onClick={nextClick} />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+        <PaginationTable prevClick={prevClick} pages={pages} currentPage={currentPage} nextClick={nextClick} pageClick={pageClick}/>
       </div>
     </div>
   );

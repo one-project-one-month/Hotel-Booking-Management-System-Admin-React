@@ -55,7 +55,7 @@ const CreateRoom = () => {
     navigate("/rooms");
   };
 
-  const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async(e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
 
     if (imageUrls.length >= 4) {
@@ -63,8 +63,19 @@ const CreateRoom = () => {
     }
 
     if (file) {
-      const newImageUrl = URL.createObjectURL(file);
-      setImageUrls([...imageUrls, newImageUrl]);
+      const data = new FormData()
+      data.append("file",file)
+      data.append("upload_preset","hotel-image")
+      data.append("cloud_name","dwcdqx2tm")
+      const res = await fetch("https://api.cloudinary.com/v1_1/dwcdqx2tm/image/upload",{
+        method:"POST",
+        body:data
+      })
+      if (!res.ok) {
+        throw new Error("Upload failed");
+      }
+      const uploadImageUrl = await res.json()
+      setImageUrls((prev) => [...prev, uploadImageUrl.url]);
     }
   };
 

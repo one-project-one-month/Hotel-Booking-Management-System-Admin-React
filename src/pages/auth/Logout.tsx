@@ -20,6 +20,8 @@ const Logout = () => {
           toast(`${res.data.message}`,{position:"top-center",style:{backgroundColor:"#228B22",color:"white",border:'none',height:'60px',display:'flex',justifyContent:'center',alignItems:'center',fontSize:"16px"}})
           navigate("/auth/login")
       }
+    }).catch(error =>{
+      console.log(error.response.data.message)
     })
    
   }

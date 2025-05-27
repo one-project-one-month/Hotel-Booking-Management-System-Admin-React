@@ -4,38 +4,37 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import DropDown from "./DropDown";
-import type { Book } from "@/utils/types/BookingTypes/bookingTypes";
+import type { bookingProps } from "@/utils/types/BookingTypes/bookingTypes";
 import { useNavigate } from "react-router-dom";
-interface Props{
-    booking:Book
-}
+import moment from "moment";
 
-const TableBooking = ({booking}:Props) => {
+
+const TableBooking = ({booking}:bookingProps) => {
 
   const navigate = useNavigate()
 
     const CheckInClick = () =>{
         localStorage.removeItem("CheckId")
         localStorage.removeItem("updateBooking")
-        navigate(`/booking/${booking.id}`)
+        navigate(`/booking/${booking._id}`)
     }
 
     const CheckOutClick = () => {
         localStorage.removeItem("CheckId")
         localStorage.removeItem("updateBooking")
-        navigate(`/booking/${booking.id}`)
+        navigate(`/booking/${booking._id}`)
     }
 
     const maintanceClick = () => {
-        console.log(booking.id)
+        console.log(booking._id)
     }
 
   return (
-    <TableRow key={booking.id}>
+    <TableRow key={booking._id}>
       <TableCell>{booking.customerName}</TableCell>
       <TableCell className="text-center">{booking.roomNo}</TableCell>
-      <TableCell>{booking.checkIn}</TableCell>
-      <TableCell>{booking.checkOut}</TableCell>
+      <TableCell>{moment(booking.checkIn).format('MMMM Do YYYY, h:mm:ss A')}</TableCell>
+      <TableCell>{moment(booking.checkOut).format('MMMM Do YYYY, h:mm:ss A')}</TableCell>
       <TableCell className="text-center">{booking.guestCount}</TableCell>
       <TableCell className="text-right">{booking.depositAmount}Ks</TableCell>
       <TableCell className="text-right">{booking.totalAmount}Ks</TableCell>
@@ -50,7 +49,7 @@ const TableBooking = ({booking}:Props) => {
       >
         {booking.status}
       </TableCell>
-      <TableCell>{booking.createdAt}</TableCell>
+      <TableCell>{moment(booking.createdAt).format('MMMM Do YYYY, h:mm:ss A')}</TableCell>
       <TableCell className="flex justify-center py-4 items-center">
             <DropDown CheckIn={CheckInClick} CheckOut={CheckOutClick} Maintance={maintanceClick} status={booking.status}/>
       </TableCell>

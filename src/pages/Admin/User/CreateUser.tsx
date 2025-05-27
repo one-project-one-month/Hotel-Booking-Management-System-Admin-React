@@ -18,10 +18,11 @@ import { z } from "zod"
 
 const CreateUser = () => {
 
-  const [image,setImage] = useState("")
+  const [image,setImage] = useState(null)
+  const [loading,setLoading] = useState(false)
   const navigate = useNavigate();
 
-  const images = image ? image :"https://avatars.githubusercontent.com/u/70505132?v=4"
+  const images = image ? image :""
 
 
   const form = useForm<z.infer<typeof createUserFormSchema>>({
@@ -39,11 +40,24 @@ const CreateUser = () => {
 
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const imageUpload = (event:any) =>{
+  const imageUpload = async(event:any) =>{
     const files = event.target.files[0]
     if(files){
-      const url = URL.createObjectURL(files)
-      setImage(url)
+      setLoading(true)
+      const data = new FormData()
+      data.append("file",files)
+      data.append("upload_preset","hotel-image")
+      data.append("cloud_name","dwcdqx2tm")
+      const res = await fetch("https://api.cloudinary.com/v1_1/dwcdqx2tm/image/upload",{
+        method:"POST",
+        body:data
+      })
+      if (!res.ok) {
+        throw new Error("Upload failed");
+      }
+      const uploadImageUrl = await res.json()
+      setLoading(false)
+      setImage(uploadImageUrl.url)
     }
   }
 
@@ -56,12 +70,13 @@ const CreateUser = () => {
         password: "",
         phoneNumber: ""
     })
-    setImage("")
+    setImage(null)
     navigate("/users")
   }
 
   const onSubmit =async(values:z.infer<typeof createUserFormSchema>) => {
-    const data = {...values,imgUrl:image}
+    const finalImage = image || ""
+    const data = {...values,imgUrl:finalImage}
     try {
       const res = await mutation.mutateAsync(data)
       if(res.status === 201){
@@ -71,7 +86,7 @@ const CreateUser = () => {
           password: "",
           phoneNumber: ""
         })
-        setImage("")
+        setImage(null)
         alert("User Create Successfully")
         navigate("/users")
       }
@@ -134,13 +149,25 @@ const CreateUser = () => {
               </div>
               <div>
                 <label htmlFor="Upload Profile" className="text-sm font-[500]">Upload Profile</label>
-                <div className="h-[35px] border-1 rounded-md px-2 py-1 text-center cursor-pointer">
-                  <label htmlFor="upload" className="cursor-pointer">Profile Upload</label>
-                  <Input type="file" id="upload" className="mt-3 cursor-pointer" hidden placeholder="upload Profile" accept=".png,.jpeg,.svg" onChange={imageUpload}/>
-                </div>
+                {
+                  loading ? (
+                     <div className="h-[35px] border-1 rounded-md px-2 py-1 text-center cursor-pointer">
+                        <label htmlFor="upload" className="cursor-pointer">Uploading</label>
+                      </div>
+                  ) : (
+                      <div className="h-[35px] border-1 rounded-md px-2 py-1 text-center cursor-pointer">
+                        <label htmlFor="upload" className="cursor-pointer">Profile Upload</label>
+                        <Input type="file" id="upload" className="mt-3 cursor-pointer" hidden placeholder="upload Profile" accept="image/*" onChange={imageUpload}/>
+                      </div>
+                  )
+                }
               </div>
               <div className="w-[180px] h-[180px] shadow-lg rounded-md mx-auto mt-4">
-                <img src={images} alt="profile_img" className="w-full h-full rounded-md"/>
+                {
+                  images && (
+                    <img src={images} className="w-full h-full rounded-md"/>
+                  )
+                }
               </div>
               <div className="absolute bottom-0 right-[40%] flex gap-10">
                 <Button variant='outline' className="bg-red-600 text-white w-[150px] py-5 cursor-pointer hover:bg-red-500 hover:text-white" onClick={cancelClick} disabled={mutation.isPending && mutation.isError}>Cancel</Button>

@@ -40,7 +40,7 @@ export const menuItem:menuItems[] = [
 
 export const bookings:Book[] = [
   {
-    id:1,
+    _id:"1",
     customerName:"Arkar",
     roomNo:104,
     checkIn:"3:00AM",
@@ -52,7 +52,7 @@ export const bookings:Book[] = [
     createdAt:"24/5/2000"
   },
   {
-    id:2,
+    _id:"2",
     customerName:"KyawKyaw",
     roomNo:104,
     checkIn:"3:00AM",
@@ -64,7 +64,7 @@ export const bookings:Book[] = [
     createdAt:"24/5/2000"
   },
   {
-    id:3,
+    _id:"3",
     customerName:"Arkar",
     roomNo:104,
     checkIn:"3:00AM",
@@ -76,7 +76,7 @@ export const bookings:Book[] = [
     createdAt:"24/5/2000"
   },
   {
-    id:4,
+    _id:"4",
     customerName:"Arkar",
     roomNo:104,
     checkIn:"3:00AM",
@@ -88,7 +88,7 @@ export const bookings:Book[] = [
     createdAt:"24/5/2000"
   },
   {
-    id:5,
+    _id:"5",
     customerName:"Arkar",
     roomNo:104,
     checkIn:"3:00AM",
@@ -100,7 +100,7 @@ export const bookings:Book[] = [
     createdAt:"24/5/2000"
   },
   {
-    id:6,
+    _id:"6",
     customerName:"Arkar",
     roomNo:104,
     checkIn:"3:00AM",
@@ -112,7 +112,7 @@ export const bookings:Book[] = [
     createdAt:"24/5/2000"
   },
   {
-    id:7,
+    _id:"7",
     customerName:"Arkar",
     roomNo:104,
     checkIn:"3:00AM",
@@ -124,7 +124,7 @@ export const bookings:Book[] = [
     createdAt:"24/5/2000"
   },
   {
-    id:8,
+    _id:"8",
     customerName:"Arkar",
     roomNo:104,
     checkIn:"3:00AM",
@@ -136,7 +136,7 @@ export const bookings:Book[] = [
     createdAt:"24/5/2000"
   },
   {
-    id:9,
+    _id:"9",
     customerName:"Arkar",
     roomNo:106,
     checkIn:"3:00AM",
@@ -148,7 +148,7 @@ export const bookings:Book[] = [
     createdAt:"24/5/2000"
   },
   {
-    id:10,
+    _id:"10",
     customerName:"Arkar",
     roomNo:107,
     checkIn:"3:00AM",

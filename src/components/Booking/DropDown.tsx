@@ -6,18 +6,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import type { DropDownProps } from "@/utils/types/BookingTypes/bookingTypes";
 
-interface Props {
-  CheckIn?: () => void;
-  Maintance?: () => void;
-  CheckOut?: () => void;
-  status?: string;
-  active?: boolean;
-  viewBooking?:() => void;
-  updateBooking?:() => void;
-}
 
-const DropDown = ({ CheckIn, Maintance, CheckOut, status, active,viewBooking,updateBooking }: Props) => {
+
+
+const DropDown = ({ CheckIn, Maintance, CheckOut, status, active,viewBooking,updateBooking }: DropDownProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
