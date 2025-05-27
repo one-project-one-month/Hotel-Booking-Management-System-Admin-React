@@ -21,7 +21,6 @@ import {
     CommandItem,
     CommandList,
 } from "@/components/ui/command";
-import { useEffect, useState } from "react";
 
 interface Props {
     control: any;

@@ -1,15 +1,11 @@
 import { Filter, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import type { ChangeEvent } from "react";
+import type { userInputProps } from "@/utils/types/UserTypes/userTypes";
 
 
-interface InputProps {
-    userChange:(event:ChangeEvent<HTMLInputElement>) =>void;
-    createUser: () =>void;
-}
 
-const UserInput = ({userChange,createUser}:InputProps) => {
+const UserInput = ({userChange,createUser}:userInputProps) => {
   return (
     <div className="flex justify-between items-center rounded-md shadow-lg h-[60px] px-[1rem]">
         <h3 className="text-2xl font-semibold">User Listings</h3>

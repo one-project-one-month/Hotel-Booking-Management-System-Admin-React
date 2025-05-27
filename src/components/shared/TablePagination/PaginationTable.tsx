@@ -6,19 +6,13 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import type { paginationType } from "@/utils/types/Pagination";
 
 
 
 
-interface typeProps {
-    prevClick:() => void;
-    pages:number[];
-    currentPage:number;
-    nextClick:() => void;
-    pageClick:(p:number) =>void;
-}
 
-const PaginationTable = ({prevClick,pages,currentPage,nextClick,pageClick}:typeProps) => {
+const PaginationTable = ({prevClick,pages,currentPage,nextClick,pageClick}:paginationType) => {
   return (
     <Pagination className="justify-end">
           <PaginationContent>

@@ -4,15 +4,13 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import DropDown from "./DropDown";
-import type { CheckType } from "@/utils/types/BookingTypes/bookingTypes";
 import { useEffect, useState } from "react";
+import type { checkProps } from "@/utils/types/BookingTypes/bookingTypes";
 
 
-interface Props {
-    check:CheckType
-}
 
-const TableCheck = ({check}:Props) => {
+
+const TableCheck = ({check}:checkProps) => {
 
   const [active,setActive] = useState(false)
 

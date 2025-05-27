@@ -1,11 +1,9 @@
 import { Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import type { ChangeEvent } from "react";
+import type { BookingProps } from "@/utils/types/BookingTypes/bookingTypes";
 
-interface BookingProps {
-    bookingChange:(e:ChangeEvent<HTMLInputElement>) => void;
-}
+
 
 const BookingInput = ({bookingChange}:BookingProps) => {
   return (

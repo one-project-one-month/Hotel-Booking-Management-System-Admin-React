@@ -4,14 +4,12 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import DropDown from "./DropDown";
-import type { Book } from "@/utils/types/BookingTypes/bookingTypes";
+import type { bookingProps } from "@/utils/types/BookingTypes/bookingTypes";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
-interface Props{
-    booking:Book
-}
 
-const TableBooking = ({booking}:Props) => {
+
+const TableBooking = ({booking}:bookingProps) => {
 
   const navigate = useNavigate()
 

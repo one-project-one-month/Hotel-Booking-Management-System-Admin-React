@@ -2,16 +2,11 @@ import moment from "moment";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Edit, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { Username } from "@/utils/types/UserTypes/userTypes";
-
-interface Props {
-    updateUser :(id:string) => void;
-    deleteUser : (id:string) => void;
-    user:Username
-}
+import type { userBodyProps } from "@/utils/types/UserTypes/userTypes";
 
 
-const TableUserBody = ({ user, updateUser, deleteUser }: Props) => {
+
+const TableUserBody = ({ user, updateUser, deleteUser }: userBodyProps) => {
   return (
     <TableRow key={user._id}>
       <TableCell>
