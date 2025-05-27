@@ -21,6 +21,7 @@ import {
     CommandItem,
     CommandList,
 } from "@/components/ui/command";
+import { useEffect, useState } from "react";
 
 interface Props {
     control: any;
@@ -37,6 +38,7 @@ export default function SelectUserFormField({
                                                 users,
                                                 placeholder,
                                             }: Props) {
+                     
     return (
         <div className="flex flex-col gap-2">
             <Label> {label}</Label>
@@ -67,11 +69,12 @@ export default function SelectUserFormField({
 
                             <PopoverContent className="w-full p-0 ">
                                 <Command>
-                                    <CommandInput placeholder="Search user" className="h-9 " />
+                                    <CommandInput placeholder="Search user" className="h-9 "/>
                                     <CommandList>
                                         <CommandEmpty>No user found.</CommandEmpty>
                                         <CommandGroup>
-                                            {users.map((user) => (
+                                            {users.map((user) =>(
+                                               
                                                 <CommandItem
                                                     value={user.id.toString()}
                                                     key={user.id}
