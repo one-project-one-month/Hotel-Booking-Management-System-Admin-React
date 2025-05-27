@@ -26,27 +26,27 @@ interface Prpos{
 
 
 const getUsers = async() => {
-    const data = await Axios.get("/users")
+    const data = await Axios.get("users")
     return data.data.data;
 }
 
 const createUser = async(newUser:PropsUser) =>{
-    const data = await Axios.post("/users",newUser)
+    const data = await Axios.post("users",newUser)
     return data.data;
 }
 
 const patchUser = async(id:string,patchUser:typeUser) => {
-    const data = await Axios.patch(`/users/${id}`,patchUser)
+    const data = await Axios.patch(`users/${id}`,patchUser)
     return data.data;
 }
 
 const getIdUser = async(id:string) =>{
-    const data = await Axios.get(`/users/${id}`)
+    const data = await Axios.get(`users/${id}`)
     return data.data.data;
 }
 
 const deleteUser = async(id:string) => {
-    const data = await Axios.delete(`/users/${id}`)
+    const data = await Axios.delete(`users/${id}`)
     return data;
 }
 

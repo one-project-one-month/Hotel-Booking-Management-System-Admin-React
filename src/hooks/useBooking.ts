@@ -2,7 +2,7 @@ import Axios from "@/config/ApiConfig"
 import { useQuery } from "@tanstack/react-query"
 
 const getBooking = async() =>{
-    const res = await Axios.get("/booking")
+    const res = await Axios.get("booking")
     return res.data.data;
 }
 

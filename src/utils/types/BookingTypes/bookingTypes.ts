@@ -1,7 +1,7 @@
 import type { ChangeEvent } from "react";
 
 export interface Book {
-    id:number,
+    _id:string,
     customerName:string,
     roomNo:number,
     checkIn:string,

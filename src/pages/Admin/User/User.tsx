@@ -13,9 +13,9 @@ import TableUserBody from "@/components/user/TableUserBody";
 import UserInput from "@/components/user/UserInput";
 
 const User = () => {
+  
   const { query, deleteMutation } = useUser();
   const { isSuccess, isError, data: user, isLoading } = query;
-
   const [filterUser, setFilterUser] = useState<Username[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemPerPage = 5;

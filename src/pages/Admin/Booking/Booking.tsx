@@ -16,10 +16,8 @@ import BookingInput from "@/components/Booking/BookingInput";
 const Booking = () => {
 
   const {query} = useBooking()
-
   const {data:booking,isLoading,isError,isSuccess} = query;
-
-  const [filterBooking, setFilterBooking] = useState<Book[]>(bookings);
+  const [filterBooking, setFilterBooking] = useState<Book[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemPerPage = 5;
   const pages: number[] = [];
@@ -87,7 +85,7 @@ const Booking = () => {
           <TableHeaders />
           <TableBody>
             {currentBooking.map((booking: Book) => {
-              return <TableBooking booking={booking} />;
+              return <TableBooking booking={booking} key={booking._id}/>;
             })}
           </TableBody>
         </Table>
