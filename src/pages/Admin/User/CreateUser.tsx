@@ -18,7 +18,7 @@ import { z } from "zod"
 
 const CreateUser = () => {
 
-  const [image,setImage] = useState("")
+  const [image,setImage] = useState(null)
   const [loading,setLoading] = useState(false)
   const navigate = useNavigate();
 
@@ -70,12 +70,13 @@ const CreateUser = () => {
         password: "",
         phoneNumber: ""
     })
-    setImage("")
+    setImage(null)
     navigate("/users")
   }
 
   const onSubmit =async(values:z.infer<typeof createUserFormSchema>) => {
-    const data = {...values,imgUrl:image}
+    const finalImage = image || ""
+    const data = {...values,imgUrl:finalImage}
     try {
       const res = await mutation.mutateAsync(data)
       if(res.status === 201){
@@ -85,7 +86,7 @@ const CreateUser = () => {
           password: "",
           phoneNumber: ""
         })
-        setImage("")
+        setImage(null)
         alert("User Create Successfully")
         navigate("/users")
       }
@@ -162,7 +163,11 @@ const CreateUser = () => {
                 }
               </div>
               <div className="w-[180px] h-[180px] shadow-lg rounded-md mx-auto mt-4">
-                <img src={images} className="w-full h-full rounded-md"/>
+                {
+                  images && (
+                    <img src={images} className="w-full h-full rounded-md"/>
+                  )
+                }
               </div>
               <div className="absolute bottom-0 right-[40%] flex gap-10">
                 <Button variant='outline' className="bg-red-600 text-white w-[150px] py-5 cursor-pointer hover:bg-red-500 hover:text-white" onClick={cancelClick} disabled={mutation.isPending && mutation.isError}>Cancel</Button>

@@ -26,7 +26,7 @@ const UpdateUser = () => {
   const {updateMutation,getIdquery} = useMutate({id})
   const [loading,setLoading] = useState(false)
 
-  const {data} = getIdquery
+  const {data} = getIdquery;
   
 
   const form = useForm<z.infer<typeof updateUserSchema>>({
@@ -35,6 +35,9 @@ const UpdateUser = () => {
   });
   
     const {control,reset,handleSubmit} = form;
+    
+    const [image,setImage] = useState(null)
+    const navigate = useNavigate()
 
       useEffect(()=>{
         if(data){
@@ -46,15 +49,11 @@ const UpdateUser = () => {
             coupon:data?.coupon,
             points:data?.points
           })
+          setImage(data?.imgUrl)
         }
       },[data,reset])
 
   
-
-    const [image,setImage] = useState("")
-    const navigate = useNavigate()
-  
-    const images = data?.imgUrl ? data?.imgUrl:""
   
   
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -85,6 +84,7 @@ const UpdateUser = () => {
       try {
         await updateMutation.mutateAsync(dataToSubmit);
         reset();
+        setImage(null)
         navigate("/users");
       } catch (err) {
         console.error("Update failed", err);
@@ -182,7 +182,11 @@ const UpdateUser = () => {
                 }
             </div>
             <div className="w-[180px] h-[180px] shadow-lg rounded-md mx-auto mt-4">
-              <img src={images} alt="profile_img" className="w-full h-full rounded-md"/>
+              {
+                image && (
+                    <img src={image} alt="profile_img" className="w-full h-full rounded-md"/>
+                )
+              }
             </div>
             <div className="absolute bottom-0 right-[40%] flex gap-10">
               <Button variant='outline' className="bg-red-600 text-white w-[150px] py-5 cursor-pointer hover:bg-red-500 hover:text-white" onClick={cancelClick}>Cancel</Button>

@@ -97,7 +97,7 @@ const User = () => {
           <TableBody>
             {currentUser?.map((user: Username) => {
               return (
-                <TableUserBody user={user} deleteUser={deleteUser} updateUser={updateUser}/>
+                <TableUserBody user={user} deleteUser={deleteUser} updateUser={updateUser} key={user._id}/>
               );
             })}
           </TableBody>
