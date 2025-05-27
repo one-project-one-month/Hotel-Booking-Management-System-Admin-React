@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
 import Axios from "@/config/ApiConfig";
 import { Eye, EyeClosed } from "lucide-react"
-import { useState } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -20,18 +20,13 @@ const Login = () => {
   const [emailError,setEmailError] = useState(false);
   const [passwordError,setPasswordError] = useState(false)
 
-
-
-
-
   const passwordHandle = () =>{
     setActive(!active)
     setEmailError(false)
     setPasswordError(false)
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleEmailChange = (event:any) => {
+  const handleEmailChange = (event:ChangeEvent<HTMLInputElement>) => {
       const value = event.target.value;
       if(value !== ''){
         setEmailError(false)
@@ -41,8 +36,7 @@ const Login = () => {
       }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handlePasswordChange = (event:any) => {
+  const handlePasswordChange = (event:ChangeEvent<HTMLInputElement>) => {
     const values = event.target.value;
     if(values !== ''){
         setPasswordError(false)
@@ -53,13 +47,8 @@ const Login = () => {
   }
 
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const login = async(e:any) => {
-
+  const login = async(e:FormEvent<HTMLFormElement>) => {
          e.preventDefault();
-
-         console.log(users)
-       
         if(users.email === ''){
           setEmailError(true)
         }
@@ -72,11 +61,12 @@ const Login = () => {
           await Axios.post("users/login",users).then((res)=>{
             if(res.data.status === 200){
               localStorage.setItem("token",res.data.token)
+              toast("Login Successfully",{position:"top-center",style:{backgroundColor:"#228B22",color:"white",border:'none',height:'60px',display:'flex',justifyContent:'center',alignItems:'center',fontSize:"16px"}})
+              navigate("/dashboard")
             }
+          }).catch((error)=>{
+            toast(`${error.response.data.message}`,{position:"top-center",style:{backgroundColor:"red",color:"white",border:'none',height:'60px',display:'flex',justifyContent:'center',alignItems:'center',fontSize:"16px"}})
           })
-
-          toast("Login Successfully",{position:"top-center",style:{backgroundColor:"#228B22",color:"white",border:'none',height:'60px',display:'flex',justifyContent:'center',alignItems:'center',fontSize:"16px"}})
-          navigate("/dashboard")
         }
   }
 

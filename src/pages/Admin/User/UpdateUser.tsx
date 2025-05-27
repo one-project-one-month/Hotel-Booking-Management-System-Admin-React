@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import {useNavigate, useParams} from 'react-router-dom'
-import { z } from "zod"
+import {  z } from "zod"
 
 
   const updateUserSchema = z.object({
@@ -22,6 +22,7 @@ import { z } from "zod"
 const UpdateUser = () => {
 
   const {id} = useParams();
+
 
   const {updateMutation,getIdquery} = useMutate({id})
   const [loading,setLoading] = useState(false)

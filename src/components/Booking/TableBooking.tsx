@@ -16,21 +16,21 @@ const TableBooking = ({booking}:bookingProps) => {
     const CheckInClick = () =>{
         localStorage.removeItem("CheckId")
         localStorage.removeItem("updateBooking")
-        navigate(`/booking/${booking.id}`)
+        navigate(`/booking/${booking._id}`)
     }
 
     const CheckOutClick = () => {
         localStorage.removeItem("CheckId")
         localStorage.removeItem("updateBooking")
-        navigate(`/booking/${booking.id}`)
+        navigate(`/booking/${booking._id}`)
     }
 
     const maintanceClick = () => {
-        console.log(booking.id)
+        console.log(booking._id)
     }
 
   return (
-    <TableRow key={booking.id}>
+    <TableRow key={booking._id}>
       <TableCell>{booking.customerName}</TableCell>
       <TableCell className="text-center">{booking.roomNo}</TableCell>
       <TableCell>{moment(booking.checkIn).format('MMMM Do YYYY, h:mm:ss A')}</TableCell>
