@@ -18,12 +18,12 @@ const TableUserBody = ({ user, updateUser, deleteUser }: userBodyProps) => {
           />
         </div>
       </TableCell>
-      <TableCell className="capitalize">{user.name}</TableCell>
-      <TableCell>{user.email}</TableCell>
+      <TableCell className="capitalize text-center">{user.name}</TableCell>
+      <TableCell className="text-center">{user.email}</TableCell>
       <TableCell className="text-center">
         {user.phoneNumber ? `0${user.phoneNumber}` : "-"}
       </TableCell>
-      <TableCell>{user.role}</TableCell>
+      <TableCell className="text-center">{user.role}</TableCell>
       <TableCell className="text-center">{user.points}</TableCell>
       <TableCell className="text-center">{user.coupon}</TableCell>
       <TableCell>

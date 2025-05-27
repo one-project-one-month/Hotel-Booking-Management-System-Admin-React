@@ -1,20 +1,21 @@
 import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 const TableUserHeader = () => {
+
+
+  const tables = ["Profile","Name","Email","Phone Number","Role","Points","Coupon","CreatedAt","Action"]
+
+  
   return (
     <TableHeader>
       <TableRow>
-        <TableHead className="w-[100px] text-center text-md">Profile</TableHead>
-        <TableHead className="w-[100px] text-md">Name</TableHead>
-        <TableHead className="w-[100px] text-md">Email</TableHead>
-        <TableHead className="w-[100px] text-md text-center">
-          Ph Number
-        </TableHead>
-        <TableHead className="w-[100px] text-md">Role</TableHead>
-        <TableHead className="w-[100px] text-md text-center">Points</TableHead>
-        <TableHead className="w-[100px] text-md text-center">Coupon</TableHead>
-        <TableHead className="w-[100px] text-md">CreatedAt</TableHead>
-        <TableHead className="w-[100px] text-md">Action</TableHead>
+        {
+          tables.map((table)=>{
+            return (
+              <TableHead className="w-[100px] text-md text-center" key={table}>{table}</TableHead>
+            )
+          })
+        }
       </TableRow>
     </TableHeader>
   );
