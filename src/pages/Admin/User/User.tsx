@@ -40,9 +40,22 @@ const User = () => {
     pages.push(i);
   }
 
+  function compare( a:Username, b:Username ) {
+  if ( a.createdAt < b.createdAt ){
+    return 1;
+  }
+  if ( a.createdAt > b.createdAt){
+    return -1;
+  }
+  return 0;
+}
+
+const mainData = filterUser.sort( compare );
+
   const startIndex = (currentPage - 1) * itemPerPage;
   const endIndex = startIndex + itemPerPage;
-  const currentUser = filterUser.slice(startIndex, endIndex);
+  const currentUser = mainData.slice(startIndex, endIndex);
+
 
   const pageClick = (text: number) => {
     setCurrentPage(Number(text));

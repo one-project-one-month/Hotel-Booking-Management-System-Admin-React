@@ -46,9 +46,21 @@ const Booking = () => {
     pages.push(i);
   }
 
+  function compare( a:Book, b:Book ) {
+  if ( a.createdAt < b.createdAt ){
+    return 1;
+  }
+  if ( a.createdAt > b.createdAt){
+    return -1;
+  }
+  return 0;
+}
+
+const mainData = filterBooking.sort( compare );
+
   const startIndex = (currentPage - 1) * itemPerPage;
   const endIndex = startIndex + itemPerPage;
-  const currentBooking = filterBooking.slice(startIndex, endIndex);
+  const currentBooking = mainData.slice(startIndex, endIndex);
 
   const pageClick = (text: number) => {
     setCurrentPage(Number(text));

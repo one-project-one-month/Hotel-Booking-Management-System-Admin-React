@@ -12,7 +12,7 @@ const TableUserHeader = () => {
         {
           tables.map((table)=>{
             return (
-              <TableHead className="w-[100px] text-md text-center" key={table}>{table}</TableHead>
+              <TableHead className="w-[150px] text-md text-center" key={table}>{table}</TableHead>
             )
           })
         }

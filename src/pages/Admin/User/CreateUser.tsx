@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
+import { toast } from "sonner"
 import { z } from "zod"
 
   const createUserFormSchema = z.object({
@@ -87,13 +88,13 @@ const CreateUser = () => {
           phoneNumber: ""
         })
         setImage(null)
-        alert(`${res.message}`)
+        toast(`${res.message}`,{position:"top-center",style:{backgroundColor:"#228B22",color:"white",border:'none',height:'60px',display:'flex',justifyContent:'center',alignItems:'center',fontSize:"16px"}})
         navigate("/users")
       }
     
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error:any) {
-      alert(error?.response?.data.message)
+      toast(`${error.response.data.message}`,{position:"top-center",style:{backgroundColor:"red",color:"white",border:'none',height:'60px',display:'flex',justifyContent:'center',alignItems:'center',fontSize:"16px"}})
       reset({
           name: "",
           email: "",

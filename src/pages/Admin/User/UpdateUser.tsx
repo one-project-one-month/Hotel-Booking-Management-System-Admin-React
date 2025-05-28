@@ -4,9 +4,10 @@ import { Form } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useMutate } from "@/hooks/useUser"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useEffect, useState } from "react"
+import { useEffect, useState, } from "react"
 import { useForm } from "react-hook-form"
 import {useNavigate, useParams} from 'react-router-dom'
+import { toast } from "sonner"
 import {  z } from "zod"
 
 
@@ -85,12 +86,14 @@ const UpdateUser = () => {
       const finalImage = image || data?.imageUrl;
       const dataToSubmit = { ...values, imageUrl: finalImage };
       try {
-        await updateMutation.mutateAsync(dataToSubmit);
+        const res = await updateMutation.mutateAsync(dataToSubmit);
         reset();
         setImage(null)
+        toast(`${res.message}`,{position:"top-center",style:{backgroundColor:"#228B22",color:"white",border:'none',height:'60px',display:'flex',justifyContent:'center',alignItems:'center',fontSize:"16px"}})
         navigate("/users");
-      } catch (err) {
-        console.error("Update failed", err);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err:any) {
+         toast(`${err?.response?.data?.message}`,{position:"top-center",style:{backgroundColor:"red",color:"white",border:'none',height:'60px',display:'flex',justifyContent:'center',alignItems:'center',fontSize:"16px"}})
       }
     };
 
