@@ -45,7 +45,7 @@ export default function SelectUserFormField({
         name={name}
         render={({ field }) => (
           <FormItem className="flex flex-col">
-            <Popover>
+            <Popover modal={true}>
               <PopoverTrigger asChild>
                 <FormControl>
                   <Button
