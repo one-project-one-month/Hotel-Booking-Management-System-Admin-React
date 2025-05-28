@@ -2,15 +2,81 @@ import RoomFiltersAndCreateNewButton from "@/components/Room/RoomFiltersAndCreat
 import { RoomCard } from "@/components/Room/RoomCard/RoomCard.tsx";
 
 import type { Room as TypeOfRoom } from "@/utils/types/roomTypes/roomTypes.ts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { dummyRooms } from "@/utils/dummy/room/roomDummy.ts";
-import { House, Star } from "lucide-react";
+import AllOtherRooms from "@/components/Room/AllOtherRooms/AllOtherRooms.tsx";
+import FeaturedRooms from "@/components/Room/FeaturedRooms/FeaturedRooms.tsx";
+import {
+  closestCenter,
+  DndContext,
+  type DragEndEvent,
+  DragOverlay,
+  type DragStartEvent,
+} from "@dnd-kit/core";
 
 const Room = () => {
   const [rooms, setRooms] = useState<TypeOfRoom[]>(dummyRooms);
   const [roomsToBeShown, setRoomsToBeShown] = useState<TypeOfRoom[]>(rooms);
+  const [draggingRoom, setDraggingRoom] = useState<TypeOfRoom | null>(null);
 
+  const [featuredRooms, setFeaturedRooms] = useState<TypeOfRoom[]>([]);
+  const [allOtherRooms, setAllOtherRooms] = useState<TypeOfRoom[]>([]);
+
+  const handleDragStart = (e: DragStartEvent) => {
+    const id = e.active.id;
+    const room = rooms.find((room) => room.id === Number(id));
+    if (!room) return;
+    setDraggingRoom(room);
+  };
+
+  const handleDragEnd = (e: DragEndEvent) => {
+    const roomId = e.active.id;
+    const draggedRoom = rooms.find((room) => room.id === Number(roomId));
+
+    if (!draggedRoom || !e.over) return;
+
+    const droppedArea = e.over.id;
+    if (droppedArea === "FeaturedRoomsColumn" && !draggedRoom.is_featured) {
+      const newRooms = rooms.map((room) =>
+        room.id === draggedRoom.id ? { ...room, is_featured: true } : room,
+      );
+      setRooms(newRooms);
+
+      const newFeaturedRooms = [...featuredRooms, draggedRoom];
+      setFeaturedRooms(newFeaturedRooms);
+
+      const newOtherRooms = allOtherRooms.filter(
+        (room) => room.id !== draggedRoom.id,
+      );
+      setAllOtherRooms(newOtherRooms);
+    } else if (
+      droppedArea === "AllOtherRoomsColumn" &&
+      draggedRoom.is_featured
+    ) {
+      const newRooms = rooms.map((room) =>
+        room.id === draggedRoom.id ? { ...room, is_featured: false } : room,
+      );
+      setRooms(newRooms);
+
+      const newFeaturedRooms = featuredRooms.filter(
+        (room) => room.id !== draggedRoom.id,
+      );
+      setFeaturedRooms(newFeaturedRooms);
+
+      const newAllOtherRooms = [...allOtherRooms, draggedRoom];
+      setAllOtherRooms(newAllOtherRooms);
+    }
+    setDraggingRoom(null);
+  };
+
+  useEffect(() => {
+    const featuredRooms = roomsToBeShown.filter((room) => room.is_featured);
+    setFeaturedRooms(featuredRooms);
+
+    const allOtherRooms = roomsToBeShown.filter((room) => !room.is_featured);
+    setAllOtherRooms(allOtherRooms);
+  }, [roomsToBeShown]);
   return (
     <div className="h-[calc(100vh-500px)]">
       <div className="rounded-md shadow-lg  p-[1rem] ">
@@ -24,69 +90,28 @@ const Room = () => {
       </div>
 
       <div className=" grid grid-cols-2 gap-5  rounded-md  mt-2 ">
-        <div className="border-r p-4 overflow-auto">
-          <div className="flex items-center gap-3 mb-5 shadow-lg px-[1rem] pb-[1rem] rounded-md ">
-            <div className="p-2 rounded-lg bg-yellow-50 border border-yellow-100">
-              <Star className="w-5 h-5 text-yellow-500 fill-yellow-400" />
-            </div>
-            <div>
-              <h1 className="text-xl font-semibold text-gray-800">
-                Featured Rooms
-              </h1>
-              <p className="text-sm text-gray-500">
-                Premium selections with special amenities
-              </p>
-            </div>
-          </div>
-          <div className="h-[calc(100vh-270px)] overflow-auto overflow-x-hidden px-1">
-            {roomsToBeShown.length ? (
-              roomsToBeShown.map((room) => (
-                <RoomCard
-                  room={room}
-                  key={room.id}
-                  rooms={rooms}
-                  setRooms={setRooms}
-                />
-              ))
-            ) : (
-              <div className="flex w-full h-[250px] justify-center items-center ">
-                <h1 className="font-bold">No rooms found</h1>
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="p-4 overflow-auto">
-          <div className="flex items-center gap-3 mb-5 shadow-lg px-[1rem] pb-[1rem] rounded-md ">
-            <div className="p-2 rounded-lg bg-blue-50 border border-blue-100">
-              <House className="w-5 h-5 text-blue-500" />
-            </div>
-            <div>
-              <h1 className="text-xl font-semibold text-gray-800">
-                Standard Rooms
-              </h1>
-              <p className="text-sm text-gray-500">
-                Comfortable accommodations for every need
-              </p>
-            </div>
-          </div>
+        <DndContext
+          collisionDetection={closestCenter}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+        >
+          <FeaturedRooms
+            rooms={rooms}
+            setRooms={setRooms}
+            featuredRooms={featuredRooms}
+          />
+          <AllOtherRooms
+            rooms={rooms}
+            setRooms={setRooms}
+            allOtherRooms={allOtherRooms}
+          />
 
-          <div className="h-[calc(100vh-270px)] overflow-auto overflow-x-hidden px-1">
-            {roomsToBeShown.length ? (
-              roomsToBeShown.map((room) => (
-                <RoomCard
-                  room={room}
-                  key={room.id}
-                  rooms={rooms}
-                  setRooms={setRooms}
-                />
-              ))
-            ) : (
-              <div className="flex w-full h-[250px] justify-center items-center ">
-                <h1 className="font-bold">No rooms found</h1>
-              </div>
+          <DragOverlay>
+            {draggingRoom && (
+              <RoomCard room={draggingRoom} rooms={[]} setRooms={() => {}} />
             )}
-          </div>
-        </div>
+          </DragOverlay>
+        </DndContext>
       </div>
     </div>
   );

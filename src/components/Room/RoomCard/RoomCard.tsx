@@ -13,6 +13,8 @@ import {
   badgeTextColors,
   roomStatusToSelect,
 } from "@/utils/dummy/room/roomDummy.ts";
+import { useDraggable } from "@dnd-kit/core";
+import { cn } from "@/lib/utils.ts";
 
 interface Props {
   room: Room;
@@ -23,6 +25,10 @@ export function RoomCard({ room, rooms, setRooms }: Props) {
   const navigate = useNavigate();
   const [openConfirmDeleteDialog, setOpenConfirmDeleteDialog] = useState(false);
   const [currentStatus, setCurrenStatus] = useState(room.status);
+
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+    id: room.id,
+  });
 
   const handleClickEdit = () => {
     navigate(`/rooms/update/${room.id}`);
@@ -43,7 +49,7 @@ export function RoomCard({ room, rooms, setRooms }: Props) {
   const renderOpenButton = (handleClickOpenButton: () => void) => (
     <Badge
       onClick={handleClickOpenButton}
-      className={`absolute top-3 right-3 z-10 cursor-pointer text-xs font-semibold px-3 py-1 rounded-full opacity-75 hover:opacity-100 transition-all duration-200  ${
+      className={`absolute top-9 right-9 z-10 cursor-pointer text-xs font-semibold px-3 py-1 rounded-full opacity-75 hover:opacity-100 transition-all duration-100  ${
         badgeBgColors[room.status]
       } ${badgeTextColors[room.status]}`}
     >
@@ -63,14 +69,23 @@ export function RoomCard({ room, rooms, setRooms }: Props) {
   return (
     <Card
       onDoubleClick={navigateDetailPage}
-      className=" mb-4 relative cursor-pointer shadow-md  transition-transform duration-200 hover:scale-[1.01] hover:shadow-xl overflow-hidden"
+      className={cn(
+        " mb-4 relative  shadow-md cursor-pointer  transition-transform duration-200 hover:scale-[1.01] hover:shadow-xl overflow-hidden",
+        isDragging ? "opacity-30 scale-95" : "opacity-100",
+      )}
     >
       <ActionDropdown
         handleClickEdit={handleClickEdit}
         handleClickDelete={handleClickDelete}
+        handleClickDetails={navigateDetailPage}
       />
-      <CardContent className="  grid grid-cols-[40%_60%] items-center  relative">
-        <div className="py-1 flex flex-col justify-between h-full">
+      <CardContent
+        ref={setNodeRef}
+        {...attributes}
+        {...listeners}
+        className="cursor-grab active:cursor-grabbing grid grid-cols-[40%_60%] items-center  relative"
+      >
+        <div className="py-1  flex flex-col justify-between h-full">
           <div>
             <h1 className="font-medium text-lg">Room No.{room.room_no}</h1>
             <h1 className="font-medium">({room.type})</h1>
@@ -91,14 +106,6 @@ export function RoomCard({ room, rooms, setRooms }: Props) {
             src={room.img_url}
             className="rounded-2xl object-cover max-h-[150px] w-full shadow-sm"
           />
-
-          <SelectorDropDown
-            renderOpenButton={renderOpenButton}
-            selected={currentStatus}
-            setSelected={setCurrenStatus as Dispatch<SetStateAction<string>>}
-            label={"Room Status"}
-            options={roomStatusToSelect}
-          />
         </div>
       </CardContent>
 
@@ -107,6 +114,14 @@ export function RoomCard({ room, rooms, setRooms }: Props) {
         setOpen={setOpenConfirmDeleteDialog}
         itemName={"room"}
         handleConfirmDelete={handleConfirmDelete}
+      />
+
+      <SelectorDropDown
+        renderOpenButton={renderOpenButton}
+        selected={currentStatus}
+        setSelected={setCurrenStatus as Dispatch<SetStateAction<string>>}
+        label={"Room Status"}
+        options={roomStatusToSelect}
       />
     </Card>
   );

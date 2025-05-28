@@ -46,7 +46,6 @@ export function SelectorDropDown({
               {option}
             </DropdownMenuRadioItem>
           ))}
-
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -17,7 +17,7 @@ export default function Coupon() {
   const pages: number[] = [];
 
   const prevClick = () => {
-    if (currentPage > pages.length) {
+    if (currentPage > 0) {
       setCurrentPage((prev) => prev - 1);
     } else {
       setCurrentPage(1);
@@ -48,7 +48,7 @@ export default function Coupon() {
     const filteredCoupons = coupons.filter(
       (coupon) =>
         coupon.code.toLowerCase().includes(searchedValue) ||
-        coupon.discount_pct.toString().toLowerCase().includes(searchedValue)
+        coupon.discount_pct.toString().toLowerCase().includes(searchedValue),
     );
     setCouponsToBeShown(filteredCoupons);
   };
@@ -89,7 +89,13 @@ export default function Coupon() {
         </Table>
       </div>
       <div className="w-full mt-[10px] h-[60px] flex rounded-md shadow-lg">
-            <PaginationTable prevClick={prevClick} pages={pages} currentPage={currentPage} nextClick={nextClick} pageClick={pageClick}/>
+        <PaginationTable
+          prevClick={prevClick}
+          pages={pages}
+          currentPage={currentPage}
+          nextClick={nextClick}
+          pageClick={pageClick}
+        />
       </div>
     </div>
   );
