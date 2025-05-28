@@ -15,6 +15,7 @@ import {  z } from "zod"
     email:z.string().min(1,{message:"Email is required."}),
     phoneNumber:z.string().min(1,{message:"Phone Number is required"}),
     role:z.string(),
+    amount:z.number(),
     coupon:z.number(),
     points:z.number()
   })
@@ -47,10 +48,11 @@ const UpdateUser = () => {
             email:data?.email,
             phoneNumber: data?.phoneNumber ,
             role:data?.role,
-            coupon:data?.coupon,
-            points:data?.points
+            coupon:data?.coupon || 0,
+            points:data?.points,
+            amount:data?.amount
           })
-          setImage(data?.imgUrl)
+          setImage(data?.imageUrl)
         }
       },[data,reset])
 
@@ -80,8 +82,8 @@ const UpdateUser = () => {
     }
 
      const onSubmit = async (values: z.infer<typeof updateUserSchema>) => {
-      const finalImage = image || data?.imgUrl;
-      const dataToSubmit = { ...values, imgUrl: finalImage };
+      const finalImage = image || data?.imageUrl;
+      const dataToSubmit = { ...values, imageUrl: finalImage };
       try {
         await updateMutation.mutateAsync(dataToSubmit);
         reset();
@@ -126,18 +128,9 @@ const UpdateUser = () => {
                 name={"phoneNumber"}
                 placeholder={"Enter Phone Number"}
                 label={"Phone Number"}
-                type={"number"}
-              />
-            </div>
-            {/* <div>
-              <InputFormField
-                control={control}
-                name={"password"}
-                placeholder={"Enter Password"}
-                label={"Password"}
                 type={"text"}
               />
-            </div> */}
+            </div>
             <div>
               <InputFormField
                 control={control}
@@ -153,7 +146,17 @@ const UpdateUser = () => {
                 control={control}
                 name={"coupon"}
                 placeholder={"Enter Coupon"}
-                label={"coupon"}
+                label={"Coupon"}
+                type={"number"}
+                disabled={true}
+              />
+            </div>
+            <div>
+              <InputFormField
+                control={control}
+                name={"amount"}
+                placeholder={"Enter Amount"}
+                label={"Amount"}
                 type={"number"}
                 disabled={true}
               />
@@ -168,7 +171,7 @@ const UpdateUser = () => {
                 disabled={true}
               />
             </div>
-            <div>
+            <div className="mt-5.5">
               {
                   loading ? (
                      <div className="h-[35px] border-1 rounded-md px-2 py-1 text-center cursor-pointer">

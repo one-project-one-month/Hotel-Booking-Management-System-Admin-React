@@ -76,10 +76,10 @@ const CreateUser = () => {
 
   const onSubmit =async(values:z.infer<typeof createUserFormSchema>) => {
     const finalImage = image || ""
-    const data = {...values,imgUrl:finalImage}
+    const data = {...values,imageUrl:finalImage,phoneNumber:`+95${values.phoneNumber}`,role:"user"}
     try {
       const res = await mutation.mutateAsync(data)
-      if(res.status === 201){
+      if(res.message === "Create User Success!"){
         reset({
           name: "",
           email: "",
@@ -87,7 +87,7 @@ const CreateUser = () => {
           phoneNumber: ""
         })
         setImage(null)
-        alert("User Create Successfully")
+        alert(`${res.message}`)
         navigate("/users")
       }
     

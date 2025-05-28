@@ -1,9 +1,13 @@
 import type { ChangeEvent } from "react";
 
 export interface Book {
-    _id:string,
-    customerName:string,
-    roomNo:number,
+    id:string,
+    user:{
+        name:string
+    }
+    room:{
+        roomNo:number
+    },
     checkIn:string,
     checkOut:string,
     guestCount:number,
@@ -48,4 +52,14 @@ export interface bookingProps{
 
 export interface checkProps {
     check:CheckType
+}
+
+export interface bookingFilter {
+    user:{
+        name:string
+    }
+    room:{
+        roomNo:number
+    },
+    depositAmount:number,
 }

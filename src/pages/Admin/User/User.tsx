@@ -14,8 +14,8 @@ import UserInput from "@/components/user/UserInput";
 
 const User = () => {
   
-  const { query, deleteMutation } = useUser();
-  const { isSuccess, isError, data: user, isLoading } = query;
+  const { userQuery, deleteMutation } = useUser();
+  const { isSuccess, isError, data: user, isLoading } = userQuery;
   const [filterUser, setFilterUser] = useState<Username[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemPerPage = 5;
@@ -91,13 +91,13 @@ const User = () => {
   return (
     <div>
       <UserInput userChange={userChange} createUser={createUser}/>
-      <div className="h-[calc(100vh-200px)] overflow-auto rounded-md shadow-lg mt-[10px] px-[10px]">
+      <div className="h-[calc(100vh-200px)] w-[81vw] overflow-auto rounded-md shadow-lg mt-[10px] px-[10px]">
         <Table>
           <TableUserHeader />
           <TableBody>
             {currentUser?.map((user: Username) => {
               return (
-                <TableUserBody user={user} deleteUser={deleteUser} updateUser={updateUser} key={user._id}/>
+                <TableUserBody user={user} deleteUser={deleteUser} updateUser={updateUser} key={user.id}/>
               );
             })}
           </TableBody>

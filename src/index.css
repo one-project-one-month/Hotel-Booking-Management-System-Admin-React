@@ -119,3 +119,7 @@
   }
 }
 
+
+.whitespace-nowrap{
+  white-space: wrap !important;
+}

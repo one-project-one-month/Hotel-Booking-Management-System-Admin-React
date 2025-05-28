@@ -3,9 +3,7 @@ import {
   TableBody,
 } from "@/components/ui/table";
 
-import { bookings } from "@/utils/dummy/dummy.ts";
-
-import type { Book } from "@/utils/types/BookingTypes/bookingTypes";
+import type { Book, bookingFilter } from "@/utils/types/BookingTypes/bookingTypes";
 import TableBooking from "@/components/Booking/TableBooking";
 import { useEffect, useState, type ChangeEvent } from "react";
 import useBooking from "@/hooks/useBooking";
@@ -15,8 +13,8 @@ import BookingInput from "@/components/Booking/BookingInput";
 
 const Booking = () => {
 
-  const {query} = useBooking()
-  const {data:booking,isLoading,isError,isSuccess} = query;
+  const {bookingQuery} = useBooking()
+  const {data:booking,isLoading,isError,isSuccess} = bookingQuery;
   const [filterBooking, setFilterBooking] = useState<Book[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemPerPage = 5;
@@ -57,13 +55,13 @@ const Booking = () => {
   };
 
   const bookingChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const filter = bookings.filter((booking) => {
+    const filter = booking.filter((book:bookingFilter) => {
       return (
-        booking.customerName
+        book.user.name
           .toLowerCase()
           .includes(event.target.value.toLowerCase()) ||
-        booking.depositAmount.toString().includes(event.target.value.toString()) ||
-        booking.roomNo.toString().includes(event.target.value.toString())
+        book.depositAmount.toString().includes(event.target.value.toString()) ||
+        book.room.roomNo.toString().includes(event.target.value.toString())
       );
     });
     setFilterBooking(filter);
@@ -80,12 +78,12 @@ const Booking = () => {
   return (
     <div>
       <BookingInput bookingChange={bookingChange}/>
-      <div className="h-[calc(100vh-200px)] w-full overflow-auto rounded-md shadow-lg mt-[10px] px-[10px]">
+      <div className="h-[calc(100vh-200px)] w-[81vw] overflow-auto rounded-md shadow-lg mt-[10px] px-[20px]">
         <Table>
           <TableHeaders />
           <TableBody>
             {currentBooking.map((booking: Book) => {
-              return <TableBooking booking={booking} key={booking._id}/>;
+              return <TableBooking booking={booking} key={booking.id}/>;
             })}
           </TableBody>
         </Table>
