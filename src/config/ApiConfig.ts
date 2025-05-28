@@ -5,7 +5,7 @@ import axios from 'axios'
 const Axios = axios.create()
 
 
-Axios.defaults.baseURL = "https://hotel-booking-backend-express.onrender.com/api/v1/"
+Axios.defaults.baseURL = "https://hbms-gz44.onrender.com/api/v1/"
 
 Axios.interceptors.request.use((config)=>{
     const token = localStorage.getItem("token")

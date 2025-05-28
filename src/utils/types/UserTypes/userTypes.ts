@@ -1,15 +1,16 @@
 import type { ChangeEvent } from "react";
 
 export interface Username  {
-    _id:string,
+    id:string,
     name:string,
     email:string,
     phoneNumber:string,
     points:number,
     coupon:number,
+    amount:number,
     role:string,
     createdAt:string;
-    imgUrl:string;
+    imageUrl:string;
 }
 
 export interface menuItems {

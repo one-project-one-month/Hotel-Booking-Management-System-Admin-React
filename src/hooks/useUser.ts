@@ -33,7 +33,7 @@ export const useUser = () => {
 
     const queryClient = useQueryClient()
 
-    const query = useQuery({
+    const userQuery = useQuery({
         queryKey:["users"],
         queryFn:getUsers,
     })
@@ -56,7 +56,7 @@ export const useUser = () => {
 
     
 
-    return {query,mutation,deleteMutation};
+    return {userQuery,mutation,deleteMutation};
 }
 
 export const useMutate = ({id}:IdPrpos) =>{

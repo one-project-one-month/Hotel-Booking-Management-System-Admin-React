@@ -14,8 +14,8 @@ import UserInput from "@/components/user/UserInput";
 
 const User = () => {
   
-  const { query, deleteMutation } = useUser();
-  const { isSuccess, isError, data: user, isLoading } = query;
+  const { userQuery, deleteMutation } = useUser();
+  const { isSuccess, isError, data: user, isLoading } = userQuery;
   const [filterUser, setFilterUser] = useState<Username[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemPerPage = 5;
@@ -40,9 +40,22 @@ const User = () => {
     pages.push(i);
   }
 
+  function compare( a:Username, b:Username ) {
+  if ( a.createdAt < b.createdAt ){
+    return 1;
+  }
+  if ( a.createdAt > b.createdAt){
+    return -1;
+  }
+  return 0;
+}
+
+const mainData = filterUser.sort( compare );
+
   const startIndex = (currentPage - 1) * itemPerPage;
   const endIndex = startIndex + itemPerPage;
-  const currentUser = filterUser.slice(startIndex, endIndex);
+  const currentUser = mainData.slice(startIndex, endIndex);
+
 
   const pageClick = (text: number) => {
     setCurrentPage(Number(text));
@@ -91,13 +104,13 @@ const User = () => {
   return (
     <div>
       <UserInput userChange={userChange} createUser={createUser}/>
-      <div className="h-[calc(100vh-200px)] overflow-auto rounded-md shadow-lg mt-[10px] px-[10px]">
+      <div className="h-[calc(100vh-200px)] w-[81vw] overflow-auto rounded-md shadow-lg mt-[10px] px-[10px]">
         <Table>
           <TableUserHeader />
           <TableBody>
             {currentUser?.map((user: Username) => {
               return (
-                <TableUserBody user={user} deleteUser={deleteUser} updateUser={updateUser} key={user._id}/>
+                <TableUserBody user={user} deleteUser={deleteUser} updateUser={updateUser} key={user.id}/>
               );
             })}
           </TableBody>

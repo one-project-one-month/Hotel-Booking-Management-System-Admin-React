@@ -2,7 +2,7 @@ import Axios from "@/config/ApiConfig"
 import { useQuery } from "@tanstack/react-query"
 
 const getBooking = async() =>{
-    const res = await Axios.get("booking")
+    const res = await Axios.get("bookings")
     return res.data.data;
 }
 
@@ -10,12 +10,12 @@ const getBooking = async() =>{
 const useBooking = () => {
     // const queryClient = useQueryClient()
 
-    const query = useQuery({
+    const bookingQuery = useQuery({
         queryKey:['booking'],
         queryFn:getBooking
     })
 
-    return {query}
+    return {bookingQuery}
 }
 
 export default useBooking;

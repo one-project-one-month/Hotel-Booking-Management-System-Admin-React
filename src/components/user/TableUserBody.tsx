@@ -8,24 +8,25 @@ import type { userBodyProps } from "@/utils/types/UserTypes/userTypes";
 
 const TableUserBody = ({ user, updateUser, deleteUser }: userBodyProps) => {
   return (
-    <TableRow key={user._id}>
+    <TableRow key={user.id}>
       <TableCell>
         <div className="w-[70px] h-[70px]  rounded-md shadow-lg mx-auto">
           <img
-            src={user.imgUrl}
+            src={user.imageUrl}
             alt="user.profile"
             className="w-full h-full rounded-md shadow-lg"
           />
         </div>
       </TableCell>
-      <TableCell className="capitalize">{user.name}</TableCell>
-      <TableCell>{user.email}</TableCell>
+      <TableCell className="capitalize text-center">{user.name}</TableCell>
+      <TableCell className="text-center">{user.email}</TableCell>
       <TableCell className="text-center">
-        {user.phoneNumber ? `0${user.phoneNumber}` : "-"}
+        {user.phoneNumber || "-"}
       </TableCell>
-      <TableCell>{user.role}</TableCell>
-      <TableCell className="text-center">{user.points}</TableCell>
-      <TableCell className="text-center">{user.coupon}</TableCell>
+      <TableCell className="text-center capitalize">{user.role}</TableCell>
+      <TableCell className="text-center">{user.points || "0"}</TableCell>
+      <TableCell className="text-center">{user.coupon || "0"}</TableCell>
+      <TableCell className="text-right">{user.amount || "0"}Ks</TableCell>
       <TableCell>
         {moment(user.createdAt).format("MMMM Do YYYY, h:mm:ss A")}
       </TableCell>
@@ -34,7 +35,7 @@ const TableUserBody = ({ user, updateUser, deleteUser }: userBodyProps) => {
           size="icon"
           variant="outline"
           className="cursor-pointer"
-          onClick={() => updateUser(user._id)}
+          onClick={() => updateUser(user.id)}
         >
           <Edit className="text-blue-500" />
         </Button>
@@ -42,7 +43,7 @@ const TableUserBody = ({ user, updateUser, deleteUser }: userBodyProps) => {
           size="icon"
           variant="outline"
           className="cursor-pointer"
-          onClick={() => deleteUser(user._id)}
+          onClick={() => deleteUser(user.id)}
         >
           <Trash className="text-red-500" />
         </Button>

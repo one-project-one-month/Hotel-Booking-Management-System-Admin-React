@@ -16,25 +16,25 @@ const TableBooking = ({booking}:bookingProps) => {
     const CheckInClick = () =>{
         localStorage.removeItem("CheckId")
         localStorage.removeItem("updateBooking")
-        navigate(`/booking/${booking._id}`)
+        navigate(`/booking/${booking.id}`)
     }
 
     const CheckOutClick = () => {
         localStorage.removeItem("CheckId")
         localStorage.removeItem("updateBooking")
-        navigate(`/booking/${booking._id}`)
+        navigate(`/booking/${booking.id}`)
     }
 
     const maintanceClick = () => {
-        console.log(booking._id)
+        console.log(booking.id)
     }
 
   return (
-    <TableRow key={booking._id}>
-      <TableCell>{booking.customerName}</TableCell>
-      <TableCell className="text-center">{booking.roomNo}</TableCell>
-      <TableCell>{moment(booking.checkIn).format('MMMM Do YYYY, h:mm:ss A')}</TableCell>
-      <TableCell>{moment(booking.checkOut).format('MMMM Do YYYY, h:mm:ss A')}</TableCell>
+    <TableRow key={booking.id}>
+      <TableCell>{booking.user.name}</TableCell>
+      <TableCell className="text-center">{booking.room.roomNo}</TableCell>
+      <TableCell className="text-center">{moment(booking.checkIn).format('MMMM Do YYYY, h:mm:ss A')}</TableCell>
+      <TableCell className="text-center">{moment(booking.checkOut).format('MMMM Do YYYY, h:mm:ss A')}</TableCell>
       <TableCell className="text-center">{booking.guestCount}</TableCell>
       <TableCell className="text-right">{booking.depositAmount}Ks</TableCell>
       <TableCell className="text-right">{booking.totalAmount}Ks</TableCell>
@@ -50,7 +50,7 @@ const TableBooking = ({booking}:bookingProps) => {
         {booking.status}
       </TableCell>
       <TableCell>{moment(booking.createdAt).format('MMMM Do YYYY, h:mm:ss A')}</TableCell>
-      <TableCell className="flex justify-center py-4 items-center">
+      <TableCell className="flex justify-center items-center mt-6">
             <DropDown CheckIn={CheckInClick} CheckOut={CheckOutClick} Maintance={maintanceClick} status={booking.status}/>
       </TableCell>
     </TableRow>

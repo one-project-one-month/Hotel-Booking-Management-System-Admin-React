@@ -1,4 +1,4 @@
-import { useEffect, useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { DatePicker } from "../shared/DatePicker/DatePicker"
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
@@ -15,8 +15,7 @@ const ModalBooking = () => {
 
 
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleSubmit = (event:any) => {
+    const handleSubmit = (event:FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log(update)
         localStorage.removeItem("updateBooking")

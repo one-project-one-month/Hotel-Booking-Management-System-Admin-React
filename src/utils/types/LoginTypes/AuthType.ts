@@ -2,14 +2,14 @@ export interface LoginUser {
     email:string;
     name:string;
     password:string;
-    imgUrl:string;
+    imageUrl:string;
     phoneNumber:string
 }
 
 export interface CreateUser{
     email:string
     name:string
-    imgUrl:string
+    imageUrl:string
     phoneNumber:string
     points:number
     coupon:number
