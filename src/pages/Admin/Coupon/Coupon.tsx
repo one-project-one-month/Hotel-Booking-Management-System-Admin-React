@@ -17,7 +17,7 @@ export default function Coupon() {
   const pages: number[] = [];
 
   const prevClick = () => {
-    if (currentPage > 0) {
+    if (currentPage > 1) {
       setCurrentPage((prev) => prev - 1);
     } else {
       setCurrentPage(1);
@@ -80,7 +80,7 @@ export default function Coupon() {
                 <CouponTableRow
                   key={coupon.id}
                   coupon={coupon}
-                  index={index}
+                  index={index + startIndex}
                   setCuponsToBeShown={setCouponsToBeShown}
                 />
               );
