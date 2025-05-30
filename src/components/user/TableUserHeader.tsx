@@ -3,7 +3,7 @@ import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
 const TableUserHeader = () => {
 
 
-  const tables = ["Profile","Name","Email","Phone Number","Role","Points","Coupon","Amount","CreatedAt","Action"]
+  const tables = ["Profile","Name","Email","Phone Number","Role","Points","Coupon","CreatedAt","Action"]
 
   
   return (
