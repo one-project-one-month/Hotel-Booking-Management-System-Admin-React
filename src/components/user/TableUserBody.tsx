@@ -26,7 +26,6 @@ const TableUserBody = ({ user, updateUser, deleteUser }: userBodyProps) => {
       <TableCell className="text-center capitalize">{user.role}</TableCell>
       <TableCell className="text-center">{user.points || "0"}</TableCell>
       <TableCell className="text-center">{user.coupon || "0"}</TableCell>
-      <TableCell className="text-right">{user.amount || "0"}Ks</TableCell>
       <TableCell>
         {moment(user.createdAt).format("MMMM Do YYYY, h:mm:ss A")}
       </TableCell>

@@ -16,7 +16,6 @@ import {  z } from "zod"
     email:z.string().min(1,{message:"Email is required."}),
     phoneNumber:z.string().min(1,{message:"Phone Number is required"}),
     role:z.string(),
-    amount:z.number(),
     coupon:z.number(),
     points:z.number()
   })
@@ -51,7 +50,6 @@ const UpdateUser = () => {
             role:data?.role,
             coupon:data?.coupon || 0,
             points:data?.points,
-            amount:data?.amount
           })
           setImage(data?.imageUrl)
         }
@@ -150,16 +148,6 @@ const UpdateUser = () => {
                 name={"coupon"}
                 placeholder={"Enter Coupon"}
                 label={"Coupon"}
-                type={"number"}
-                disabled={true}
-              />
-            </div>
-            <div>
-              <InputFormField
-                control={control}
-                name={"amount"}
-                placeholder={"Enter Amount"}
-                label={"Amount"}
                 type={"number"}
                 disabled={true}
               />
