@@ -8,17 +8,23 @@ import InputFormField from "@/components/shared/FormFields/inputFormField.tsx";
 import SelectFormField from "@/components/shared/FormFields/selectFormField.tsx";
 
 import CancelButton from "@/components/shared/CustomButtons/CancelButton/CancelButton.tsx";
-import { type ChangeEvent, useState } from "react";
+import { type ChangeEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { CircleX } from "lucide-react";
 import SubmitButton from "@/components/shared/CustomButtons/SubmitButton/SubmitButton.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import TextAreaFormField from "@/components/shared/FormFields/textareaFormField.tsx";
-import { dummyRooms, roomTypesToSelect } from "@/utils/dummy/room/roomDummy.ts";
+import { roomTypesToSelect } from "@/utils/dummy/room/roomDummy.ts";
 import { Label } from "@/components/ui/label.tsx";
+import { useRoom, useRoomById } from "@/hooks/useRooms.ts";
+import type {
+  Room,
+  RoomDetails,
+  RoomTypes,
+} from "@/utils/types/roomTypes/roomTypes.ts";
 
 const updateRoomFormSchema = z.object({
-  id: z.number().min(1, { message: "Room Id is missing" }),
+  id: z.string().min(1, { message: "Room Id is missing" }),
   roomNo: z.string().min(1, { message: "Room No. is required" }),
   roomType: z.string().min(1, { message: "Room Type is required" }),
   roomStatus: z.string().min(1, { message: "Room Status is required" }),
@@ -36,42 +42,114 @@ const UpdateRoom = () => {
   const navigate = useNavigate();
   const [imageUrls, setImageUrls] = useState<string[]>([]);
 
-  const roomToBeUpdated = dummyRooms.find((room) => room.id === Number(id));
+  const { getAllRoomsQuery } = useRoom();
+  const { data: rooms } = getAllRoomsQuery;
+
+  const roomToBeUpdated = rooms?.find((room) => room.id === id);
+
+  const description = roomToBeUpdated?.details
+    ? JSON.parse(roomToBeUpdated?.details as unknown as string).description
+    : "";
 
   const form = useForm<z.infer<typeof updateRoomFormSchema>>({
     resolver: zodResolver(updateRoomFormSchema),
     mode: "all",
     defaultValues: {
       id: roomToBeUpdated?.id,
-      roomNo: roomToBeUpdated?.room_no,
+      roomNo: roomToBeUpdated?.roomNo.toString(),
       roomType: roomToBeUpdated?.type,
       roomStatus: roomToBeUpdated?.status,
-      guestLimit: roomToBeUpdated?.guest_limit.toString(),
+      guestLimit: roomToBeUpdated?.guestLimit.toString(),
       price: roomToBeUpdated?.price.toString(),
-      description: roomToBeUpdated?.details.description,
-      images: [
-        "https://avatars.githubusercontent.com/u/70505132?v=4",
-      ] /*  roomToBeUpdated?.img_url, */,
+      description: description,
+      images: imageUrls,
     },
   });
 
-  const onSubmit = (values: z.infer<typeof updateRoomFormSchema>) => {
-    console.log(values);
+  const { patchRoomMutation } = useRoomById({ id: id as string });
+
+  const onSubmit = async (formData: z.infer<typeof updateRoomFormSchema>) => {
+    console.log(formData);
+
+    const patchedRoom: Partial<Room> = {
+      id: roomToBeUpdated?.id,
+      roomNo: Number(formData.roomNo),
+      type: formData.roomType as RoomTypes,
+      price: Number(formData.price),
+      status: roomToBeUpdated?.status,
+      isFeatured: roomToBeUpdated?.isFeatured,
+      details: {
+        ...(roomToBeUpdated?.details as RoomDetails),
+        description: formData.description,
+      },
+      imgUrl: formData.images,
+      guestLimit: Number(formData.guestLimit),
+    };
+    try {
+      const res = await patchRoomMutation.mutateAsync(patchedRoom);
+
+      if (res) {
+        form.reset({});
+        setImageUrls([]);
+        toast("Room is updated successfully", {
+          position: "top-center",
+          style: {
+            backgroundColor: "#228B22",
+            color: "white",
+            border: "none",
+            height: "60px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: "16px",
+          },
+        });
+        navigate("/rooms");
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast(`${error.response.data.message}`, {
+        position: "top-center",
+        style: {
+          backgroundColor: "red",
+          color: "white",
+          border: "none",
+          height: "60px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontSize: "16px",
+        },
+      });
+    }
   };
   const handleClickCancel = () => {
     navigate("/rooms");
   };
-  const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files && e.target.files[0];
-
+  const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     if (imageUrls.length >= 4) {
       return toast.error("You can only upload 4 images for a room");
     }
 
+    const file = e.target.files && e.target.files[0];
     if (file) {
-      const newImageUrl = URL.createObjectURL(file);
-
-      setImageUrls([...imageUrls, newImageUrl]);
+      const data = new FormData();
+      data.append("file", file);
+      data.append("upload_preset", "hotel-image");
+      data.append("cloud_name", "dwcdqx2tm");
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/dwcdqx2tm/image/upload",
+        {
+          method: "POST",
+          body: data,
+        },
+      );
+      if (!res.ok) {
+        throw new Error("Upload failed");
+      }
+      const uploadImageUrl = await res.json();
+      setImageUrls((prev) => [...prev, uploadImageUrl.url]);
     }
   };
 
@@ -80,12 +158,32 @@ const UpdateRoom = () => {
     setImageUrls(newImageUrls);
   };
 
+  console.log("id errors are", form.formState.errors.id?.message);
+  console.log("images errors are", form.formState.errors.images?.message);
+  console.log(
+    "description errors are",
+    form.formState.errors.description?.message,
+  );
+
+  useEffect(() => {
+    if (roomToBeUpdated?.imgUrl) {
+      const imageUrls = JSON.parse(
+        roomToBeUpdated?.imgUrl as unknown as string,
+      );
+      setImageUrls(imageUrls);
+    }
+  }, [roomToBeUpdated?.imgUrl]);
+
+  useEffect(() => {
+    form.setValue("images", imageUrls, { shouldValidate: true });
+  }, [form, imageUrls]);
+
   return (
     <div className=" h-[90vh]">
       <h3 className="text-2xl font-semibold">Update Room</h3>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="min-h-[65vh] px-5  rounded-md mt-10 shadow-lg ">
+          <div className="h-[70vh] overflow-y-auto px-5  rounded-md mt-5 shadow-lg ">
             <div className="grid grid-cols-3 gap-5">
               <InputFormField
                 control={form.control}
@@ -121,12 +219,6 @@ const UpdateRoom = () => {
                 name={"description"}
                 placeholder={"Enter Description"}
                 label={"Description"}
-              />
-
-              <Input
-                type={"hidden"}
-                {...form.register("images")}
-                value={["https://avatars.githubusercontent.com/u/70505132?v=4"]}
               />
 
               <div>

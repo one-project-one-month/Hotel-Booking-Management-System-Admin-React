@@ -9,17 +9,18 @@ import { useNavigate } from "react-router-dom";
 import CancelButton from "@/components/shared/CustomButtons/CancelButton/CancelButton.tsx";
 import SubmitButton from "@/components/shared/CustomButtons/SubmitButton/SubmitButton.tsx";
 import { Input } from "@/components/ui/input.tsx";
-import { type ChangeEvent, useState } from "react";
+import { type ChangeEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { CircleX } from "lucide-react";
 import TextAreaFormField from "@/components/shared/FormFields/textareaFormField.tsx";
 import { roomTypesToSelect } from "@/utils/dummy/room/roomDummy.ts";
 import { Label } from "@/components/ui/label.tsx";
+import type { Room, RoomTypes } from "@/utils/types/roomTypes/roomTypes.ts";
+import { useRoom } from "@/hooks/useRooms.ts";
 
 const createRoomFormSchema = z.object({
   roomNo: z.string().min(1, { message: "Room No. is required" }),
   roomType: z.string().min(1, { message: "Room Type is required" }),
-  roomStatus: z.string().min(1, { message: "Room Status is required" }),
   guestLimit: z.string().min(1, { message: "Guest Limit is required" }),
   price: z.string().min(1, { message: "Price is required" }),
   description: z.string().min(1, { message: "Description is required" }),
@@ -28,11 +29,9 @@ const createRoomFormSchema = z.object({
     .min(1, { message: "At least one image is required" }),
 });
 
-const CreateRoom = () => {
+export default function CreateRoom() {
   const navigate = useNavigate();
   const [imageUrls, setImageUrls] = useState<string[]>([]);
-
-  console.log("image url is", imageUrls);
 
   const form = useForm<z.infer<typeof createRoomFormSchema>>({
     resolver: zodResolver(createRoomFormSchema),
@@ -40,16 +39,82 @@ const CreateRoom = () => {
     defaultValues: {
       roomNo: "",
       roomType: "",
-      roomStatus: "",
       guestLimit: "",
       price: "",
       description: "",
-      images: ["https://avatars.githubusercontent.com/u/70505132?v=4"],
+      images: [],
     },
   });
 
-  const onSubmit = (values: z.infer<typeof createRoomFormSchema>) => {
-    console.log(values);
+  const { createRoomMutation } = useRoom();
+
+  const onSubmit = async (formData: z.infer<typeof createRoomFormSchema>) => {
+    console.log("values are::::", formData);
+
+    const newRoom: Partial<Room> = {
+      roomNo: Number(formData.roomNo),
+      type: formData.roomType as RoomTypes,
+      price: Number(formData.price),
+      status: "Available",
+      isFeatured: false,
+      details: {
+        bedSize: "King",
+        title: "Deluxe King Room with Scenic Farm Views",
+        description: formData.description,
+        amenities: [
+          "King-sized bed",
+          "2-layer windproof curtains",
+          "Overlooking rice fields and farm plots",
+          "Private outdoor dining table",
+          "Shared bathroom and shower",
+          "Towels and toiletries provided",
+          "Access to swings and hiking trail",
+          "Cook your own veggies with provided tools",
+          "Optional home-cooked meals",
+        ],
+      },
+      imgUrl: formData.images,
+      guestLimit: Number(formData.guestLimit),
+    };
+
+    try {
+      const res = await createRoomMutation.mutateAsync(newRoom);
+
+      if (res) {
+        form.reset({});
+        setImageUrls([]);
+        toast("Room is created successfully", {
+          position: "top-center",
+          style: {
+            backgroundColor: "#228B22",
+            color: "white",
+            border: "none",
+            height: "60px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: "16px",
+          },
+        });
+        navigate("/rooms");
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast(`${error.response.data.message}`, {
+        position: "top-center",
+        style: {
+          backgroundColor: "red",
+          color: "white",
+          border: "none",
+          height: "60px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontSize: "16px",
+        },
+      });
+    }
   };
 
   const handleClickCancel = () => {
@@ -57,12 +122,11 @@ const CreateRoom = () => {
   };
 
   const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files && e.target.files[0];
-
     if (imageUrls.length >= 4) {
       return toast.error("You can only upload 4 images for a room");
     }
 
+    const file = e.target.files && e.target.files[0];
     if (file) {
       const data = new FormData();
       data.append("file", file);
@@ -87,6 +151,10 @@ const CreateRoom = () => {
     const newImageUrls = imageUrls.filter((imageUrl) => imageUrl !== url);
     setImageUrls(newImageUrls);
   };
+
+  useEffect(() => {
+    form.setValue("images", imageUrls, { shouldValidate: true });
+  }, [imageUrls]);
 
   return (
     <div className=" h-[90vh]">
@@ -131,11 +199,11 @@ const CreateRoom = () => {
                 label={"Description"}
               />
 
-              <Input
-                type={"hidden"}
-                {...form.register("images")}
-                value={["https://avatars.githubusercontent.com/u/70505132?v=4"]}
-              />
+              {/*<Input*/}
+              {/*  type={"hidden"}*/}
+              {/*  {...form.register("images")}*/}
+              {/*  value={imageUrls}*/}
+              {/*/>*/}
 
               <div>
                 <Label htmlFor="Upload Profile "> Images</Label>
@@ -184,6 +252,4 @@ const CreateRoom = () => {
       </Form>
     </div>
   );
-};
-
-export default CreateRoom;
+}

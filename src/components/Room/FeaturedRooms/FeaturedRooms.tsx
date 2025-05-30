@@ -1,22 +1,16 @@
 import { Star } from "lucide-react";
 import { RoomCard } from "@/components/Room/RoomCard/RoomCard.tsx";
 import type { Room } from "@/utils/types/roomTypes/roomTypes.ts";
-import type { Dispatch, SetStateAction } from "react";
 import { useDroppable } from "@dnd-kit/core";
 
 import { clsx } from "clsx";
 
 interface Props {
   rooms: Room[];
-  setRooms: Dispatch<SetStateAction<Room[]>>;
   featuredRooms: Room[];
 }
 
-export default function FeaturedRooms({
-  rooms,
-  setRooms,
-  featuredRooms,
-}: Props) {
+export default function FeaturedRooms({ rooms, featuredRooms }: Props) {
   const { setNodeRef, isOver } = useDroppable({ id: "FeaturedRoomsColumn" });
 
   console.log("is over is", isOver);
@@ -47,12 +41,7 @@ export default function FeaturedRooms({
       <div className="h-[calc(100vh-270px)] overflow-auto overflow-x-hidden px-1">
         {featuredRooms.length ? (
           featuredRooms.map((room) => (
-            <RoomCard
-              room={room}
-              key={room.id}
-              rooms={rooms}
-              setRooms={setRooms}
-            />
+            <RoomCard room={room} key={room.id} rooms={rooms} />
           ))
         ) : (
           <div className="flex w-full h-[250px] justify-center items-center ">

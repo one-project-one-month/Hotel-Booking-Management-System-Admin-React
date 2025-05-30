@@ -54,7 +54,8 @@ export default function RoomFiltersAndCreateNewButton({
     const filteredRooms =
       searchValue.length > 0
         ? rooms.filter((room) => {
-            return room.room_no
+            return room.roomNo
+              .toString()
               .toLowerCase()
               .includes(searchValue.toLowerCase());
           })
@@ -80,7 +81,7 @@ export default function RoomFiltersAndCreateNewButton({
       selectedLimit === "All"
         ? roomsByStatus
         : roomsByStatus.filter(
-            (room) => room.guest_limit === Number(selectedLimit),
+            (room) => room.guestLimit === Number(selectedLimit),
           );
     setRoomsToBeShown(roomsByGuestLimit);
   }, [selectedRoomType, selectedStatus, selectedLimit, searchedRooms, rooms]);

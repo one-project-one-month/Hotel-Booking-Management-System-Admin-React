@@ -1,21 +1,15 @@
 import { House } from "lucide-react";
 import { RoomCard } from "@/components/Room/RoomCard/RoomCard.tsx";
 import type { Room } from "@/utils/types/roomTypes/roomTypes.ts";
-import type { Dispatch, SetStateAction } from "react";
 import { useDroppable } from "@dnd-kit/core";
 import { clsx } from "clsx";
 
 interface Props {
   rooms: Room[];
-  setRooms: Dispatch<SetStateAction<Room[]>>;
   allOtherRooms: Room[];
 }
 
-export default function AllOtherRooms({
-  rooms,
-  setRooms,
-  allOtherRooms,
-}: Props) {
+export default function AllOtherRooms({ rooms, allOtherRooms }: Props) {
   const { setNodeRef, isOver } = useDroppable({ id: "AllOtherRoomsColumn" });
 
   return (
@@ -46,12 +40,7 @@ export default function AllOtherRooms({
       <div className="h-[calc(100vh-270px)] overflow-auto overflow-x-hidden px-1">
         {allOtherRooms.length ? (
           allOtherRooms.map((room) => (
-            <RoomCard
-              room={room}
-              key={room.id}
-              rooms={rooms}
-              setRooms={setRooms}
-            />
+            <RoomCard room={room} key={room.id} rooms={rooms} />
           ))
         ) : (
           <div className="flex w-full h-[250px] justify-center items-center ">

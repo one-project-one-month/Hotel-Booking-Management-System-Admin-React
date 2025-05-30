@@ -2,7 +2,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   badgeBgColors,
   badgeTextColors,
-  dummyRooms,
 } from "@/utils/dummy/room/roomDummy.ts";
 
 import {
@@ -15,12 +14,17 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Button } from "@/components/ui/button.tsx";
+import { useRoom } from "@/hooks/useRooms.ts";
+import type { RoomDetails as TypeOfRoomDetails } from "@/utils/types/roomTypes/roomTypes.ts";
 
 export default function RoomDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const room = dummyRooms.find((room) => room.id === Number(id));
+  const { getAllRoomsQuery } = useRoom();
+  const { data: rooms } = getAllRoomsQuery;
+
+  const room = rooms?.find((room) => room.id === id);
 
   const navigateToRooms = () => {
     navigate("/rooms");
@@ -28,18 +32,26 @@ export default function RoomDetails() {
 
   if (!room) return null;
 
-  const images = [
-    "/images/DeluxeRoom.jpg",
-    "/images/DeluxeRoom.jpg",
-    "/images/Standard.jpg",
-    "/images/Twin.jpg",
-  ];
+  const images: string[] = room.imgUrl
+    ? JSON.parse(room.imgUrl as unknown as string)
+    : [];
+  const parsedDetails: TypeOfRoomDetails = JSON.parse(
+    room.details as unknown as string,
+  );
+  console.log("parse details", parsedDetails);
+  console.log("parse details", parsedDetails.description);
+  console.log("parse details", parsedDetails.amenities);
+
+  console.log("typeof parsedDetails", typeof parsedDetails);
+  console.log("parsedDetails keys", Object.keys(parsedDetails));
+  console.log("parsedDetails.description", parsedDetails["description"]);
+  console.log("parsedDetails.amenities", parsedDetails["amenities"]);
 
   return (
-    <div className="h-[calc(100vh-80px)]  max-w-6xl mx-auto p-6 relative">
+    <div className="h-[calc(100vh-80px)]   max-w-6xl mx-auto p-6 relative">
       <div className="flex justify-between items-center mb-4 mt-5">
         <div className=" flex items-center gap-3   px-[1rem] pb-[1rem] rounded-md ">
-          {room?.is_featured ? (
+          {room?.isFeatured ? (
             <div className="p-2  rounded-lg bg-yellow-50 border border-yellow-100">
               <Star className="w-5 h-5 text-yellow-500 fill-yellow-400" />{" "}
             </div>
@@ -51,10 +63,10 @@ export default function RoomDetails() {
 
           <div>
             <h1 className="text-2xl font-semibold text-gray-800 ">
-              Room No.{room?.room_no}{" "}
+              Room No.{room?.roomNo}{" "}
               <span className="text-gray-600">({room?.type} Room)</span>
             </h1>
-            <p className="text-sm text-gray-500">{room?.details.title}</p>
+            <p className="text-sm text-gray-500">{room?.details?.title}</p>
           </div>
         </div>
 
@@ -69,27 +81,28 @@ export default function RoomDetails() {
         </div>
       </div>
       <div className="grid grid-cols-4 gap-4 mb-4">
-        {images.map((img, index) => (
-          <div
-            key={index}
-            className="relative aspect-video overflow-hidden rounded-xl shadow-md"
-          >
-            <img
-              src={img}
-              alt={`roomImage-${index}`}
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-            />
+        {images.length &&
+          images.map((img, index) => (
+            <div
+              key={index}
+              className="relative aspect-video overflow-hidden rounded-xl shadow-md"
+            >
+              <img
+                src={img}
+                alt={`roomImage-${index}`}
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+              />
 
-            {index == 0 && (
-              <Badge className="absolute bottom-1 left-1 bg-black/60 text-white text-xs  rounded-xl">
-                Featured Image
-              </Badge>
-            )}
-          </div>
-        ))}
+              {index == 0 && (
+                <Badge className="absolute bottom-1 left-1 bg-black/60 text-white text-xs  rounded-xl">
+                  Featured Image
+                </Badge>
+              )}
+            </div>
+          ))}
       </div>
 
-      <div className="bg-gray-50 rounded-xl p-6 mb-8 shadow-sm">
+      <div className="h-[47vh] overflow-y-scroll bg-gray-50 rounded-xl p-6 mb-8 shadow-sm ">
         <div className="grid grid-cols-3 gap-6 mb-6">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-blue-100 rounded-lg text-blue-600">
@@ -97,7 +110,7 @@ export default function RoomDetails() {
             </div>
             <div>
               <p className="text-sm text-gray-500">Bed Size</p>
-              <p className="font-medium">{room.details.bedSize}</p>
+              <p className="font-medium">{parsedDetails.bedSize}</p>
             </div>
           </div>
 
@@ -107,7 +120,7 @@ export default function RoomDetails() {
             </div>
             <div>
               <p className="text-sm text-gray-500">Guest Limit</p>
-              <p className="font-medium">{room.guest_limit} guests</p>
+              <p className="font-medium">{room.guestLimit} guests</p>
             </div>
           </div>
 
@@ -127,7 +140,7 @@ export default function RoomDetails() {
             Description
           </h3>
           <p className="text-gray-600 leading-relaxed">
-            {room.details.description}
+            {parsedDetails?.description}
           </p>
         </div>
 
@@ -136,7 +149,7 @@ export default function RoomDetails() {
             Amenities
           </h3>
           <div className="flex flex-wrap gap-2">
-            {room.details.amenities.map((amenity, index) => (
+            {parsedDetails.amenities?.map((amenity, index) => (
               <Badge
                 key={index}
                 variant="outline"

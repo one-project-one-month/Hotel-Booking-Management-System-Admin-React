@@ -1,11 +1,11 @@
-export type RoomTypes = "Single" | "Twin" | "Deluxe" | "Family" | "Standard";
+export type RoomTypes = "Deluxe" | "Standard";
 
 export type RoomStatus =
-    | "Available"
-    | "Booked"
-    | "Check In"
-    | "Check Out"
-    | "Maintenance";
+  | "Available"
+  | "Booked"
+  | "CheckedIn"
+  | "CheckOut"
+  | "Maintenance";
 
 export type GuestLimit = 1 | 2 | 3 | 4 | 5 | 6;
 export type GuestLimitStr = "1" | "2" | "3" | "4" | "5" | "6";
@@ -18,13 +18,13 @@ export interface RoomDetails {
 }
 
 export interface Room {
-  id: number;
-  room_no: string;
+  id: string;
+  roomNo: number;
   type: RoomTypes;
   price: number;
   status: RoomStatus;
-  is_featured: boolean;
-  details: RoomDetails;
-  img_url: string;
-  guest_limit: GuestLimit;
+  isFeatured?: boolean;
+  details?: RoomDetails;
+  imgUrl?: string[];
+  guestLimit: number;
 }

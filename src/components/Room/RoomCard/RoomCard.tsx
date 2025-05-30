@@ -15,13 +15,14 @@ import {
 } from "@/utils/dummy/room/roomDummy.ts";
 import { useDraggable } from "@dnd-kit/core";
 import { cn } from "@/lib/utils.ts";
+import { useRoomById } from "@/hooks/useRooms.ts";
+import { toast } from "sonner";
 
 interface Props {
   room: Room;
   rooms: Room[];
-  setRooms: Dispatch<SetStateAction<Room[]>>;
 }
-export function RoomCard({ room, rooms, setRooms }: Props) {
+export function RoomCard({ room }: Props) {
   const navigate = useNavigate();
   const [openConfirmDeleteDialog, setOpenConfirmDeleteDialog] = useState(false);
   const [currentStatus, setCurrenStatus] = useState(room.status);
@@ -30,6 +31,16 @@ export function RoomCard({ room, rooms, setRooms }: Props) {
     id: room.id,
   });
 
+  const { deleteRoomMutation, patchRoomStatusMutation } = useRoomById({
+    id: room.id,
+  });
+  console.log("rooms is ", room);
+
+  const roomImageUrl = room.imgUrl
+    ? JSON.parse(room.imgUrl as unknown as string)[0]
+    : "/DeluxeRoom.jpg";
+
+  const parsedDetails = JSON.parse(room.details as unknown as string);
   const handleClickEdit = () => {
     navigate(`/rooms/update/${room.id}`);
   };
@@ -38,8 +49,44 @@ export function RoomCard({ room, rooms, setRooms }: Props) {
     setOpenConfirmDeleteDialog(true);
   };
 
-  const handleConfirmDelete = () => {
-    setRooms(rooms.filter((r) => r.id !== room.id));
+  const handleConfirmDelete = async () => {
+    // setRooms(rooms.filter((r) => r.id !== room.id));
+
+    try {
+      const res = await deleteRoomMutation.mutateAsync();
+
+      if (res) {
+        toast("Room is deleted successfully", {
+          position: "top-center",
+          style: {
+            backgroundColor: "#228B22",
+            color: "white",
+            border: "none",
+            height: "60px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: "16px",
+          },
+        });
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast(`${error.response.data.message}`, {
+        position: "top-center",
+        style: {
+          backgroundColor: "red",
+          color: "white",
+          border: "none",
+          height: "60px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontSize: "16px",
+        },
+      });
+    }
   };
 
   const navigateDetailPage = () => {
@@ -58,12 +105,52 @@ export function RoomCard({ room, rooms, setRooms }: Props) {
   );
 
   useEffect(() => {
-    if (currentStatus !== room.status) {
-      const newRooms = rooms.map((r) =>
-        r.id === room.id ? { ...r, status: currentStatus } : r,
-      );
-      setRooms(newRooms);
-    }
+    const updateStatus = async () => {
+      if (currentStatus !== room.status) {
+        try {
+          const res = await patchRoomStatusMutation.mutateAsync(currentStatus);
+
+          if (res) {
+            toast("Room status is updated successfully", {
+              position: "top-center",
+              style: {
+                backgroundColor: "#228B22",
+                color: "white",
+                border: "none",
+                height: "60px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                fontSize: "16px",
+              },
+            });
+          }
+
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+          toast(`${error.response.data.message}`, {
+            position: "top-center",
+            style: {
+              backgroundColor: "red",
+              color: "white",
+              border: "none",
+              height: "60px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              fontSize: "16px",
+            },
+          });
+        }
+
+        // const newRooms = rooms.map((r) =>
+        //   r.id === room.id ? { ...r, status: currentStatus } : r,
+        // );
+        // setRooms(newRooms);
+      }
+    };
+
+    updateStatus();
   }, [currentStatus]);
 
   return (
@@ -87,14 +174,14 @@ export function RoomCard({ room, rooms, setRooms }: Props) {
       >
         <div className="py-1  flex flex-col justify-between h-full">
           <div>
-            <h1 className="font-medium text-lg">Room No.{room.room_no}</h1>
-            <h1 className="font-medium">({room.type})</h1>
+            <h1 className="font-medium text-lg">Room No.{room.roomNo}</h1>
+            <h1 className="font-medium -mt-2">({room.type})</h1>
           </div>
           <div className="flex items-center  text-gray-600">
-            <BedDouble className="w-4 h-4 mr-2" /> {room.details.bedSize} bed
+            <BedDouble className="w-4 h-4 mr-2" /> {parsedDetails.bedSize} bed
           </div>
           <div className="flex items-center  text-gray-600">
-            <Users className="w-4 h-4 mr-2" /> {room.guest_limit} guests
+            <Users className="w-4 h-4 mr-2" /> {room.guestLimit} guests
           </div>
           <div className="flex items-center ">
             <DollarSign className="w-4 h-4 mr-2" /> {room.price}/night
@@ -103,8 +190,8 @@ export function RoomCard({ room, rooms, setRooms }: Props) {
         <div className="relative">
           <img
             alt={`${room.id},room-image`}
-            src={room.img_url}
-            className="rounded-2xl object-cover max-h-[150px] w-full shadow-sm"
+            src={roomImageUrl}
+            className="rounded-2xl object-cover h-[150px] w-full shadow-sm"
           />
         </div>
       </CardContent>

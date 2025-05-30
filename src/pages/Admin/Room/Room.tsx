@@ -3,8 +3,6 @@ import { RoomCard } from "@/components/Room/RoomCard/RoomCard.tsx";
 
 import type { Room as TypeOfRoom } from "@/utils/types/roomTypes/roomTypes.ts";
 import { useEffect, useState } from "react";
-
-import { dummyRooms } from "@/utils/dummy/room/roomDummy.ts";
 import AllOtherRooms from "@/components/Room/AllOtherRooms/AllOtherRooms.tsx";
 import FeaturedRooms from "@/components/Room/FeaturedRooms/FeaturedRooms.tsx";
 import {
@@ -14,10 +12,18 @@ import {
   DragOverlay,
   type DragStartEvent,
 } from "@dnd-kit/core";
+import { useRoom } from "@/hooks/useRooms";
+import { toast } from "sonner";
 
 const Room = () => {
-  const [rooms, setRooms] = useState<TypeOfRoom[]>(dummyRooms);
-  const [roomsToBeShown, setRoomsToBeShown] = useState<TypeOfRoom[]>(rooms);
+  // const [rooms, setRooms] = useState<TypeOfRoom[]>(dummyRooms);
+
+  const { getAllRoomsQuery, patchIsFeaturedMutation } = useRoom();
+  const { data: rooms, isLoading } = getAllRoomsQuery;
+
+  const [roomsToBeShown, setRoomsToBeShown] = useState<TypeOfRoom[]>(
+    rooms ?? [],
+  );
   const [draggingRoom, setDraggingRoom] = useState<TypeOfRoom | null>(null);
 
   const [featuredRooms, setFeaturedRooms] = useState<TypeOfRoom[]>([]);
@@ -25,24 +31,21 @@ const Room = () => {
 
   const handleDragStart = (e: DragStartEvent) => {
     const id = e.active.id;
-    const room = rooms.find((room) => room.id === Number(id));
+    const room = rooms?.find((room) => room.id === id);
     if (!room) return;
     setDraggingRoom(room);
   };
 
-  const handleDragEnd = (e: DragEndEvent) => {
+  const handleDragEnd = async (e: DragEndEvent) => {
     const roomId = e.active.id;
-    const draggedRoom = rooms.find((room) => room.id === Number(roomId));
+
+    console.log("roomId", roomId);
+    const draggedRoom = rooms?.find((room) => room.id === roomId);
 
     if (!draggedRoom || !e.over) return;
 
     const droppedArea = e.over.id;
-    if (droppedArea === "FeaturedRoomsColumn" && !draggedRoom.is_featured) {
-      const newRooms = rooms.map((room) =>
-        room.id === draggedRoom.id ? { ...room, is_featured: true } : room,
-      );
-      setRooms(newRooms);
-
+    if (droppedArea === "FeaturedRoomsColumn" && !draggedRoom.isFeatured) {
       const newFeaturedRooms = [...featuredRooms, draggedRoom];
       setFeaturedRooms(newFeaturedRooms);
 
@@ -50,15 +53,49 @@ const Room = () => {
         (room) => room.id !== draggedRoom.id,
       );
       setAllOtherRooms(newOtherRooms);
+
+      try {
+        const res = await patchIsFeaturedMutation.mutateAsync({
+          id: roomId as string,
+          isFeatured: true,
+        });
+
+        if (res) {
+          toast(`Room No ${draggingRoom?.roomNo} is moved to  FeaturedRooms`, {
+            position: "top-center",
+            style: {
+              backgroundColor: "#228B22",
+              color: "white",
+              border: "none",
+              height: "60px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              fontSize: "16px",
+            },
+          });
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        toast(`${error.response.data.message}`, {
+          position: "top-center",
+          style: {
+            backgroundColor: "red",
+            color: "white",
+            border: "none",
+            height: "60px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: "16px",
+          },
+        });
+      }
     } else if (
       droppedArea === "AllOtherRoomsColumn" &&
-      draggedRoom.is_featured
+      draggedRoom.isFeatured
     ) {
-      const newRooms = rooms.map((room) =>
-        room.id === draggedRoom.id ? { ...room, is_featured: false } : room,
-      );
-      setRooms(newRooms);
-
       const newFeaturedRooms = featuredRooms.filter(
         (room) => room.id !== draggedRoom.id,
       );
@@ -66,17 +103,60 @@ const Room = () => {
 
       const newAllOtherRooms = [...allOtherRooms, draggedRoom];
       setAllOtherRooms(newAllOtherRooms);
+
+      try {
+        const res = await patchIsFeaturedMutation.mutateAsync({
+          id: roomId as string,
+          isFeatured: false,
+        });
+
+        if (res) {
+          toast(`Room No ${draggingRoom?.roomNo} is moved to   AllOtherRooms`, {
+            position: "top-center",
+            style: {
+              backgroundColor: "#228B22",
+              color: "white",
+              border: "none",
+              height: "60px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              fontSize: "16px",
+            },
+          });
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        toast(`${error.response.data.message}`, {
+          position: "top-center",
+          style: {
+            backgroundColor: "red",
+            color: "white",
+            border: "none",
+            height: "60px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: "16px",
+          },
+        });
+      }
     }
     setDraggingRoom(null);
   };
 
   useEffect(() => {
-    const featuredRooms = roomsToBeShown.filter((room) => room.is_featured);
+    const featuredRooms = roomsToBeShown.filter((room) => room.isFeatured);
     setFeaturedRooms(featuredRooms);
 
-    const allOtherRooms = roomsToBeShown.filter((room) => !room.is_featured);
+    const allOtherRooms = roomsToBeShown.filter((room) => !room.isFeatured);
     setAllOtherRooms(allOtherRooms);
   }, [roomsToBeShown]);
+
+  if (!rooms?.length || !rooms) return null;
+
+  if (isLoading) return <h1>Loading...</h1>;
   return (
     <div className="h-[calc(100vh-500px)]">
       <div className="rounded-md shadow-lg  p-[1rem] ">
@@ -95,20 +175,12 @@ const Room = () => {
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
         >
-          <FeaturedRooms
-            rooms={rooms}
-            setRooms={setRooms}
-            featuredRooms={featuredRooms}
-          />
-          <AllOtherRooms
-            rooms={rooms}
-            setRooms={setRooms}
-            allOtherRooms={allOtherRooms}
-          />
+          <FeaturedRooms rooms={rooms} featuredRooms={featuredRooms} />
+          <AllOtherRooms rooms={rooms} allOtherRooms={allOtherRooms} />
 
           <DragOverlay>
             {draggingRoom && (
-              <RoomCard room={draggingRoom} rooms={[]} setRooms={() => {}} />
+              <RoomCard room={draggingRoom as TypeOfRoom} rooms={[]} />
             )}
           </DragOverlay>
         </DndContext>
