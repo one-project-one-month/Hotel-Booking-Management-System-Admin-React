@@ -2,16 +2,26 @@ import { Table, TableBody } from "@/components/ui/table";
 import { Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { coupons } from "@/utils/dummy/coupon/couponDummy.ts";
+// import { coupons } from "@/utils/dummy/coupon/couponDummy.ts";
 import { CreateCouponFormDialog } from "@/components/Coupon/CreateCouponFormDialog/CreateCouponFormDialog.tsx";
 import { type ChangeEvent, useState } from "react";
-import { type CouponList as Coupon } from "@/utils/types/couponTypes/couponTypes.ts";
+import {
+  type CouponList,
+  type CouponList as Coupon,
+} from "@/utils/types/couponTypes/couponTypes.ts";
 import CouponTableHeader from "@/components/Coupon/CouponTableHeader/CouponTableHeader.tsx";
 import CouponTableRow from "@/components/Coupon/CouponTableRow/CouponTableRow.tsx";
 import PaginationTable from "@/components/shared/TablePagination/PaginationTable";
+import { useCoupon } from "@/hooks/useCoupon.ts";
+import CustomLoading from "@/components/shared/Loading/Loading.tsx";
 
 export default function Coupon() {
-  const [couponsToBeShown, setCouponsToBeShown] = useState<Coupon[]>(coupons);
+  const { getAllCouponsQuery } = useCoupon();
+  const { data: coupons, isLoading } = getAllCouponsQuery;
+
+  const [couponsToBeShown, setCouponsToBeShown] = useState<Coupon[]>(
+    coupons ?? [],
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const itemPerPage = 5;
   const pages: number[] = [];
@@ -45,13 +55,16 @@ export default function Coupon() {
 
   const handleSearchCoupon = (e: ChangeEvent<HTMLInputElement>) => {
     const searchedValue = e.target.value.toLowerCase();
-    const filteredCoupons = coupons.filter(
+    const filteredCoupons = coupons?.filter(
       (coupon) =>
         coupon.code.toLowerCase().includes(searchedValue) ||
-        coupon.discount_pct.toString().toLowerCase().includes(searchedValue),
+        coupon.discounts.toString().toLowerCase().includes(searchedValue),
     );
-    setCouponsToBeShown(filteredCoupons);
+    setCouponsToBeShown(filteredCoupons as CouponList[]);
   };
+
+  if (isLoading) return <CustomLoading />;
+
   return (
     <div>
       <div className=" flex  justify-between items-center rounded-md shadow-lg h-[60px] px-[1rem]">
@@ -81,7 +94,7 @@ export default function Coupon() {
                   key={coupon.id}
                   coupon={coupon}
                   index={index + startIndex}
-                  setCuponsToBeShown={setCouponsToBeShown}
+                  // setCuponsToBeShown={setCouponsToBeShown}
                 />
               );
             })}

@@ -14,12 +14,13 @@ import {
 } from "@dnd-kit/core";
 import { useRoom } from "@/hooks/useRooms";
 import { toast } from "sonner";
+import CustomLoading from "@/components/shared/Loading/Loading.tsx";
 
 const Room = () => {
   // const [rooms, setRooms] = useState<TypeOfRoom[]>(dummyRooms);
 
   const { getAllRoomsQuery, patchIsFeaturedMutation } = useRoom();
-  const { data: rooms, isLoading } = getAllRoomsQuery;
+  const { isLoading, data: rooms } = getAllRoomsQuery;
 
   const [roomsToBeShown, setRoomsToBeShown] = useState<TypeOfRoom[]>(
     rooms ?? [],
@@ -154,29 +155,27 @@ const Room = () => {
     setAllOtherRooms(allOtherRooms);
   }, [roomsToBeShown]);
 
-  if (!rooms?.length || !rooms) return null;
+  if (isLoading) return <CustomLoading />;
 
-  if (isLoading) return <h1>Loading...</h1>;
   return (
     <div className="h-[calc(100vh-500px)]">
       <div className="rounded-md shadow-lg  p-[1rem] ">
         <div className="flex justify-between  ">
           <h3 className="text-2xl font-semibold">Rooms</h3>
           <RoomFiltersAndCreateNewButton
-            rooms={rooms}
+            rooms={rooms ?? []}
             setRoomsToBeShown={setRoomsToBeShown}
           />
         </div>
       </div>
-
       <div className=" grid grid-cols-2 gap-5  rounded-md  mt-2 ">
         <DndContext
           collisionDetection={closestCenter}
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
         >
-          <FeaturedRooms rooms={rooms} featuredRooms={featuredRooms} />
-          <AllOtherRooms rooms={rooms} allOtherRooms={allOtherRooms} />
+          <FeaturedRooms rooms={rooms ?? []} featuredRooms={featuredRooms} />
+          <AllOtherRooms rooms={rooms ?? []} allOtherRooms={allOtherRooms} />
 
           <DragOverlay>
             {draggingRoom && (

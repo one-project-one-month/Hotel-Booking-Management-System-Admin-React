@@ -41,7 +41,7 @@ const UpdateRoom = () => {
 
   const navigate = useNavigate();
   const [imageUrls, setImageUrls] = useState<string[]>([]);
-
+  const [uploadingImg, setUploadingImg] = useState(false);
   const { getAllRoomsQuery } = useRoom();
   const { data: rooms } = getAllRoomsQuery;
 
@@ -91,7 +91,7 @@ const UpdateRoom = () => {
       if (res) {
         form.reset({});
         setImageUrls([]);
-        toast("Room is updated successfully", {
+        toast(`Room No ${roomToBeUpdated?.roomNo} is updated successfully`, {
           position: "top-center",
           style: {
             backgroundColor: "#228B22",
@@ -134,6 +134,7 @@ const UpdateRoom = () => {
 
     const file = e.target.files && e.target.files[0];
     if (file) {
+      setUploadingImg(true);
       const data = new FormData();
       data.append("file", file);
       data.append("upload_preset", "hotel-image");
@@ -145,6 +146,7 @@ const UpdateRoom = () => {
           body: data,
         },
       );
+      setUploadingImg(false);
       if (!res.ok) {
         throw new Error("Upload failed");
       }
@@ -157,14 +159,6 @@ const UpdateRoom = () => {
     const newImageUrls = imageUrls.filter((imageUrl) => imageUrl !== url);
     setImageUrls(newImageUrls);
   };
-
-  console.log("id errors are", form.formState.errors.id?.message);
-  console.log("images errors are", form.formState.errors.images?.message);
-  console.log(
-    "description errors are",
-    form.formState.errors.description?.message,
-  );
-
   useEffect(() => {
     if (roomToBeUpdated?.imgUrl) {
       const imageUrls = JSON.parse(
@@ -258,12 +252,24 @@ const UpdateRoom = () => {
                 ) : (
                   <></>
                 )}
+
+                {uploadingImg && (
+                  <div className="rounded-2xl aspect-video w-full animate-pulse bg-muted flex items-center justify-center col-span-1">
+                    <span className="text-sm text-muted-foreground">
+                      Uploading image...
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
           <div className="flex gap-10 justify-center mt-4">
             <CancelButton handleClickCancel={handleClickCancel} />
-            <SubmitButton text={"Update"} />
+            <SubmitButton
+              text={"Update"}
+              pendingText={"Updating"}
+              isPending={patchRoomMutation.isPending}
+            />
           </div>
         </form>
       </Form>

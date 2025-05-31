@@ -1,6 +1,4 @@
 import Booking from "@/pages/Admin/Booking/Booking";
-import CreateCoupon from "@/pages/Admin/Coupon/CreateCoupon.tsx";
-import UpdateCoupon from "@/pages/Admin/Coupon/UpdateCoupon.tsx";
 import Dashboard from "@/pages/Admin/Dashboard/Dashboard";
 import CreateRoom from "@/pages/Admin/Room/CreateRoom";
 import Room from "@/pages/Admin/Room/Room";
@@ -68,14 +66,6 @@ const Data = [
       {
         path: "coupon",
         Component: Coupon,
-      },
-      {
-        path: "coupon/create",
-        Component: CreateCoupon,
-      },
-      {
-        path: "coupon/update",
-        Component: UpdateCoupon,
       },
       {
         path: "logout",

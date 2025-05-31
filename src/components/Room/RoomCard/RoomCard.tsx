@@ -56,7 +56,8 @@ export function RoomCard({ room }: Props) {
       const res = await deleteRoomMutation.mutateAsync();
 
       if (res) {
-        toast("Room is deleted successfully", {
+        setOpenConfirmDeleteDialog(false);
+        toast(`Room No ${room.roomNo} is deleted successfully`, {
           position: "top-center",
           style: {
             backgroundColor: "#228B22",
@@ -201,6 +202,7 @@ export function RoomCard({ room }: Props) {
         setOpen={setOpenConfirmDeleteDialog}
         itemName={"room"}
         handleConfirmDelete={handleConfirmDelete}
+        isPending={deleteRoomMutation.isPending}
       />
 
       <SelectorDropDown

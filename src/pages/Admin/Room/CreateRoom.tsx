@@ -32,6 +32,7 @@ const createRoomFormSchema = z.object({
 export default function CreateRoom() {
   const navigate = useNavigate();
   const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [uploadingImg, setUploadingImg] = useState(false);
 
   const form = useForm<z.infer<typeof createRoomFormSchema>>({
     resolver: zodResolver(createRoomFormSchema),
@@ -128,6 +129,7 @@ export default function CreateRoom() {
 
     const file = e.target.files && e.target.files[0];
     if (file) {
+      setUploadingImg(true);
       const data = new FormData();
       data.append("file", file);
       data.append("upload_preset", "hotel-image");
@@ -139,6 +141,8 @@ export default function CreateRoom() {
           body: data,
         },
       );
+
+      setUploadingImg(false);
       if (!res.ok) {
         throw new Error("Upload failed");
       }
@@ -199,12 +203,6 @@ export default function CreateRoom() {
                 label={"Description"}
               />
 
-              {/*<Input*/}
-              {/*  type={"hidden"}*/}
-              {/*  {...form.register("images")}*/}
-              {/*  value={imageUrls}*/}
-              {/*/>*/}
-
               <div>
                 <Label htmlFor="Upload Profile "> Images</Label>
                 <div className="h-[40px] border-1 rounded-md px-2 py-1 mt-2.5 text-center cursor-pointer">
@@ -241,12 +239,24 @@ export default function CreateRoom() {
                 ) : (
                   <></>
                 )}
+
+                {uploadingImg && (
+                  <div className="rounded-2xl aspect-video w-full animate-pulse bg-muted flex items-center justify-center col-span-1">
+                    <span className="text-sm text-muted-foreground">
+                      Uploading image...
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
           <div className="flex gap-10 justify-center mt-4">
             <CancelButton handleClickCancel={handleClickCancel} />
-            <SubmitButton text={"Create"} />
+            <SubmitButton
+              text={"Create"}
+              isPending={createRoomMutation.isPending}
+              pendingText={"Creating"}
+            />
           </div>
         </form>
       </Form>

@@ -1,6 +1,5 @@
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -10,18 +9,22 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import type { Dispatch, SetStateAction } from "react";
+import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button.tsx";
 
 interface Props {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   itemName: string;
   handleConfirmDelete: () => void;
+  isPending: boolean;
 }
 export function ConfirmDeleteDialog({
   open,
   setOpen,
   itemName,
   handleConfirmDelete,
+  isPending,
 }: Props) {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
@@ -38,12 +41,18 @@ export function ConfirmDeleteDialog({
           <AlertDialogCancel className="cursor-pointer">
             Cancel
           </AlertDialogCancel>
-          <AlertDialogAction
+          <Button
             onClick={handleConfirmDelete}
-            className="cursor-pointer bg-red-600 text-white hover:bg-red-700  "
+            className="cursor-pointer w-[100px] bg-red-600 text-white hover:bg-red-700  "
           >
-            Confirm
-          </AlertDialogAction>
+            {isPending ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Deleting
+              </>
+            ) : (
+              "Confirm"
+            )}
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

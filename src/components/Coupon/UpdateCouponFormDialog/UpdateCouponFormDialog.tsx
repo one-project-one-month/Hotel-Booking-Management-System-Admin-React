@@ -13,7 +13,6 @@ import { DatePicker } from "@/components/shared/DatePicker/DatePicker.tsx";
 import SubmitButton from "@/components/shared/CustomButtons/SubmitButton/SubmitButton.tsx";
 import { z } from "zod";
 import { Edit } from "lucide-react";
-import { coupons } from "@/utils/dummy/coupon/couponDummy.ts";
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,26 +20,32 @@ import { Form } from "@/components/ui/form.tsx";
 import InputFormField from "@/components/shared/FormFields/inputFormField.tsx";
 import { useEffect } from "react";
 import SelectUserFormField from "@/components/Coupon/SelectUserFormField/SelectUserFormField.tsx";
-import { users } from "@/components/Coupon/CreateCouponFormDialog/CreateCouponFormDialog.tsx";
+import { toast } from "sonner";
+import { useCoupon, useCouponById } from "@/hooks/useCoupon.ts";
+import type { CouponList } from "@/utils/types/couponTypes/couponTypes.ts";
 
 const updateCuponFormSchema = z.object({
-  id: z.number().min(1, { message: "Id is required" }),
-  userId: z.string().min(1, { message: "Id is required" }),
-  discount_pct: z.string().min(1, { message: "Discount Price is required" }),
+  id: z.string().min(1, { message: "Id is required" }),
+  user_id: z.string().min(1, { message: "Id is required" }),
+  discounts: z.string().min(1, { message: "Discount Price is required" }),
   expiry_date: z.string().min(1, { message: "Expiry date is required" }),
 });
 
 interface Props {
-  couponId: number;
+  couponId: string;
 }
 
 export function UpdateCouponFormDialog({ couponId }: Props) {
   const [date, setDate] = React.useState<Date>();
+  const { updateCouponMutation } = useCouponById({ id: couponId });
+  const { getAllCouponsQuery } = useCoupon();
+  const { data: coupons } = getAllCouponsQuery;
 
-  const cuponToBeUpdated = coupons.find((coupon) => coupon.id === couponId);
-  const userId = users
-    .find((user) => user.coupon.includes(Number(couponId)))
-    ?.id.toString();
+  const cuponToBeUpdated = coupons?.find((coupon) => coupon.id === couponId);
+  // const userId = users
+  //   .find((user) => user.coupon.includes(Number(couponId)))
+  //   ?.id.toString();
+  const userId = "";
 
   const form = useForm<z.infer<typeof updateCuponFormSchema>>({
     resolver: zodResolver(updateCuponFormSchema),
@@ -48,31 +53,70 @@ export function UpdateCouponFormDialog({ couponId }: Props) {
     defaultValues: {
       id: cuponToBeUpdated?.id ?? couponId,
       // code: cuponToBeUpdated?.code ?? "",
-      userId: userId ?? "",
-      discount_pct: cuponToBeUpdated?.discount_pct.toString() ?? "",
+      user_id: userId ?? "",
+      discounts: cuponToBeUpdated?.discounts.toString() ?? "",
       expiry_date: cuponToBeUpdated?.expiry_date ?? "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof updateCuponFormSchema>) => {
-    console.log(values);
+  const onSubmit = async (formData: z.infer<typeof updateCuponFormSchema>) => {
+    console.log(formData);
+    const updatedCoupon: Partial<CouponList> = {
+      user_id: formData.user_id,
+      discounts: Number(formData.discounts),
+      expiry_date: formData.expiry_date,
+    };
+    try {
+      const res = await updateCouponMutation.mutateAsync(updatedCoupon);
+
+      if (res) {
+        form.reset({});
+        toast("Coupon is updated successfully", {
+          position: "top-center",
+          style: {
+            backgroundColor: "#228B22",
+            color: "white",
+            border: "none",
+            height: "60px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: "16px",
+          },
+        });
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast(`${error.response.data.message}`, {
+        position: "top-center",
+        style: {
+          backgroundColor: "red",
+          color: "white",
+          border: "none",
+          height: "60px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontSize: "16px",
+        },
+      });
+    }
   };
 
   useEffect(() => {
     const getExpDate = () => {
-      const year = date?.getFullYear().toString();
-      const month = date?.getMonth().toString();
-      const day = date?.getDate();
-
-      if (year && month && day) {
-        const expDate = `${year}-${month}-${day}`;
-
-        form.setValue("expiry_date", expDate);
-      }
+      // const year = date?.getFullYear().toString();
+      // const month = date?.getMonth().toString();
+      // const day = date?.getDate();
+      //
+      // const expDate = `${year}-${month}-${day}`;
+      const expDate = date?.toISOString();
+      form.setValue("expiry_date", expDate ?? "");
     };
 
     getExpDate();
-  }, [date]);
+  }, [date, form]);
 
   return (
     <Dialog>
@@ -101,7 +145,7 @@ export function UpdateCouponFormDialog({ couponId }: Props) {
                 control={form.control}
                 name={"userId"}
                 label={"User"}
-                users={users}
+                users={[]}
                 placeholder={"Select User"}
               />
               <InputFormField
@@ -113,12 +157,19 @@ export function UpdateCouponFormDialog({ couponId }: Props) {
               />
 
               <div className="grid gap-2">
-                <Label> Expiry Date: ({cuponToBeUpdated?.expiry_date})</Label>
+                <Label>
+                  {" "}
+                  Expiry Date: ({cuponToBeUpdated?.expiry_date.split("T")[0]})
+                </Label>
                 <DatePicker date={date} setDate={setDate} />
               </div>
             </div>
             <DialogFooter>
-              <SubmitButton text={"Update"} />
+              <SubmitButton
+                text={"Update"}
+                pendingText={"Updating"}
+                isPending={updateCouponMutation.isPending}
+              />
             </DialogFooter>
           </form>
         </Form>
