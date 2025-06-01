@@ -36,7 +36,6 @@ export default function RoomFiltersAndCreateNewButton({
   setRoomsToBeShown,
 }: Props) {
   const navigate = useNavigate();
-
   const [selectedRoomType, setSelectedRoomType] = useState<"All" | RoomTypes>(
     "All",
   );
@@ -65,26 +64,19 @@ export default function RoomFiltersAndCreateNewButton({
   };
 
   useEffect(() => {
-    setSearchRooms(rooms);
-  }, [rooms]);
+    const filteredRooms = searchedRooms
+      .filter(
+        (room) => selectedRoomType === "All" || room.type === selectedRoomType,
+      )
+      .filter(
+        (room) => selectedStatus === "All" || room.status === selectedStatus,
+      )
+      .filter(
+        (room) => selectedLimit === "All" || room.guestLimit === +selectedLimit,
+      );
 
-  useEffect(() => {
-    const roomsByRoomType =
-      selectedRoomType === "All"
-        ? searchedRooms
-        : searchedRooms.filter((room) => room.type === selectedRoomType);
-    const roomsByStatus =
-      selectedStatus === "All"
-        ? roomsByRoomType
-        : roomsByRoomType.filter((room) => room.status === selectedStatus);
-    const roomsByGuestLimit =
-      selectedLimit === "All"
-        ? roomsByStatus
-        : roomsByStatus.filter(
-            (room) => room.guestLimit === Number(selectedLimit),
-          );
-    setRoomsToBeShown(roomsByGuestLimit);
-  }, [selectedRoomType, selectedStatus, selectedLimit, searchedRooms, rooms]);
+    setRoomsToBeShown(filteredRooms);
+  }, [selectedRoomType, selectedStatus, selectedLimit, searchedRooms]);
 
   return (
     <div className="flex gap-4 items-start ">

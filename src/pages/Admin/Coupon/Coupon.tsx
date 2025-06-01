@@ -1,4 +1,4 @@
-import { Table, TableBody } from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -47,7 +47,7 @@ export default function Coupon() {
 
   const startIndex = (currentPage - 1) * itemPerPage;
   const endIndex = startIndex + itemPerPage;
-  const currentCoupon = couponsToBeShown.slice(startIndex, endIndex);
+  const currentCoupons = couponsToBeShown.slice(startIndex, endIndex);
 
   const pageClick = (text: number) => {
     setCurrentPage(Number(text));
@@ -88,16 +88,26 @@ export default function Coupon() {
         <Table>
           <CouponTableHeader />
           <TableBody>
-            {currentCoupon.map((coupon, index) => {
-              return (
-                <CouponTableRow
-                  key={coupon.id}
-                  coupon={coupon}
-                  index={index + startIndex}
-                  // setCuponsToBeShown={setCouponsToBeShown}
-                />
-              );
-            })}
+            {currentCoupons.length ? (
+              currentCoupons.map((coupon, index) => {
+                return (
+                  <CouponTableRow
+                    key={coupon.id}
+                    coupon={coupon}
+                    index={index + startIndex}
+                  />
+                );
+              })
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={9}
+                  className={"   text-center text-muted-foreground"}
+                >
+                  No coupon found
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </div>

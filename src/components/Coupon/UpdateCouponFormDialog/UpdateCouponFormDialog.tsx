@@ -143,7 +143,7 @@ export function UpdateCouponFormDialog({ couponId }: Props) {
 
               <SelectUserFormField
                 control={form.control}
-                name={"userId"}
+                name={"user_id"}
                 label={"User"}
                 users={[]}
                 placeholder={"Select User"}
@@ -151,7 +151,7 @@ export function UpdateCouponFormDialog({ couponId }: Props) {
               <InputFormField
                 control={form.control}
                 type={"number"}
-                name={"discount_pct"}
+                name={"discounts"}
                 placeholder={"Enter Discount Price"}
                 label={"Discount Price"}
               />

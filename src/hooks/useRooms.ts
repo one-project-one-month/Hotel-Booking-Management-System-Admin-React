@@ -47,7 +47,7 @@ export const useRoom = () => {
   });
 
   const createRoomMutation = useMutation({
-    mutationKey: ["rooms"],
+    mutationKey: ["roomsCreate"],
     mutationFn: createRoom,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["rooms"] });
@@ -55,7 +55,7 @@ export const useRoom = () => {
   });
 
   const patchIsFeaturedMutation = useMutation({
-    mutationKey: ["rooms"],
+    mutationKey: ["roomsPatchIsFeatured"],
     mutationFn: ({ id, isFeatured }: { id: string; isFeatured: boolean }) =>
       updateIsFeatured(id, isFeatured),
     onSuccess: () => {
@@ -73,12 +73,12 @@ export const useRoomById = ({ id }: Props) => {
   const queryClient = useQueryClient();
 
   const getRoomByIdQuery = useQuery({
-    queryKey: ["rooms", id],
+    queryKey: ["room", id],
     queryFn: () => getRoomById(id),
   });
 
   const patchRoomMutation = useMutation({
-    mutationKey: ["rooms", id],
+    mutationKey: ["roomPatch", id],
     mutationFn: (patchedRoom: Partial<Room>) => updateRoom(id, patchedRoom),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["rooms"] });
@@ -86,7 +86,7 @@ export const useRoomById = ({ id }: Props) => {
   });
 
   const patchRoomStatusMutation = useMutation({
-    mutationKey: ["rooms", id],
+    mutationKey: ["roomPatchStatus", id],
     mutationFn: (status: string) => updateRoomStatus(id, status),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["rooms"] });
@@ -94,10 +94,12 @@ export const useRoomById = ({ id }: Props) => {
   });
 
   const deleteRoomMutation = useMutation({
-    mutationKey: ["rooms"],
+    mutationKey: ["roomDelete", id],
     mutationFn: () => deleteRoom(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rooms"] });
+      queryClient.invalidateQueries({
+        queryKey: ["rooms"],
+      });
     },
   });
 

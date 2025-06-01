@@ -9,7 +9,10 @@ import { ConfirmDeleteDialog } from "@/components/shared/ConfirmDeleteDialog/Con
 import moment from "moment";
 import { useCouponById } from "@/hooks/useCoupon.ts";
 import { toast } from "sonner";
-// import { useUser } from "@/hooks/useUser.ts";
+import {
+  errorToastStyle,
+  successToastStyle,
+} from "@/utils/dummy/Toast/toast.ts";
 
 interface Props {
   coupon: CouponList;
@@ -32,36 +35,11 @@ export default function CouponTableRow({ coupon, index }: Props) {
       const res = await deleteCouponMutation.mutateAsync();
 
       if (res) {
-        toast("Coupon is deleted successfully", {
-          position: "top-center",
-          style: {
-            backgroundColor: "#228B22",
-            color: "white",
-            border: "none",
-            height: "60px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            fontSize: "16px",
-          },
-        });
+        toast("Coupon is deleted successfully", successToastStyle);
       }
-
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast(`${error.response.data.message}`, {
-        position: "top-center",
-        style: {
-          backgroundColor: "red",
-          color: "white",
-          border: "none",
-          height: "60px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          fontSize: "16px",
-        },
-      });
+      toast(`${error.response.data.message}`, errorToastStyle);
     }
   };
   return (
@@ -70,7 +48,7 @@ export default function CouponTableRow({ coupon, index }: Props) {
       <TableCell>{coupon.code}</TableCell>
       <TableCell>userid</TableCell>
       <TableCell>${coupon.discounts}</TableCell>
-      <TableCell>{coupon.expiry_date}</TableCell>
+      <TableCell>{coupon.expiry_date.split("T")[0]}</TableCell>
       <TableCell>{coupon.is_active ? "True" : "False"}</TableCell>
       <TableCell>
         {moment(coupon.created_at).format("MMMM Do YYYY, h:mm:ss A")}

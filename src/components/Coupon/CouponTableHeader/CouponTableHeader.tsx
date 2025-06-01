@@ -7,7 +7,7 @@ export default function CouponTableHeader() {
         <TableHead className="w-[100px] text-md">No.</TableHead>
         <TableHead className="w-[100px] text-md">Code</TableHead>
         <TableHead className="w-[100px] text-md">User</TableHead>
-        <TableHead className="w-[100px] text-md">Discount Price</TableHead>
+        <TableHead className="w-[110px] text-md">Discount Price</TableHead>
         <TableHead className="w-[100px] text-md">Expiry Date</TableHead>
         <TableHead className="w-[100px] text-md">IsActive</TableHead>
         <TableHead className="w-[100px] text-md">CreatedAt</TableHead>
