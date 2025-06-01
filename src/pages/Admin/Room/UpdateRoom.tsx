@@ -69,7 +69,6 @@ const UpdateRoom = () => {
   const { patchRoomMutation } = useRoomById({ id: id as string });
 
   const onSubmit = async (formData: z.infer<typeof updateRoomFormSchema>) => {
-    console.log(formData);
 
     const patchedRoom: Partial<Room> = {
       id: roomToBeUpdated?.id,

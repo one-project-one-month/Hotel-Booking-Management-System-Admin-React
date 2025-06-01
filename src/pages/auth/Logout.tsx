@@ -21,7 +21,7 @@ const Logout = () => {
           navigate("/auth/login")
       }
     }).catch(error =>{
-      console.log(error.response.data.message)
+      toast(`${error.response.data.message}`,{position:"top-center",style:{backgroundColor:"red",color:"white",border:'none',height:'60px',display:'flex',justifyContent:'center',alignItems:'center',fontSize:"16px"}})
     })
    
   }

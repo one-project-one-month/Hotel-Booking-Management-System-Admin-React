@@ -50,7 +50,7 @@ export default function CreateRoom() {
   const { createRoomMutation } = useRoom();
 
   const onSubmit = async (formData: z.infer<typeof createRoomFormSchema>) => {
-    console.log("values are::::", formData);
+
 
     const newRoom: Partial<Room> = {
       roomNo: Number(formData.roomNo),

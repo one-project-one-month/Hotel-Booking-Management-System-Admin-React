@@ -40,7 +40,6 @@ const Room = () => {
   const handleDragEnd = async (e: DragEndEvent) => {
     const roomId = e.active.id;
 
-    console.log("roomId", roomId);
     const draggedRoom = rooms?.find((room) => room.id === roomId);
 
     if (!draggedRoom || !e.over) return;
