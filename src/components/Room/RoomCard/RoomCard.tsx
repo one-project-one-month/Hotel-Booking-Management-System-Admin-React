@@ -34,7 +34,6 @@ export function RoomCard({ room }: Props) {
   const { deleteRoomMutation, patchRoomStatusMutation } = useRoomById({
     id: room.id,
   });
-  console.log("rooms is ", room);
 
   const roomImageUrl = room.imgUrl
     ? JSON.parse(room.imgUrl as unknown as string)[0]

@@ -134,9 +134,12 @@ const CreateUser = () => {
                 <InputFormField
                   control={control}
                   name={"phoneNumber"}
-                  placeholder={"Enter Phone Number"}
+                  placeholder={"09*********"}
                   label={"Phone Number"}
-                  type={"number"}
+                  maxLength={11}
+                  pattern={"[0-9]*"}
+                  type={"text"}
+                  inputMode={"numeric"}
                 />
               </div>
               <div>

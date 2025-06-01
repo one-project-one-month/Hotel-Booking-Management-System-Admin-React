@@ -82,7 +82,7 @@ const UpdateUser = () => {
 
      const onSubmit = async (values: z.infer<typeof updateUserSchema>) => {
       const finalImage = image || data?.imageUrl;
-      const dataToSubmit = { ...values, imageUrl: finalImage };
+      const dataToSubmit = { ...values, imageUrl: finalImage,phoneNumber:`+95${values.phoneNumber}` };
       try {
         const res = await updateMutation.mutateAsync(dataToSubmit);
         reset();
@@ -127,9 +127,12 @@ const UpdateUser = () => {
               <InputFormField
                 control={control}
                 name={"phoneNumber"}
-                placeholder={"Enter Phone Number"}
+                placeholder={"09*********"}
                 label={"Phone Number"}
+                maxLength={11}
+                pattern={"[0-9]*"}
                 type={"text"}
+                inputMode={"numeric"}
               />
             </div>
             <div>

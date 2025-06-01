@@ -10,14 +10,16 @@ import useBooking from "@/hooks/useBooking";
 import TableHeaders from "@/components/Booking/TableHeader";
 import PaginationTable from "@/components/shared/TablePagination/PaginationTable";
 import BookingInput from "@/components/Booking/BookingInput";
+import CustomLoading from "@/components/shared/Loading/Loading";
+import { toast } from "sonner";
 
 const Booking = () => {
 
   const {bookingQuery} = useBooking()
-  const {data:booking,isLoading,isError,isSuccess} = bookingQuery;
+  const {data:booking,isLoading,isError,isSuccess,error} = bookingQuery;
   const [filterBooking, setFilterBooking] = useState<Book[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemPerPage = 5;
+  const itemPerPage = 10;
   const pages: number[] = [];
 
 
@@ -80,11 +82,15 @@ const mainData = filterBooking.sort( compare );
   };
 
    if (isLoading) {
-    return <div>Loading</div>;
+    return (
+      <CustomLoading />
+    );
   }
 
   if (isError) {
-    return <div>Error</div>;
+    return (
+      toast(`${error.message}`,{position:"top-center",style:{backgroundColor:"red",color:"white",border:'none',height:'60px',display:'flex',justifyContent:'center',alignItems:'center',fontSize:"16px"}})
+    );
   }
 
   return (

@@ -13,7 +13,6 @@ interface Props {
 export default function FeaturedRooms({ rooms, featuredRooms }: Props) {
   const { setNodeRef, isOver } = useDroppable({ id: "FeaturedRoomsColumn" });
 
-  console.log("is over is", isOver);
   return (
     <div
       ref={setNodeRef}

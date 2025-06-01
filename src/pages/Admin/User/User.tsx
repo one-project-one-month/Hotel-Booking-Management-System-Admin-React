@@ -11,11 +11,13 @@ import PaginationTable from "@/components/shared/TablePagination/PaginationTable
 import TableUserHeader from "@/components/user/TableUserHeader";
 import TableUserBody from "@/components/user/TableUserBody";
 import UserInput from "@/components/user/UserInput";
+import CustomLoading from "@/components/shared/Loading/Loading";
+import { toast } from "sonner";
 
 const User = () => {
   
   const { userQuery, deleteMutation } = useUser();
-  const { isSuccess, isError, data: user, isLoading } = userQuery;
+  const { isSuccess, isError, data: user, isLoading,error } = userQuery;
   const [filterUser, setFilterUser] = useState<Username[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemPerPage = 5;
@@ -84,11 +86,15 @@ const mainData = filterUser.sort( compare );
   };
 
   if (isLoading) {
-    return <div>Loading</div>;
+    return (
+      <CustomLoading />
+    )
   }
 
   if (isError) {
-    return <div>Error</div>;
+    return (
+      toast(`${error.message}`,{position:"top-center",style:{backgroundColor:"red",color:"white",border:'none',height:'60px',display:'flex',justifyContent:'center',alignItems:'center',fontSize:"16px"}})
+    );
   }
 
   const userChange = (event: ChangeEvent<HTMLInputElement>) => {

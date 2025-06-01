@@ -14,6 +14,9 @@ interface Props {
     placeholder: string;
     label: string;
     disabled?:boolean
+    maxLength?:number;
+    pattern?:string;
+    inputMode?:"numeric";
 }
 export default function InputFormField({
                                            control,
@@ -21,7 +24,10 @@ export default function InputFormField({
                                            type,
                                             placeholder,
                                            label,
-                                           disabled
+                                           disabled,
+                                           maxLength,
+                                           pattern,
+                                           inputMode
                                        }: Props) {
     return (
         <div className="flex flex-col gap-2">
@@ -32,7 +38,7 @@ export default function InputFormField({
                 render={({ field }) => (
                     <FormItem>
                         <FormControl>
-                            <Input type={type} placeholder={placeholder} {...field} disabled={disabled} className="[&::-webkit-inner-spin-button]:appearance-none"/>
+                            <Input type={type} placeholder={placeholder} inputMode={inputMode} maxLength={maxLength} {...field} disabled={disabled} pattern={pattern} className="[&::-webkit-inner-spin-button]:appearance-none"/>
                         </FormControl>
                         <FormMessage />
                     </FormItem>
