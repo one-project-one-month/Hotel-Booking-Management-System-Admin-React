@@ -17,19 +17,19 @@ export interface Book {
     createdAt:string
 }
 
-export type status = "Booked" | "Check-In" | "Check-Out" | "Maintance" | "Available";
+export type status = "pending" | "approved" ;
 
 
 
 export type CheckType = {
-    id:string,
-    customerName:string;
-    roomNo:number,
+    bookingId:string,
+    // customerName:string;
+    // roomNo:number,
     checkIn:string,
     checkOut:string,
     extraCharges:number
-    status:status
-    createdAt:string
+    status:string
+    createdAt:string,
 }
 
 export interface BookingProps {
@@ -38,10 +38,8 @@ export interface BookingProps {
 
 export interface DropDownProps {
   CheckIn?: () => void;
-  Maintance?: () => void;
-  CheckOut?: () => void;
   status?: string;
-  active?: boolean;
+  CheckOutClick?:() =>void;
   viewBooking?:() => void;
   updateBooking?:() => void;
 }

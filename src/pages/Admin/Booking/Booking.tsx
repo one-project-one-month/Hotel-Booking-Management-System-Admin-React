@@ -1,9 +1,9 @@
-import {
-  Table,
-  TableBody,
-} from "@/components/ui/table";
+import { Table, TableBody } from "@/components/ui/table";
 
-import type { Book, bookingFilter } from "@/utils/types/BookingTypes/bookingTypes";
+import type {
+  Book,
+  bookingFilter,
+} from "@/utils/types/BookingTypes/bookingTypes";
 import TableBooking from "@/components/Booking/TableBooking";
 import { useEffect, useState, type ChangeEvent } from "react";
 import useBooking from "@/hooks/useBooking";
@@ -14,20 +14,18 @@ import CustomLoading from "@/components/shared/Loading/Loading";
 import { toast } from "sonner";
 
 const Booking = () => {
-
-  const {bookingQuery} = useBooking()
-  const {data:booking,isLoading,isError,isSuccess,error} = bookingQuery;
+  const { bookingQuery } = useBooking();
+  const { data: booking, isLoading, isError, isSuccess, error } = bookingQuery;
   const [filterBooking, setFilterBooking] = useState<Book[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemPerPage = 10;
   const pages: number[] = [];
 
-
-    useEffect(() => {
-      if (isSuccess && booking) {
-        setFilterBooking(booking);
-      }
-    }, [booking, isSuccess]);
+  useEffect(() => {
+    if (isSuccess && booking) {
+      setFilterBooking(booking);
+    }
+  }, [booking, isSuccess]);
 
   const prevClick = () => {
     if (currentPage > pages.length) {
@@ -48,17 +46,17 @@ const Booking = () => {
     pages.push(i);
   }
 
-  function compare( a:Book, b:Book ) {
-  if ( a.createdAt < b.createdAt ){
-    return 1;
+  function compare(a: Book, b: Book) {
+    if (a.createdAt < b.createdAt) {
+      return 1;
+    }
+    if (a.createdAt > b.createdAt) {
+      return -1;
+    }
+    return 0;
   }
-  if ( a.createdAt > b.createdAt){
-    return -1;
-  }
-  return 0;
-}
 
-const mainData = filterBooking.sort( compare );
+  const mainData = filterBooking.sort(compare);
 
   const startIndex = (currentPage - 1) * itemPerPage;
   const endIndex = startIndex + itemPerPage;
@@ -69,7 +67,7 @@ const mainData = filterBooking.sort( compare );
   };
 
   const bookingChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const filter = booking.filter((book:bookingFilter) => {
+    const filter = booking.filter((book: bookingFilter) => {
       return (
         book.user.name
           .toLowerCase()
@@ -81,27 +79,35 @@ const mainData = filterBooking.sort( compare );
     setFilterBooking(filter);
   };
 
-   if (isLoading) {
-    return (
-      <CustomLoading />
-    );
+  if (isLoading) {
+    return <CustomLoading />;
   }
 
   if (isError) {
-    return (
-      toast(`${error.message}`,{position:"top-center",style:{backgroundColor:"red",color:"white",border:'none',height:'60px',display:'flex',justifyContent:'center',alignItems:'center',fontSize:"16px"}})
-    );
+    return toast(`${error.message}`, {
+      position: "top-center",
+      style: {
+        backgroundColor: "red",
+        color: "white",
+        border: "none",
+        height: "60px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        fontSize: "16px",
+      },
+    });
   }
 
   return (
     <div>
-      <BookingInput bookingChange={bookingChange}/>
+      <BookingInput bookingChange={bookingChange} />
       <div className="h-[calc(100vh-200px)] w-[81vw] overflow-auto rounded-md shadow-lg mt-[10px] px-[20px]">
         <Table>
           <TableHeaders />
           <TableBody>
             {currentBooking.map((booking: Book) => {
-              return <TableBooking booking={booking} key={booking.id}/>;
+              return <TableBooking booking={booking} key={booking.id} />;
             })}
           </TableBody>
         </Table>
@@ -112,7 +118,13 @@ const mainData = filterBooking.sort( compare );
         )}
       </div>
       <div className="w-full mt-[10px] h-[60px] flex rounded-md shadow-lg">
-        <PaginationTable prevClick={prevClick} pages={pages} currentPage={currentPage} nextClick={nextClick} pageClick={pageClick}/>
+        <PaginationTable
+          prevClick={prevClick}
+          pages={pages}
+          currentPage={currentPage}
+          nextClick={nextClick}
+          pageClick={pageClick}
+        />
       </div>
     </div>
   );

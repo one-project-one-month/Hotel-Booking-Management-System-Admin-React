@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/sidebar"
 import { menuItem } from "@/utils/dummy/dummy.ts"
 import { Avatar } from "@radix-ui/react-avatar"
+import { useMutate } from "@/hooks/useUser"
 
 
 
@@ -19,6 +20,18 @@ const SideLayout = () => {
   const route = window.location.pathname;
   const {open} = useSidebar()
 
+  
+  const id = "d9026922-6c0a-48c7-8f83-3557baae122c"
+
+  const {getIdquery} = useMutate({id})
+
+  const {data} = getIdquery;
+
+
+  const image = data?.imageUrl ? data?.imageUrl :"https://avatars.githubusercontent.com/u/70505132?v=4";
+  const name = data?.name ? data?.name : "Admin";
+
+
   return (
     <Sidebar>
       <SidebarContent>
@@ -26,8 +39,8 @@ const SideLayout = () => {
           {
             open && (
                <Avatar className="flex justify-center items-center my-4 flex-col">
-                <AvatarImage src="https://avatars.githubusercontent.com/u/70505132?v=4" className="w-[80px] h-[80px] rounded-full"/>
-                <p className="mt-3 text-2xl font-semibold">Admin</p>
+                <AvatarImage src={image} className="w-[80px] h-[80px] rounded-full"/>
+                <p className="mt-3 text-2xl font-semibold">{name}</p>
               </Avatar>
             )
           }

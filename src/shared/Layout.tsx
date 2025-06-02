@@ -1,21 +1,22 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { Outlet } from "react-router-dom"
+import { Outlet, useNavigate } from "react-router-dom"
 import SideLayout from "./SideLayout"
 import { Bell } from "lucide-react"
-// import { useEffect } from "react"
+import { useEffect } from "react"
+
 
 
 const Layout = () => {
   
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
-  // useEffect(()=>{
-  //   const token = localStorage.getItem("token")
+  useEffect(()=>{
+    const token = localStorage.getItem("token")
 
-  //   if(!token){
-  //     navigate("/auth/login")
-  //   }
-  // })
+    if(!token){
+      navigate("/auth/login")
+    }
+  })
 
   return (
     <div className="select-none overflow-hidden">

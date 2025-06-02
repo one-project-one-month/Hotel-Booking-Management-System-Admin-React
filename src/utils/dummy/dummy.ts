@@ -1,8 +1,6 @@
-
-import type {  CheckType } from "../types/BookingTypes/bookingTypes.ts";
 import type { menuItems } from "../types/UserTypes/userTypes.ts";
 
-export const menuItem:menuItems[] = [
+export const menuItem: menuItems[] = [
   {
     route: "/dashboard",
     text: "Dashboard",
@@ -34,9 +32,6 @@ export const menuItem:menuItems[] = [
     icon: "/images/log-out.png",
   },
 ];
-
-
-
 
 // export const bookings:Book[] = [
 //   {
@@ -160,17 +155,3 @@ export const menuItem:menuItems[] = [
 //     createdAt:"24/5/2000"
 //   },
 // ]
-
-
-export const checkTable:CheckType[] = [
-  {
-    id:"1",
-    customerName:"Arkar",
-    roomNo:104,
-    checkIn:"3:00AM",
-    checkOut:"12:00PM",
-    status:"Check-Out",
-    extraCharges:100,
-    createdAt:"24/5/2000"
-  }
-]
