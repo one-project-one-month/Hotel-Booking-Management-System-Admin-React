@@ -2,7 +2,7 @@ export interface CouponList {
   id: string;
   code: string;
   user_id: string;
-  discounts: number;
+  discount: number;
   expiry_date: string;
   is_active: boolean;
   created_at: string;

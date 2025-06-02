@@ -1,5 +1,5 @@
 import { TableCell, TableRow } from "@/components/ui/table.tsx";
-import { UpdateCouponFormDialog } from "@/components/Coupon/UpdateCouponFormDialog/UpdateCouponFormDialog.tsx";
+//import {  } from "@/components/Coupon/UpdateCouponFormDialog/UpdateCouponFormDialog.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Trash } from "lucide-react";
 import { type CouponList } from "@/utils/types/couponTypes/couponTypes.ts";
@@ -13,6 +13,8 @@ import {
   errorToastStyle,
   successToastStyle,
 } from "@/utils/dummy/Toast/toast.ts";
+import { useUser } from "@/hooks/useUser";
+import type { Username } from "@/utils/types/UserTypes/userTypes.ts";
 
 interface Props {
   coupon: CouponList;
@@ -22,11 +24,14 @@ interface Props {
 export default function CouponTableRow({ coupon, index }: Props) {
   const [openConfirmDeleteDialog, setOpenConfirmDeleteDialog] = useState(false);
   const { deleteCouponMutation } = useCouponById({ id: coupon.id });
-  // const { userQuery } = useUser();
-  // const { data: users } = userQuery;
+  const { userQuery } = useUser();
+  const { data: users } = userQuery;
 
-  // const userid = coupon.user_id;
-  // const user = users?.find((user) => user.id === userid);
+  if (!users) return;
+  const userid = coupon.user_id;
+  const user = users.length
+    ? users?.find((user: Username) => user.id === userid)
+    : {};
   const handleClickDelete = () => {
     setOpenConfirmDeleteDialog(true);
   };
@@ -46,8 +51,8 @@ export default function CouponTableRow({ coupon, index }: Props) {
     <TableRow>
       <TableCell>{index + 1}</TableCell>
       <TableCell>{coupon.code}</TableCell>
-      <TableCell>userid</TableCell>
-      <TableCell>${coupon.discounts}</TableCell>
+      <TableCell>{user ? user?.name : ""}</TableCell>
+      <TableCell>${coupon.discount}</TableCell>
       <TableCell>{coupon.expiry_date.split("T")[0]}</TableCell>
       <TableCell>{coupon.is_active ? "True" : "False"}</TableCell>
       <TableCell>
@@ -56,7 +61,7 @@ export default function CouponTableRow({ coupon, index }: Props) {
       <TableCell>{coupon.is_claimed ? "True" : "False"}</TableCell>
 
       <TableCell className="flex gap-3 mt-4">
-        <UpdateCouponFormDialog couponId={coupon.id} />
+        {/*<UpdateCouponFormDialog couponId={coupon.id} />*/}
         <Button
           size="icon"
           variant="outline"

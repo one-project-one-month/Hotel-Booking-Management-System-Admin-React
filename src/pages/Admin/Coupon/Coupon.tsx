@@ -4,11 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 // import { coupons } from "@/utils/dummy/coupon/couponDummy.ts";
 import { CreateCouponFormDialog } from "@/components/Coupon/CreateCouponFormDialog/CreateCouponFormDialog.tsx";
-import { type ChangeEvent, useState } from "react";
-import {
-  type CouponList,
-  type CouponList as Coupon,
-} from "@/utils/types/couponTypes/couponTypes.ts";
+import { type ChangeEvent, useEffect, useState } from "react";
+import { type CouponList } from "@/utils/types/couponTypes/couponTypes.ts";
 import CouponTableHeader from "@/components/Coupon/CouponTableHeader/CouponTableHeader.tsx";
 import CouponTableRow from "@/components/Coupon/CouponTableRow/CouponTableRow.tsx";
 import PaginationTable from "@/components/shared/TablePagination/PaginationTable";
@@ -19,7 +16,9 @@ export default function Coupon() {
   const { getAllCouponsQuery } = useCoupon();
   const { data: coupons, isLoading } = getAllCouponsQuery;
 
-  const [couponsToBeShown, setCouponsToBeShown] = useState<Coupon[]>(
+  console.log("hello");
+  console.log("coupons", coupons);
+  const [couponsToBeShown, setCouponsToBeShown] = useState<CouponList[]>(
     coupons ?? [],
   );
   const [currentPage, setCurrentPage] = useState(1);
@@ -54,15 +53,20 @@ export default function Coupon() {
   };
 
   const handleSearchCoupon = (e: ChangeEvent<HTMLInputElement>) => {
+    setCurrentPage(1);
     const searchedValue = e.target.value.toLowerCase();
     const filteredCoupons = coupons?.filter(
       (coupon) =>
         coupon.code.toLowerCase().includes(searchedValue) ||
-        coupon.discounts.toString().toLowerCase().includes(searchedValue),
+        coupon.discount.toString().toLowerCase().includes(searchedValue),
     );
     setCouponsToBeShown(filteredCoupons as CouponList[]);
   };
 
+  useEffect(() => {
+    git;
+    if (coupons?.length) setCouponsToBeShown(coupons as CouponList[]);
+  }, [coupons]);
   if (isLoading) return <CustomLoading />;
 
   return (
@@ -95,6 +99,7 @@ export default function Coupon() {
                     key={coupon.id}
                     coupon={coupon}
                     index={index + startIndex}
+                    // setCuponsToBeShown={setCouponsToBeShown}
                   />
                 );
               })

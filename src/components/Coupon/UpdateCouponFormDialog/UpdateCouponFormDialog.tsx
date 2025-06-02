@@ -23,6 +23,11 @@ import SelectUserFormField from "@/components/Coupon/SelectUserFormField/SelectU
 import { toast } from "sonner";
 import { useCoupon, useCouponById } from "@/hooks/useCoupon.ts";
 import type { CouponList } from "@/utils/types/couponTypes/couponTypes.ts";
+import { useUser } from "@/hooks/useUser.ts";
+import {
+  errorToastStyle,
+  successToastStyle,
+} from "@/utils/dummy/Toast/toast.ts";
 
 const updateCuponFormSchema = z.object({
   id: z.string().min(1, { message: "Id is required" }),
@@ -41,76 +46,44 @@ export function UpdateCouponFormDialog({ couponId }: Props) {
   const { getAllCouponsQuery } = useCoupon();
   const { data: coupons } = getAllCouponsQuery;
 
+  const { userQuery } = useUser();
+  const { data: users } = userQuery;
+
   const cuponToBeUpdated = coupons?.find((coupon) => coupon.id === couponId);
-  // const userId = users
-  //   .find((user) => user.coupon.includes(Number(couponId)))
-  //   ?.id.toString();
-  const userId = "";
 
   const form = useForm<z.infer<typeof updateCuponFormSchema>>({
     resolver: zodResolver(updateCuponFormSchema),
     mode: "onChange",
     defaultValues: {
-      id: cuponToBeUpdated?.id ?? couponId,
-      // code: cuponToBeUpdated?.code ?? "",
-      user_id: userId ?? "",
-      discounts: cuponToBeUpdated?.discounts.toString() ?? "",
-      expiry_date: cuponToBeUpdated?.expiry_date ?? "",
+      id: couponId,
+      user_id: cuponToBeUpdated?.user_id,
+      discounts: cuponToBeUpdated?.discount.toString(),
+      expiry_date: cuponToBeUpdated?.expiry_date,
     },
   });
 
   const onSubmit = async (formData: z.infer<typeof updateCuponFormSchema>) => {
-    console.log(formData);
     const updatedCoupon: Partial<CouponList> = {
       user_id: formData.user_id,
-      discounts: Number(formData.discounts),
+      discount: Number(formData.discounts),
       expiry_date: formData.expiry_date,
     };
+
     try {
       const res = await updateCouponMutation.mutateAsync(updatedCoupon);
 
       if (res) {
         form.reset({});
-        toast("Coupon is updated successfully", {
-          position: "top-center",
-          style: {
-            backgroundColor: "#228B22",
-            color: "white",
-            border: "none",
-            height: "60px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            fontSize: "16px",
-          },
-        });
+        toast("Coupon is updated successfully", successToastStyle);
       }
-
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast(`${error.response.data.message}`, {
-        position: "top-center",
-        style: {
-          backgroundColor: "red",
-          color: "white",
-          border: "none",
-          height: "60px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          fontSize: "16px",
-        },
-      });
+      toast(`${error.response.data.message}`, errorToastStyle);
     }
   };
 
   useEffect(() => {
     const getExpDate = () => {
-      // const year = date?.getFullYear().toString();
-      // const month = date?.getMonth().toString();
-      // const day = date?.getDate();
-      //
-      // const expDate = `${year}-${month}-${day}`;
       const expDate = date?.toISOString();
       form.setValue("expiry_date", expDate ?? "");
     };
@@ -128,9 +101,6 @@ export function UpdateCouponFormDialog({ couponId }: Props) {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Update Cupon</DialogTitle>
-          {/*<DialogDescription>*/}
-          {/*  Make changes to your profile here. Click save when you're done.*/}
-          {/*</DialogDescription>*/}
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -145,7 +115,7 @@ export function UpdateCouponFormDialog({ couponId }: Props) {
                 control={form.control}
                 name={"user_id"}
                 label={"User"}
-                users={[]}
+                users={users}
                 placeholder={"Select User"}
               />
               <InputFormField

@@ -31,7 +31,7 @@ import {
 const createCuponFormSchema = z.object({
   // code: z.string().min(1, { message: "Code is required" }),
   user_id: z.string().min(1, { message: "UserId is required" }),
-  discounts: z.string().min(1, { message: "Discount Price is required" }),
+  discount: z.string().min(1, { message: "Discount Price is required" }),
   expiry_date: z.string().min(1, { message: "Expiry date is required" }),
 });
 
@@ -50,14 +50,20 @@ export function CreateCouponFormDialog() {
   const onSubmit = async (formData: z.infer<typeof createCuponFormSchema>) => {
     const newCoupon: Partial<CouponList> = {
       user_id: formData.user_id,
-      discounts: Number(formData.discounts),
+      discounts: Number(formData.discount),
       expiry_date: formData.expiry_date,
     };
     try {
       const res = await createCouponMutation.mutateAsync(newCoupon);
+      console.log("res is ", res);
 
       if (res) {
-        form.reset({});
+        form.reset({
+          user_id: "",
+          discount: "",
+          expiry_date: "",
+        });
+        setDate(undefined);
         toast("Coupon is created successfully", successToastStyle);
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -95,7 +101,7 @@ export function CreateCouponFormDialog() {
               <InputFormField
                 control={form.control}
                 type={"number"}
-                name={"discounts"}
+                name={"discount"}
                 placeholder={"Enter Discount Price"}
                 label={"Discount Price"}
               />

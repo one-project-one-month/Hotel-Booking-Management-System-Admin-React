@@ -10,14 +10,13 @@ const getAllCoupons = async (): Promise<CouponList[]> => {
 
 const createCoupon = async (newCoupon: Partial<CouponList>) => {
   const response = await Axios.post("coupons", newCoupon);
-  return response.data.data;
+  return response.data;
 };
 
 const updateCoupon = async (id: string, updatedCoupon: Partial<CouponList>) => {
   const response = await Axios.patch(`coupons/${id}`, updatedCoupon);
   return response.data.data;
 };
-
 
 const getCouponById = async (id: string) => {
   const response = await Axios.get(`coupons/${id}`);
@@ -61,12 +60,12 @@ export const useCouponById = ({ id }: Props) => {
 
   const updateCouponMutation = useMutation({
     mutationKey: ["coupons", id],
-    mutationFn: (updatedCoupon: Partial<CouponList>) => updateCoupon(id, updatedCoupon),
+    mutationFn: (updatedCoupon: Partial<CouponList>) =>
+      updateCoupon(id, updatedCoupon),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["coupons"] });
     },
   });
-
 
   const deleteCouponMutation = useMutation({
     mutationKey: ["coupons"],
