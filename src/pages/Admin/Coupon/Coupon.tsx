@@ -64,7 +64,6 @@ export default function Coupon() {
   };
 
   useEffect(() => {
-    git;
     if (coupons?.length) setCouponsToBeShown(coupons as CouponList[]);
   }, [coupons]);
   if (isLoading) return <CustomLoading />;

@@ -1,7 +1,4 @@
-import {
-  Table,
-  TableBody,
-} from "@/components/ui/table";
+import { Table, TableBody } from "@/components/ui/table";
 
 import { useNavigate } from "react-router-dom";
 import { useUser } from "@/hooks/useUser";
@@ -11,11 +8,12 @@ import PaginationTable from "@/components/shared/TablePagination/PaginationTable
 import TableUserHeader from "@/components/user/TableUserHeader";
 import TableUserBody from "@/components/user/TableUserBody";
 import UserInput from "@/components/user/UserInput";
+import CustomLoading from "@/components/shared/Loading/Loading";
+import { toast } from "sonner";
 
 const User = () => {
-  
   const { userQuery, deleteMutation } = useUser();
-  const { isSuccess, isError, data: user, isLoading } = userQuery;
+  const { isSuccess, isError, data: user, isLoading, error } = userQuery;
   const [filterUser, setFilterUser] = useState<Username[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemPerPage = 5;
@@ -40,22 +38,21 @@ const User = () => {
     pages.push(i);
   }
 
-  function compare( a:Username, b:Username ) {
-  if ( a.createdAt < b.createdAt ){
-    return 1;
+  function compare(a: Username, b: Username) {
+    if (a.createdAt < b.createdAt) {
+      return 1;
+    }
+    if (a.createdAt > b.createdAt) {
+      return -1;
+    }
+    return 0;
   }
-  if ( a.createdAt > b.createdAt){
-    return -1;
-  }
-  return 0;
-}
 
-const mainData = filterUser.sort( compare );
+  const mainData = filterUser.sort(compare);
 
   const startIndex = (currentPage - 1) * itemPerPage;
   const endIndex = startIndex + itemPerPage;
   const currentUser = mainData.slice(startIndex, endIndex);
-
 
   const pageClick = (text: number) => {
     setCurrentPage(Number(text));
@@ -84,11 +81,23 @@ const mainData = filterUser.sort( compare );
   };
 
   if (isLoading) {
-    return <div>Loading</div>;
+    return <CustomLoading />;
   }
 
   if (isError) {
-    return <div>Error</div>;
+    return toast(`${error.message}`, {
+      position: "top-center",
+      style: {
+        backgroundColor: "red",
+        color: "white",
+        border: "none",
+        height: "60px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        fontSize: "16px",
+      },
+    });
   }
 
   const userChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -103,14 +112,19 @@ const mainData = filterUser.sort( compare );
 
   return (
     <div>
-      <UserInput userChange={userChange} createUser={createUser}/>
+      <UserInput userChange={userChange} createUser={createUser} />
       <div className="h-[calc(100vh-200px)] w-[81vw] overflow-auto rounded-md shadow-lg mt-[10px] px-[10px]">
         <Table>
           <TableUserHeader />
           <TableBody>
             {currentUser?.map((user: Username) => {
               return (
-                <TableUserBody user={user} deleteUser={deleteUser} updateUser={updateUser} key={user.id}/>
+                <TableUserBody
+                  user={user}
+                  deleteUser={deleteUser}
+                  updateUser={updateUser}
+                  key={user.id}
+                />
               );
             })}
           </TableBody>
@@ -122,7 +136,13 @@ const mainData = filterUser.sort( compare );
         )}
       </div>
       <div className="w-full mt-[10px] h-[60px] flex rounded-md shadow-lg">
-          <PaginationTable prevClick={prevClick} pages={pages} currentPage={currentPage} nextClick={nextClick} pageClick={pageClick}/>
+        <PaginationTable
+          prevClick={prevClick}
+          pages={pages}
+          currentPage={currentPage}
+          nextClick={nextClick}
+          pageClick={pageClick}
+        />
       </div>
     </div>
   );

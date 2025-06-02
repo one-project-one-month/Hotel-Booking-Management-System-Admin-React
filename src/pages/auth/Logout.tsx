@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button"
-import Axios from "@/config/ApiConfig";
 import { useNavigate } from "react-router-dom"
 import { toast } from "sonner";
 
@@ -13,16 +12,11 @@ const Logout = () => {
     window.location.reload()
   }
 
-  const yesBtn = async() => {
-    await Axios.post("users/logout").then((res)=>{
-      if(res.data.status === 200){
-          localStorage.removeItem("token")
-          toast(`${res.data.message}`,{position:"top-center",style:{backgroundColor:"#228B22",color:"white",border:'none',height:'60px',display:'flex',justifyContent:'center',alignItems:'center',fontSize:"16px"}})
-          navigate("/auth/login")
-      }
-    }).catch(error =>{
-      console.log(error.response.data.message)
-    })
+  const yesBtn = () => {
+    localStorage.removeItem("token")
+    localStorage.removeItem("CheckId")
+    toast('logout successfully.',{position:"top-center",style:{backgroundColor:"#228B22",color:"white",border:'none',height:'60px',display:'flex',justifyContent:'center',alignItems:'center',fontSize:"16px"}})
+    navigate("/auth/login")
    
   }
 

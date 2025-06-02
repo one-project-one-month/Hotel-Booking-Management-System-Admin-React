@@ -10,11 +10,11 @@ const TableUserBody = ({ user, updateUser, deleteUser }: userBodyProps) => {
   return (
     <TableRow key={user.id}>
       <TableCell>
-        <div className="w-[70px] h-[70px]  rounded-md shadow-lg mx-auto">
+        <div className="w-[80px] h-[80px]  rounded-md shadow-lg mx-auto">
           <img
             src={user.imageUrl}
             alt="user.profile"
-            className="w-full h-full rounded-md shadow-lg"
+            className="w-full h-full rounded-md shadow-lg object-cover"
           />
         </div>
       </TableCell>

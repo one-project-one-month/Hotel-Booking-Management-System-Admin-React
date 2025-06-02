@@ -8,10 +8,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import type { DropDownProps } from "@/utils/types/BookingTypes/bookingTypes";
 
-
-
-
-const DropDown = ({ CheckIn, Maintance, CheckOut, status, active,viewBooking,updateBooking }: DropDownProps) => {
+const DropDown = ({
+  CheckIn,
+  status,
+  viewBooking,
+  CheckOutClick,
+  updateBooking,
+  viewHistory,
+}: DropDownProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -19,7 +23,7 @@ const DropDown = ({ CheckIn, Maintance, CheckOut, status, active,viewBooking,upd
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuGroup>
-          {status === "Booked" && (
+          {status === "pending" && (
             <>
               <DropdownMenuItem
                 className="cursor-pointer text-green-600 hover:text-green-700 bg-transparent hover:bg-green-100 focus:bg-green-100 focus:text-green-700"
@@ -32,53 +36,37 @@ const DropDown = ({ CheckIn, Maintance, CheckOut, status, active,viewBooking,upd
           {status === "Check-In" && (
             <DropdownMenuItem
               className="cursor-pointer text-orange-600 hover:text-orange-700 bg-transparent hover:bg-orange-100 focus:bg-orange-100 focus:text-orange-700"
-              onClick={CheckOut}
+              onClick={CheckOutClick}
             >
               CheckOut
             </DropdownMenuItem>
           )}
-          {status === "Check-Out" && !active && (
-            <>
-              <DropdownMenuItem
-                className="cursor-pointer text-red-600 hover:text-red-700 bg-transparent hover:bg-red-100 focus:bg-red-100 focus:text-red-700"
-                onClick={Maintance}
-              >
-                Maintance
-              </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer text-blue-600 hover:text-blue-700 bg-transparent hover:bg-blue-100 focus:bg-blue-100 focus:text-blue-700">
-                Availabe
-              </DropdownMenuItem>
-            </>
-          )}
-          {status === "Maintance" && (
+
+          {status === "Check-In" && (
             <DropdownMenuItem
-              className="cursor-pointer text-blue-600 hover:text-blue-700 bg-transparent hover:bg-blue-100 focus:bg-blue-100 focus:text-blue-700"
-              onClick={Maintance}
+              className="cursor-pointer text-purple-600 hover:text-purple-700 bg-transparent hover:bg-purple-100 focus:bg-purple-100 focus:text-purple-700"
+              onClick={updateBooking}
             >
-              Availabe
+              Update Booking Room
             </DropdownMenuItem>
           )}
 
-          {active && (
-            <>
-            {
-              status !== 'Check-Out' && (
-                   <DropdownMenuItem
-                className="cursor-pointer text-purple-600 hover:text-purple-700 bg-transparent hover:bg-purple-100 focus:bg-purple-100 focus:text-purple-700"
-                onClick={updateBooking}
-              >
-                Update Booking Room
-              </DropdownMenuItem>
-              )
-            }
-           
-              <DropdownMenuItem
-                className="cursor-pointer text-blue-600 hover:text-blue-700 bg-transparent hover:bg-blue-100 focus:bg-blue-100 focus:text-blue-700"
-                onClick={viewBooking}
-              >
-                View Invoice
-              </DropdownMenuItem>
-            </>
+          {status === "Check-Out" && (
+            <DropdownMenuItem
+              className="cursor-pointer text-blue-600 hover:text-blue-700 bg-transparent hover:bg-blue-100 focus:bg-blue-100 focus:text-blue-700"
+              onClick={viewBooking}
+            >
+              Create Invoice
+            </DropdownMenuItem>
+          )}
+
+          {status === "approved" && (
+            <DropdownMenuItem
+              className="cursor-pointer text-blue-600 hover:text-blue-700 bg-transparent hover:bg-blue-100 focus:bg-blue-100 focus:text-blue-700"
+              onClick={viewHistory}
+            >
+              View Invoice
+            </DropdownMenuItem>
           )}
         </DropdownMenuGroup>
       </DropdownMenuContent>

@@ -2,8 +2,9 @@ import { BedDouble, BellRing, PersonStanding , Ticket  } from "lucide-react";
 import DashboardStatCard from "@/components/Dashbord/DashboardStatCard/DashboardStatCard.tsx";
 import UserChart from "@/components/Dashbord/UserChart";
 import BookingChart from "@/components/Dashbord/BookingChart";
-import useBooking from "@/hooks/useBooking";
+import {useBooking} from "@/hooks/useBooking";
 import { useUser } from "@/hooks/useUser";
+import { useRoom } from "@/hooks/useRooms";
 
 
 
@@ -13,9 +14,12 @@ const Dashboard = () => {
     const {bookingQuery} = useBooking();
     const { userQuery } = useUser();
 
+    const {getAllRoomsQuery} = useRoom()
+
 
     const {data:user} = userQuery;
     const {data:booking} = bookingQuery;
+    const {data:room} = getAllRoomsQuery
     
 
     return (
@@ -29,7 +33,7 @@ const Dashboard = () => {
                 />
                 <DashboardStatCard
                     bgColor={"bg-[#52ED97] "}
-                    count={1875}
+                    count={room?.length || 0}
                     label={"Available Rooms"}
                     Icon={(props) => <BedDouble {...props} />}
                 />

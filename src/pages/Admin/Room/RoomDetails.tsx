@@ -38,14 +38,7 @@ export default function RoomDetails() {
   const parsedDetails: TypeOfRoomDetails = JSON.parse(
     room.details as unknown as string,
   );
-  console.log("parse details", parsedDetails);
-  console.log("parse details", parsedDetails.description);
-  console.log("parse details", parsedDetails.amenities);
 
-  console.log("typeof parsedDetails", typeof parsedDetails);
-  console.log("parsedDetails keys", Object.keys(parsedDetails));
-  console.log("parsedDetails.description", parsedDetails["description"]);
-  console.log("parsedDetails.amenities", parsedDetails["amenities"]);
 
   return (
     <div className="h-[calc(100vh-80px)]   max-w-6xl mx-auto p-6 relative">

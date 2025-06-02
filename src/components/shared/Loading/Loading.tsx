@@ -3,7 +3,7 @@ import loadingAnimation from "../../../assets/loading_animation.json";
 
 export default function CustomLoading() {
   return (
-    <div className="w-[100%] h-[calc(100vh-40px)] flex justify-center items-center">
+    <div className="w-[100%] h-[calc(100vh-100px)] flex justify-center items-center">
       <div className="flex flex-col items-center space-y-4">
         <div className={"rounded-full w-20 h-20 overflow-hidden "}>
           <Lottie

@@ -1,73 +1,137 @@
-import { Button } from "@/components/ui/button"
-import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { useParams } from "react-router-dom"
+import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import useCheckOut from "@/hooks/useCheckOut";
+import { useRoom } from "@/hooks/useRooms";
+import { useUser } from "@/hooks/useUser";
+import type { Room } from "@/utils/types/roomTypes/roomTypes";
+import type { Username } from "@/utils/types/UserTypes/userTypes";
+import moment from "moment";
 
 const ViewBooking = () => {
-  const {id} = useParams();
-  console.log(id)
+  const { dataList } = useCheckOut();
+
+  const { userQuery } = useUser();
+
+  const { getAllRoomsQuery } = useRoom();
+
+  const { data: room } = getAllRoomsQuery;
+  const { data: user } = userQuery;
+
+  const roomList = room?.find(
+    (room: Room) => room.id === dataList?.booking?.roomId
+  );
+  const roomNo = roomList?.roomNo || "";
+
+  const customerName = user?.find(
+    (userList: Username) => userList.id === dataList?.booking?.userId
+  );
+
+  const customer = customerName?.name || "";
+
+  const roomPrice = roomList?.price || 0;
+
+  const pay =
+    dataList?.booking?.totalAmount -
+    dataList?.booking?.depositAmount +
+    dataList.extraCharge;
+  const total = pay + dataList?.booking?.depositAmount;
 
   return (
-   <div>
-      <div className="shadow-lg mt-8 h-[65vh] rounded-md p-2 px-[60px] w-[40%] mx-auto">
-        <div className="flex flex-col justify-center items-center">
-          <h3 className="text-3xl font-semibold">Hotel Receipt</h3>
-          <div className="flex p-4 gap-2 items-center">
-            <h3 className="flex gap-2">BookingNo: <p className="font-semibold">INV-000001</p></h3> |
-            <h3 className="flex gap-2">Date: <p className="font-semibold">15/5/2025</p></h3>
-          </div>
-        </div>
-        <div className="mt-4">
-          <h3 className="font-semibold">Guest Details:</h3>
-          <h3 className="flex gap-3">Name: <p className="font-semibold">Arkar</p></h3>
-          <h3 className="flex gap-3">Contact Number: <p className="font-semibold">09123456789</p></h3>
-          <div className="flex gap-2 items-center">
-            <h3 className="flex gap-2">CheckIn: <p className="font-semibold">1:00AM</p></h3> |
-            <h3 className="flex gap-2">CheckOut: <p className="font-semibold">3:00PM</p></h3>
-          </div>
-          <h3  className="flex gap-3">Guest Count: <p className="font-semibold">4</p></h3>
-        </div>
-        <div className="h-[220px] overflow-auto w-[100%]">
-          <Table className="mt-4 border-2">
-            <TableHeader>
-              <TableRow>
-                <TableHead className="text-center">Room Number</TableHead>
-                <TableHead className="text-right">Unique Price</TableHead>
-                <TableHead className="text-center">Quantity</TableHead>
-                <TableHead className="text-right">Total Price</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow>
-                <TableCell className="text-center">102</TableCell>
-                <TableCell className="text-right">20000</TableCell>
-                <TableCell className="text-center">3</TableCell>
-                <TableCell className="text-right">60000</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="text-center">102</TableCell>
-                <TableCell className="text-right">20000</TableCell>
-                <TableCell className="text-center">3</TableCell>
-                <TableCell className="text-right">60000</TableCell>
-              </TableRow>
-            </TableBody>
-            <TableFooter>
-                <TableRow>
-                  <TableCell colSpan={3} className="text-center">Deposit Amount</TableCell>
-                  <TableCell className="text-right">10000</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell colSpan={3} className="text-center">Total</TableCell>
-                  <TableCell className="text-right">50000</TableCell>
-                </TableRow>
-              </TableFooter>
-          </Table>
-        </div>
-        <div className="mt-8 ml-[65px] flex justify-end w-[100%]">
-          <Button className="w-[150px] cursor-pointer">Print Invoice</Button>
-        </div>
+    <div className="shadow-lg mt-2 h-[calc(100vh-180px)]  rounded-md p-2 px-[30px] w-[40%] mx-auto">
+      <div className="flex flex-col justify-center">
+        <h3 className="text-3xl font-bold text-center mb-2">Hotel Receipt</h3>
+        <h3 className="flex gap-2 mt-2">
+          BookingNo:{" "}
+          <p className="font-semibold text-nowrap text-sm">
+            INV-{dataList.bookingId}
+          </p>
+        </h3>
+        <h3 className="flex gap-2 mt-2">
+          Invoice Date:{" "}
+          <p className="font-semibold">
+            {moment(dataList?.createdAt).format("MMMM Do YYYY, h:mm:ss A")}
+          </p>
+        </h3>
       </div>
-   </div>
-  )
-}
+      <div className="mt-2">
+        <h3 className="font-bold">Guest Details:</h3>
+        <h3 className="flex gap-3">
+          Name: <p className="font-semibold">{customer}</p>
+        </h3>
+        <h3 className="flex gap-2 items-center">
+          CheckIn:{" "}
+          <p className="font-semibold text-nowrap text-sm">
+            {moment(dataList?.checkIn).format("MMMM Do YYYY, h:mm:ss A")}
+          </p>
+        </h3>
+        <h3 className="flex gap-2 items-center">
+          CheckOut:{" "}
+          <p className="font-semibold text-nowrap text-sm">
+            {moment(dataList?.checkOut).format("MMMM Do YYYY, h:mm:ss A")}
+          </p>
+        </h3>
+        <h3 className="flex gap-3">
+          Guest Count:{" "}
+          <p className="font-semibold">{dataList?.booking?.guestCount}</p>
+        </h3>
+      </div>
+      <div className="h-[46%] overflow-auto w-[100%]">
+        <Table className="mt-2 border-1">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="text-center">Room Number</TableHead>
+              <TableHead className="text-right">Unique Price</TableHead>
+              <TableHead className="text-center">Used Date</TableHead>
+              <TableHead className="text-right">Total Price</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell className="text-center">{roomNo}</TableCell>
+              <TableCell className="text-right">{roomPrice}Ks</TableCell>
+              <TableCell className="text-center">3days</TableCell>
+              <TableCell className="text-right">
+                {dataList?.booking?.totalAmount}Ks
+              </TableCell>
+            </TableRow>
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell colSpan={3}>Deposit Amount</TableCell>
+              <TableCell className="text-right">
+                {dataList?.booking?.depositAmount}Ks
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell colSpan={3}>Extra Charge Amount</TableCell>
+              <TableCell className="text-right">
+                {dataList.extraCharge}Ks
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell colSpan={3}>Pay Amount</TableCell>
+              <TableCell className="text-right">{pay}Ks</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell colSpan={3}>Total</TableCell>
+              <TableCell className="text-right">{total}Ks</TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </div>
+      <div className="flex mt-2 justify-end w-[100%]">
+        <Button className="w-[120px] cursor-pointer">Print Invoice</Button>
+      </div>
+    </div>
+  );
+};
 
-export default ViewBooking
+export default ViewBooking;

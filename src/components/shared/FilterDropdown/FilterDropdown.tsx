@@ -29,7 +29,6 @@ export default function FilterDropdown({
 }: Props) {
   const [open, setOpen] = React.useState(false);
 
-  console.log(open);
   return (
     <div className="flex flex-col items-center">
       <DropdownMenu open={open} onOpenChange={setOpen}>
