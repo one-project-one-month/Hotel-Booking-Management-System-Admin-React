@@ -1,226 +1,151 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { Table, TableBody } from "@/components/ui/table";
 
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination"
-import { Edit, Filter, Plus, Trash } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { useNavigate } from "react-router-dom"
-
-
-// eslint-disable-next-line react-refresh/only-export-components, @typescript-eslint/no-explicit-any
-export const users:any = [
-  {
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phNo:928388383,
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  },
-   {
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phNo:928388383,
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  },
-   {
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phNo:928388383,
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  }, {
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phNo:928388383,
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  },
-   {
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phNo:928388383,
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  },
-   {
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phNo:928388383,
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  },
-   {
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phNo:928388383,
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  }, {
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phNo:928388383,
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  },
-   {
-    profile:"https://avatars.githubusercontent.com/u/70505132?v=4",
-    name:"arkar",
-    email:"arkar@gmail.com",
-    phNo:928388383,
-    role:"user",
-    points:100,
-    coupon:1000,
-    createdAt:'24/5/2000'
-  }
-]
-
+import { useNavigate } from "react-router-dom";
+import { useUser } from "@/hooks/useUser";
+import { useEffect, useState, type ChangeEvent } from "react";
+import type { Username } from "@/utils/types/UserTypes/userTypes";
+import PaginationTable from "@/components/shared/TablePagination/PaginationTable";
+import TableUserHeader from "@/components/user/TableUserHeader";
+import TableUserBody from "@/components/user/TableUserBody";
+import UserInput from "@/components/user/UserInput";
+import CustomLoading from "@/components/shared/Loading/Loading";
+import { toast } from "sonner";
 
 const User = () => {
+  const { userQuery, deleteMutation } = useUser();
+  const { isSuccess, isError, data: user, isLoading, error } = userQuery;
+  const [filterUser, setFilterUser] = useState<Username[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemPerPage = 5;
+  const pages: number[] = [];
+
+  const prevClick = () => {
+    if (currentPage > pages.length) {
+      setCurrentPage((prev) => prev - 1);
+    } else {
+      setCurrentPage(1);
+    }
+  };
+  const nextClick = () => {
+    if (currentPage !== pages.length) {
+      setCurrentPage((prev) => prev + 1);
+    } else {
+      setCurrentPage(1);
+    }
+  };
+
+  for (let i = 1; i <= Math.ceil(filterUser.length / itemPerPage); i++) {
+    pages.push(i);
+  }
+
+  function compare(a: Username, b: Username) {
+    if (a.createdAt < b.createdAt) {
+      return 1;
+    }
+    if (a.createdAt > b.createdAt) {
+      return -1;
+    }
+    return 0;
+  }
+
+  const mainData = filterUser.sort(compare);
+
+  const startIndex = (currentPage - 1) * itemPerPage;
+  const endIndex = startIndex + itemPerPage;
+  const currentUser = mainData.slice(startIndex, endIndex);
+
+  const pageClick = (text: number) => {
+    setCurrentPage(Number(text));
+  };
+
+  const deleteUser = (id: string) => {
+    if (window.confirm()) {
+      deleteMutation.mutate(id);
+    }
+  };
+
+  useEffect(() => {
+    if (isSuccess && user) {
+      setFilterUser(user);
+    }
+  }, [user, isSuccess]);
 
   const navigate = useNavigate();
 
-
   const createUser = () => {
-    navigate("/users/create")
+    navigate("/users/create");
+  };
+
+  const updateUser = (id: string) => {
+    navigate(`/users/update/${id}`);
+  };
+
+  if (isLoading) {
+    return <CustomLoading />;
   }
 
-  const updateUser = () => {
-    navigate("/users/update")
+  if (isError) {
+    return toast(`${error.message}`, {
+      position: "top-center",
+      style: {
+        backgroundColor: "red",
+        color: "white",
+        border: "none",
+        height: "60px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        fontSize: "16px",
+      },
+    });
   }
+
+  const userChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const filter = user.filter((user: Username) => {
+      return (
+        user.name.toLowerCase().includes(event.target.value.toLowerCase()) ||
+        user.email.toLowerCase().includes(event.target.value.toLowerCase())
+      );
+    });
+    setFilterUser(filter);
+  };
 
   return (
     <div>
-        <div className="flex justify-between items-center rounded-md shadow-lg h-[60px] px-[1rem]">
-          <h3 className="text-2xl font-semibold">User Listings</h3>
-          <div>
-            <Input placeholder="Search User" className="w-[500px]"/>
+      <UserInput userChange={userChange} createUser={createUser} />
+      <div className="h-[calc(100vh-200px)] w-[81vw] overflow-auto rounded-md shadow-lg mt-[10px] px-[10px]">
+        <Table>
+          <TableUserHeader />
+          <TableBody>
+            {currentUser?.map((user: Username) => {
+              return (
+                <TableUserBody
+                  user={user}
+                  deleteUser={deleteUser}
+                  updateUser={updateUser}
+                  key={user.id}
+                />
+              );
+            })}
+          </TableBody>
+        </Table>
+        {currentUser.length === 0 && (
+          <div className="flex justify-center items-center mt-[200px]">
+            <p className="text-xl">No User found.</p>
           </div>
-          <div className="flex gap-5">
-            <Button className="cursor-pointer" variant='secondary' onClick={createUser}>
-              <Plus /> Create
-            </Button>
-            <Button size='icon' className="cursor-pointer" variant='secondary'>
-              <Filter />
-            </Button>
-          </div>
-        </div>
-        <div className="h-[73vh] overflow-auto rounded-md shadow-lg mt-[10px] px-[10px]">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead  className="w-[100px] text-center text-md">Profile</TableHead>
-                <TableHead className="w-[100px] text-md">Name</TableHead>
-                <TableHead className="w-[100px] text-md">Email</TableHead>
-                <TableHead className="w-[100px] text-md">Ph Number</TableHead>
-                <TableHead  className="w-[100px] text-md">Role</TableHead>
-                <TableHead  className="w-[100px] text-md">Points</TableHead>
-                <TableHead  className="w-[100px] text-md">Coupon</TableHead>
-                <TableHead  className="w-[100px] text-md">CreatedAt</TableHead>
-                <TableHead  className="w-[100px] text-md">Action</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                users.map((user:any)=>{
-                  return (
-                      <TableRow>
-                        <TableCell>
-                          <div className="w-[70px] h-[70px]  rounded-md shadow-lg mx-auto">
-                            <img src={user.profile} alt="user.profile" className="w-full h-full rounded-md shadow-lg"/>
-                          </div>
-                          </TableCell>
-                          <TableCell>{user.name}</TableCell>
-                          <TableCell>{user.email}</TableCell>
-                          <TableCell>{user.phNo}</TableCell>
-                          <TableCell>{user.role}</TableCell>
-                          <TableCell>{user.points}</TableCell>
-                          <TableCell>{user.coupon}</TableCell>
-                          <TableCell>{user.createdAt}</TableCell>
-                          <TableCell className="flex gap-3 mt-4">
-                            <Button size='icon' variant='outline' className="cursor-pointer" onClick={updateUser}>
-                              <Edit className="text-blue-500"/>
-                            </Button>
-                            <Button size='icon' variant='outline' className="cursor-pointer">
-                              <Trash className="text-red-500"/>
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                  )
-                })
-              }
-              
-            </TableBody>
-          </Table>
-        </div>
-        <div className="w-full mt-[10px] h-[60px] flex rounded-md shadow-lg">
-              <Pagination className="justify-end">
-                <PaginationContent>
-                  <PaginationItem>
-                    <PaginationPrevious href="#" />
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink href="#">1</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink href="#" isActive>
-                      2
-                    </PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink href="#">3</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationEllipsis />
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationNext href="#" />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
-        </div>
+        )}
+      </div>
+      <div className="w-full mt-[10px] h-[60px] flex rounded-md shadow-lg">
+        <PaginationTable
+          prevClick={prevClick}
+          pages={pages}
+          currentPage={currentPage}
+          nextClick={nextClick}
+          pageClick={pageClick}
+        />
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default User
+export default User;

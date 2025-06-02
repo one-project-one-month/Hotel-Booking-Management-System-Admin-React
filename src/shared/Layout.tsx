@@ -1,12 +1,25 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { Outlet } from "react-router-dom"
+import { Outlet, useNavigate } from "react-router-dom"
 import SideLayout from "./SideLayout"
 import { Bell } from "lucide-react"
+import { useEffect } from "react"
+
 
 
 const Layout = () => {
+  
+  const navigate = useNavigate()
+
+  useEffect(()=>{
+    const token = localStorage.getItem("token")
+
+    if(!token){
+      navigate("/auth/login")
+    }
+  })
+
   return (
-    <div>
+    <div className="select-none overflow-hidden">
       <SidebarProvider  defaultOpen={true}>
         <SideLayout />
          <div className="flex flex-col w-[100%]">

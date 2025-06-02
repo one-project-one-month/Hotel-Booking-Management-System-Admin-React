@@ -13,8 +13,11 @@ const Logout = () => {
   }
 
   const yesBtn = () => {
-    toast("Logout Successfully",{position:"top-center",style:{backgroundColor:"#228B22",color:"white",border:'none',height:'60px',display:'flex',justifyContent:'center',alignItems:'center',fontSize:"16px"}})
+    localStorage.removeItem("token")
+    localStorage.removeItem("CheckId")
+    toast('logout successfully.',{position:"top-center",style:{backgroundColor:"#228B22",color:"white",border:'none',height:'60px',display:'flex',justifyContent:'center',alignItems:'center',fontSize:"16px"}})
     navigate("/auth/login")
+   
   }
 
   return (
