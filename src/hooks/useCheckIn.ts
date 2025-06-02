@@ -15,25 +15,33 @@ const getIdCheckIn = async(id:string) =>{
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const patchCheckIn = async(id:string,dataList:any) => {
-    console.log(id)
-    console.log(dataList)
     const data = await Axios.patch(`check-in-out/${id}`,dataList)
     return data.data;
+}
+
+const getCheckInOut = async() => {
+    const res = await Axios.get("check-in-out")
+    return res.data.data;
 }
 
 export const useCheckIn = () => {
 
     const queryClient = useQueryClient()
 
+    const query = useQuery({
+        queryKey:['check-in-out'],
+        queryFn:getCheckInOut
+    })
+
     const mutation = useMutation({
-        mutationKey:["users"],
+        mutationKey:["check-in-out"],
         mutationFn:createCheckIn,
         onSuccess:()=>{
            queryClient.invalidateQueries({ queryKey: ["users"] });
         }
     })
 
-    return {mutation}
+    return {mutation,query}
 }
 
 interface Props {

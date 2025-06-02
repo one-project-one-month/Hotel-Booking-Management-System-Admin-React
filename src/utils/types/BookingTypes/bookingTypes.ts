@@ -42,6 +42,7 @@ export interface DropDownProps {
   CheckOutClick?:() =>void;
   viewBooking?:() => void;
   updateBooking?:() => void;
+  viewHistory?:() => void;
 }
 
 export interface bookingProps{

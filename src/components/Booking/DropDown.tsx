@@ -14,6 +14,7 @@ const DropDown = ({
   viewBooking,
   CheckOutClick,
   updateBooking,
+  viewHistory,
 }: DropDownProps) => {
   return (
     <DropdownMenu>
@@ -62,7 +63,7 @@ const DropDown = ({
           {status === "approved" && (
             <DropdownMenuItem
               className="cursor-pointer text-blue-600 hover:text-blue-700 bg-transparent hover:bg-blue-100 focus:bg-blue-100 focus:text-blue-700"
-              // onClick={viewBooking}
+              onClick={viewHistory}
             >
               View Invoice
             </DropdownMenuItem>

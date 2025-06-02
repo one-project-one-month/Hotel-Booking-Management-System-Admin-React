@@ -6,7 +6,7 @@ import type {
 } from "@/utils/types/BookingTypes/bookingTypes";
 import TableBooking from "@/components/Booking/TableBooking";
 import { useEffect, useState, type ChangeEvent } from "react";
-import useBooking from "@/hooks/useBooking";
+import {useBooking} from "@/hooks/useBooking";
 import TableHeaders from "@/components/Booking/TableHeader";
 import PaginationTable from "@/components/shared/TablePagination/PaginationTable";
 import BookingInput from "@/components/Booking/BookingInput";
