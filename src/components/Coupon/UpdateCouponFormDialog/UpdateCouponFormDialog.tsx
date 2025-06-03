@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/dialog.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@/components/ui/label.tsx";
-import { DatePicker } from "@/components/shared/DatePicker/DatePicker.tsx";
 import SubmitButton from "@/components/shared/CustomButtons/SubmitButton/SubmitButton.tsx";
 import { z } from "zod";
 import { Edit } from "lucide-react";
@@ -129,9 +128,21 @@ export function UpdateCouponFormDialog({ couponId }: Props) {
               <div className="grid gap-2">
                 <Label>
                   {" "}
-                  Expiry Date: ({cuponToBeUpdated?.expiry_date.split("T")[0]})
+                  Expiry Date : ({cuponToBeUpdated?.expiry_date.split("T")[0]})
                 </Label>
-                <DatePicker date={date} setDate={setDate} />
+                <Input
+                  type={"date"}
+                  value={date?.toISOString().split("T")[0] ?? ""}
+                  onChange={(e) => setDate(new Date(e.target.value))}
+                />
+
+                {form.formState.errors.expiry_date && !date ? (
+                  <label className={"text-red-600 text-sm"}>
+                    {form.formState.errors.expiry_date.message}
+                  </label>
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
             <DialogFooter>
