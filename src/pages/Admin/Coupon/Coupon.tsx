@@ -1,14 +1,11 @@
-import { Table, TableBody } from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 // import { coupons } from "@/utils/dummy/coupon/couponDummy.ts";
 import { CreateCouponFormDialog } from "@/components/Coupon/CreateCouponFormDialog/CreateCouponFormDialog.tsx";
-import { type ChangeEvent, useState } from "react";
-import {
-  type CouponList,
-  type CouponList as Coupon,
-} from "@/utils/types/couponTypes/couponTypes.ts";
+import { type ChangeEvent, useEffect, useState } from "react";
+import { type CouponList } from "@/utils/types/couponTypes/couponTypes.ts";
 import CouponTableHeader from "@/components/Coupon/CouponTableHeader/CouponTableHeader.tsx";
 import CouponTableRow from "@/components/Coupon/CouponTableRow/CouponTableRow.tsx";
 import PaginationTable from "@/components/shared/TablePagination/PaginationTable";
@@ -19,7 +16,9 @@ export default function Coupon() {
   const { getAllCouponsQuery } = useCoupon();
   const { data: coupons, isLoading } = getAllCouponsQuery;
 
-  const [couponsToBeShown, setCouponsToBeShown] = useState<Coupon[]>(
+  console.log("hello");
+  console.log("coupons", coupons);
+  const [couponsToBeShown, setCouponsToBeShown] = useState<CouponList[]>(
     coupons ?? [],
   );
   const [currentPage, setCurrentPage] = useState(1);
@@ -47,22 +46,26 @@ export default function Coupon() {
 
   const startIndex = (currentPage - 1) * itemPerPage;
   const endIndex = startIndex + itemPerPage;
-  const currentCoupon = couponsToBeShown.slice(startIndex, endIndex);
+  const currentCoupons = couponsToBeShown.slice(startIndex, endIndex);
 
   const pageClick = (text: number) => {
     setCurrentPage(Number(text));
   };
 
   const handleSearchCoupon = (e: ChangeEvent<HTMLInputElement>) => {
+    setCurrentPage(1);
     const searchedValue = e.target.value.toLowerCase();
     const filteredCoupons = coupons?.filter(
       (coupon) =>
         coupon.code.toLowerCase().includes(searchedValue) ||
-        coupon.discounts.toString().toLowerCase().includes(searchedValue),
+        coupon.discount.toString().toLowerCase().includes(searchedValue),
     );
     setCouponsToBeShown(filteredCoupons as CouponList[]);
   };
 
+  useEffect(() => {
+    if (coupons?.length) setCouponsToBeShown(coupons as CouponList[]);
+  }, [coupons]);
   if (isLoading) return <CustomLoading />;
 
   return (
@@ -84,20 +87,31 @@ export default function Coupon() {
           </Button>
         </div>
       </div>
-      <div className="h-[73vh] overflow-auto rounded-md shadow-lg mt-[10px] px-[10px] ">
+      <div className="h-[calc(100vh-200px)] overflow-auto rounded-md shadow-lg mt-[10px] px-[10px] ">
         <Table>
           <CouponTableHeader />
           <TableBody>
-            {currentCoupon.map((coupon, index) => {
-              return (
-                <CouponTableRow
-                  key={coupon.id}
-                  coupon={coupon}
-                  index={index + startIndex}
-                  // setCuponsToBeShown={setCouponsToBeShown}
-                />
-              );
-            })}
+            {currentCoupons.length ? (
+              currentCoupons.map((coupon, index) => {
+                return (
+                  <CouponTableRow
+                    key={coupon.id}
+                    coupon={coupon}
+                    index={index + startIndex}
+                    // setCuponsToBeShown={setCouponsToBeShown}
+                  />
+                );
+              })
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={9}
+                  className={"   text-center text-muted-foreground"}
+                >
+                  No coupon found
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </div>

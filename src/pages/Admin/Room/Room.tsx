@@ -15,6 +15,10 @@ import {
 import { useRoom } from "@/hooks/useRooms";
 import { toast } from "sonner";
 import CustomLoading from "@/components/shared/Loading/Loading.tsx";
+import {
+  errorToastStyle,
+  successToastStyle,
+} from "@/utils/dummy/Toast/toast.ts";
 
 const Room = () => {
   // const [rooms, setRooms] = useState<TypeOfRoom[]>(dummyRooms);
@@ -26,7 +30,6 @@ const Room = () => {
     rooms ?? [],
   );
   const [draggingRoom, setDraggingRoom] = useState<TypeOfRoom | null>(null);
-
   const [featuredRooms, setFeaturedRooms] = useState<TypeOfRoom[]>([]);
   const [allOtherRooms, setAllOtherRooms] = useState<TypeOfRoom[]>([]);
 
@@ -59,38 +62,15 @@ const Room = () => {
           id: roomId as string,
           isFeatured: true,
         });
-
         if (res) {
-          toast(`Room No ${draggingRoom?.roomNo} is moved to  FeaturedRooms`, {
-            position: "top-center",
-            style: {
-              backgroundColor: "#228B22",
-              color: "white",
-              border: "none",
-              height: "60px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              fontSize: "16px",
-            },
-          });
+          toast(
+            `Room No ${draggingRoom?.roomNo} is moved to  FeaturedRooms`,
+            successToastStyle,
+          );
         }
-
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
-        toast(`${error.response.data.message}`, {
-          position: "top-center",
-          style: {
-            backgroundColor: "red",
-            color: "white",
-            border: "none",
-            height: "60px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            fontSize: "16px",
-          },
-        });
+        toast(`${error.response.data.message}`, errorToastStyle);
       }
     } else if (
       droppedArea === "AllOtherRoomsColumn" &&
@@ -111,36 +91,15 @@ const Room = () => {
         });
 
         if (res) {
-          toast(`Room No ${draggingRoom?.roomNo} is moved to   AllOtherRooms`, {
-            position: "top-center",
-            style: {
-              backgroundColor: "#228B22",
-              color: "white",
-              border: "none",
-              height: "60px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              fontSize: "16px",
-            },
-          });
+          toast(
+            `Room No ${draggingRoom?.roomNo} is moved to   AllOtherRooms`,
+            successToastStyle,
+          );
         }
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
-        toast(`${error.response.data.message}`, {
-          position: "top-center",
-          style: {
-            backgroundColor: "red",
-            color: "white",
-            border: "none",
-            height: "60px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            fontSize: "16px",
-          },
-        });
+        toast(`${error.response.data.message}`, errorToastStyle);
       }
     }
     setDraggingRoom(null);
@@ -153,6 +112,10 @@ const Room = () => {
     const allOtherRooms = roomsToBeShown.filter((room) => !room.isFeatured);
     setAllOtherRooms(allOtherRooms);
   }, [roomsToBeShown]);
+
+  useEffect(() => {
+    if (rooms?.length) setRoomsToBeShown(rooms);
+  }, [rooms]);
 
   if (isLoading) return <CustomLoading />;
 

@@ -22,11 +22,17 @@ import SelectUserFormField from "@/components/Coupon/SelectUserFormField/SelectU
 import { useCoupon } from "@/hooks/useCoupon.ts";
 import { toast } from "sonner";
 import type { CouponList } from "@/utils/types/couponTypes/couponTypes.ts";
+import { useUser } from "@/hooks/useUser.ts";
+import {
+  errorToastStyle,
+  successToastStyle,
+} from "@/utils/dummy/Toast/toast.ts";
+import { Input } from "@/components/ui/input.tsx";
 
 const createCuponFormSchema = z.object({
   // code: z.string().min(1, { message: "Code is required" }),
   user_id: z.string().min(1, { message: "UserId is required" }),
-  discounts: z.string().min(1, { message: "Discount Price is required" }),
+  discount: z.string().min(1, { message: "Discount Price is required" }),
   expiry_date: z.string().min(1, { message: "Expiry date is required" }),
 });
 
@@ -34,6 +40,8 @@ export function CreateCouponFormDialog() {
   const [date, setDate] = React.useState<Date>();
 
   const { createCouponMutation } = useCoupon();
+  const { userQuery } = useUser();
+  const { data: users } = userQuery;
 
   const form = useForm({
     resolver: zodResolver(createCuponFormSchema),
@@ -41,61 +49,36 @@ export function CreateCouponFormDialog() {
   });
 
   const onSubmit = async (formData: z.infer<typeof createCuponFormSchema>) => {
-    console.log(formData);
     const newCoupon: Partial<CouponList> = {
       user_id: formData.user_id,
-      discounts: Number(formData.discounts),
+      discounts: Number(formData.discount),
       expiry_date: formData.expiry_date,
     };
     try {
       const res = await createCouponMutation.mutateAsync(newCoupon);
+      console.log("res is ", res);
 
       if (res) {
-        form.reset({});
-        toast("Coupon is created successfully", {
-          position: "top-center",
-          style: {
-            backgroundColor: "#228B22",
-            color: "white",
-            border: "none",
-            height: "60px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            fontSize: "16px",
-          },
+        form.reset({
+          user_id: "",
+          discount: "",
+          expiry_date: "",
         });
+        setDate(undefined);
+        toast("Coupon is created successfully", successToastStyle);
       }
-
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast(`${error.response.data.message}`, {
-        position: "top-center",
-        style: {
-          backgroundColor: "red",
-          color: "white",
-          border: "none",
-          height: "60px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          fontSize: "16px",
-        },
-      });
+      toast(`${error.response.data.message}`, errorToastStyle);
     }
   };
 
+  console.log(date);
   useEffect(() => {
     const getExpDate = () => {
-      // const year = date?.getFullYear().toString();
-      // const month = date?.getMonth().toString();
-      // const day = date?.getDate();
-      //
-      // const expDate = `${year}-${month}-${day}`;
       const expDate = date?.toISOString();
       form.setValue("expiry_date", expDate ?? "");
     };
-
     getExpDate();
   }, [date, form]);
   return (
@@ -106,32 +89,53 @@ export function CreateCouponFormDialog() {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Create Cupon</DialogTitle>
-          {/*<DialogDescription>*/}
-          {/*  Make changes to your profile here. Click save when you're done.*/}
-          {/*</DialogDescription>*/}
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="grid gap-4 py-4">
               <SelectUserFormField
                 control={form.control}
-                name={"userId"}
+                name={"user_id"}
                 label={"User"}
-                users={[]}
+                users={users}
                 placeholder={"Select User"}
               />
               <InputFormField
                 control={form.control}
                 type={"number"}
-                name={"discount_pct"}
+                name={"discount"}
                 placeholder={"Enter Discount Price"}
                 label={"Discount Price"}
               />
 
               <div className="grid gap-2">
                 <Label> Expiry Date</Label>
-                <DatePicker date={date} setDate={setDate} />
+                <Input
+                  type={"date"}
+                  value={date?.toISOString().split("T")[0] ?? ""}
+                  onChange={(e) => setDate(new Date(e.target.value))}
+                />
+
+                {form.formState.errors.expiry_date && !date ? (
+                  <label className={"text-red-600 text-sm"}>
+                    {form.formState.errors.expiry_date.message}
+                  </label>
+                ) : (
+                  <></>
+                )}
               </div>
+
+              {/*<div className="grid gap-2">*/}
+              {/*  <Label> Expiry Date</Label>*/}
+              {/*  <DatePicker date={date} setDate={setDate} />*/}
+              {/*  {form.formState.errors.expiry_date && !date ? (*/}
+              {/*    <label className={"text-red-600 text-sm"}>*/}
+              {/*      {form.formState.errors.expiry_date.message}*/}
+              {/*    </label>*/}
+              {/*  ) : (*/}
+              {/*    <></>*/}
+              {/*  )}*/}
+              {/*</div>*/}
             </div>
             <DialogFooter>
               <SubmitButton

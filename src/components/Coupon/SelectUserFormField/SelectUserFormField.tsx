@@ -9,7 +9,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover.tsx";
+} from "@/components/ui/popoverWithoutPortal.tsx";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils.ts";
 import { Check, ChevronsUpDown } from "lucide-react";
@@ -45,7 +45,7 @@ export default function SelectUserFormField({
         name={name}
         render={({ field }) => (
           <FormItem className="flex flex-col">
-            <Popover modal={true}>
+            <Popover>
               <PopoverTrigger asChild>
                 <FormControl>
                   <Button

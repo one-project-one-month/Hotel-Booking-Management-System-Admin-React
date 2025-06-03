@@ -39,7 +39,9 @@ export function RoomCard({ room }: Props) {
     ? JSON.parse(room.imgUrl as unknown as string)[0]
     : "/DeluxeRoom.jpg";
 
-  const parsedDetails = JSON.parse(room.details as unknown as string);
+  const parsedDetails = room.details
+    ? JSON.parse(room.details as unknown as string)
+    : "";
   const handleClickEdit = () => {
     navigate(`/rooms/update/${room.id}`);
   };
@@ -153,6 +155,7 @@ export function RoomCard({ room }: Props) {
     updateStatus();
   }, [currentStatus]);
 
+  if (!room) return null;
   return (
     <Card
       onDoubleClick={navigateDetailPage}

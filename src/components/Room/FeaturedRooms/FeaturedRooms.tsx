@@ -12,7 +12,6 @@ interface Props {
 
 export default function FeaturedRooms({ rooms, featuredRooms }: Props) {
   const { setNodeRef, isOver } = useDroppable({ id: "FeaturedRoomsColumn" });
-
   return (
     <div
       ref={setNodeRef}
@@ -44,7 +43,9 @@ export default function FeaturedRooms({ rooms, featuredRooms }: Props) {
           ))
         ) : (
           <div className="flex w-full h-[250px] justify-center items-center ">
-            <h1 className="font-bold">No rooms found</h1>
+            <h1 className="font-semibold text-muted-foreground">
+              No rooms found
+            </h1>
           </div>
         )}
       </div>
