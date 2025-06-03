@@ -33,6 +33,7 @@ const Room = () => {
   const [featuredRooms, setFeaturedRooms] = useState<TypeOfRoom[]>([]);
   const [allOtherRooms, setAllOtherRooms] = useState<TypeOfRoom[]>([]);
 
+  console.log("rooms", rooms);
   const handleDragStart = (e: DragStartEvent) => {
     const id = e.active.id;
     const room = rooms?.find((room) => room.id === id);
