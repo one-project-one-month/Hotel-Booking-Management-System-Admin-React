@@ -27,6 +27,7 @@ import {
   errorToastStyle,
   successToastStyle,
 } from "@/utils/dummy/Toast/toast.ts";
+import { Input } from "@/components/ui/input.tsx";
 
 const createCuponFormSchema = z.object({
   // code: z.string().min(1, { message: "Code is required" }),
@@ -72,6 +73,7 @@ export function CreateCouponFormDialog() {
     }
   };
 
+  console.log(date);
   useEffect(() => {
     const getExpDate = () => {
       const expDate = date?.toISOString();
@@ -108,7 +110,12 @@ export function CreateCouponFormDialog() {
 
               <div className="grid gap-2">
                 <Label> Expiry Date</Label>
-                <DatePicker date={date} setDate={setDate} />
+                <Input
+                  type={"date"}
+                  value={date?.toISOString().split("T")[0] ?? ""}
+                  onChange={(e) => setDate(new Date(e.target.value))}
+                />
+
                 {form.formState.errors.expiry_date && !date ? (
                   <label className={"text-red-600 text-sm"}>
                     {form.formState.errors.expiry_date.message}
@@ -117,6 +124,18 @@ export function CreateCouponFormDialog() {
                   <></>
                 )}
               </div>
+
+              {/*<div className="grid gap-2">*/}
+              {/*  <Label> Expiry Date</Label>*/}
+              {/*  <DatePicker date={date} setDate={setDate} />*/}
+              {/*  {form.formState.errors.expiry_date && !date ? (*/}
+              {/*    <label className={"text-red-600 text-sm"}>*/}
+              {/*      {form.formState.errors.expiry_date.message}*/}
+              {/*    </label>*/}
+              {/*  ) : (*/}
+              {/*    <></>*/}
+              {/*  )}*/}
+              {/*</div>*/}
             </div>
             <DialogFooter>
               <SubmitButton
