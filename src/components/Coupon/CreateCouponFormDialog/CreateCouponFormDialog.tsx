@@ -27,6 +27,7 @@ import {
   successToastStyle,
 } from "@/utils/dummy/Toast/toast.ts";
 import { Input } from "@/components/ui/input.tsx";
+import type {CouponList} from "@/utils/types/couponTypes/couponTypes.ts";
 
 const createCuponFormSchema = z.object({
   // code: z.string().min(1, { message: "Code is required" }),
@@ -48,9 +49,9 @@ export function CreateCouponFormDialog() {
   });
 
   const onSubmit = async (formData: z.infer<typeof createCuponFormSchema>) => {
-    const newCoupon = {
+    const newCoupon:Partial<CouponList> = {
       user_id: formData.user_id,
-      discounts: Number(formData.discount),
+      discount: Number(formData.discount),
       expiry_date: formData.expiry_date,
     };
     try {
