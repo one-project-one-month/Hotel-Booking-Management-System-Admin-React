@@ -29,7 +29,7 @@ export default function AllOtherRooms({ rooms, allOtherRooms }: Props) {
         </div>
         <div>
           <h1 className="text-xl font-semibold text-gray-800">
-            Standard Rooms
+            AllOther Rooms
           </h1>
           <p className="text-sm text-gray-500">
             Comfortable accommodations for every need
