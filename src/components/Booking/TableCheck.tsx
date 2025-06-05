@@ -111,7 +111,7 @@ const TableCheck = ({ check }: any) => {
       <TableCell className="text-center">
         {moment(checkList?.checkOut).format("MMMM Do YYYY, h:mm:ss A")}
       </TableCell>
-      <TableCell className="text-center">{checkList?.extraCharge}</TableCell>
+      <TableCell className="text-center">${checkList?.extraCharge}</TableCell>
       <TableCell
         className={
           checkList?.status === "Check-In"

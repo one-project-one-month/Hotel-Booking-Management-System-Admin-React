@@ -96,10 +96,10 @@ const ViewBooking = () => {
           <TableBody>
             <TableRow>
               <TableCell className="text-center">{roomNo}</TableCell>
-              <TableCell className="text-right">{roomPrice}Ks</TableCell>
+              <TableCell className="text-right">${roomPrice}</TableCell>
               <TableCell className="text-center">3days</TableCell>
               <TableCell className="text-right">
-                {dataList?.booking?.totalAmount}Ks
+                ${dataList?.booking?.totalAmount}
               </TableCell>
             </TableRow>
           </TableBody>
@@ -107,22 +107,22 @@ const ViewBooking = () => {
             <TableRow>
               <TableCell colSpan={3}>Deposit Amount</TableCell>
               <TableCell className="text-right">
-                {dataList?.booking?.depositAmount}Ks
+                ${dataList?.booking?.depositAmount}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell colSpan={3}>Extra Charge Amount</TableCell>
               <TableCell className="text-right">
-                {dataList.extraCharge}Ks
+                ${dataList.extraCharge}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell colSpan={3}>Pay Amount</TableCell>
-              <TableCell className="text-right">{pay}Ks</TableCell>
+              <TableCell className="text-right">${pay}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell colSpan={3}>Total</TableCell>
-              <TableCell className="text-right">{total}Ks</TableCell>
+              <TableCell className="text-right">${total}</TableCell>
             </TableRow>
           </TableFooter>
         </Table>

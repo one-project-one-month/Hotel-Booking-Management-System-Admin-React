@@ -86,8 +86,8 @@ const TableBooking = ({ booking }: bookingProps) => {
         {moment(booking.checkOut).format("MMMM Do YYYY, h:mm:ss A")}
       </TableCell>
       <TableCell className="text-center">{booking.guestCount}</TableCell>
-      <TableCell className="text-right">{booking.depositAmount}Ks</TableCell>
-      <TableCell className="text-right">{booking.totalAmount}Ks</TableCell>
+      <TableCell className="text-right">${booking.depositAmount}</TableCell>
+      <TableCell className="text-right">${booking.totalAmount}</TableCell>
       <TableCell
         className={
           booking.status === "pending"
