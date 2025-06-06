@@ -9,18 +9,16 @@ import { toast } from "sonner";
 import { errorToastStyle, successToastStyle } from "@/utils/dummy/Toast/toast";
 import { useUser } from "@/hooks/useUser";
 
-
-
 const TableUserBody = ({ user, updateUser }: userBodyProps) => {
-    const [openConfirmDeleteDialog, setOpenConfirmDeleteDialog] = useState(false);
+  const [openConfirmDeleteDialog, setOpenConfirmDeleteDialog] = useState(false);
 
-    const {deleteMutation} = useUser()
+  const { deleteMutation } = useUser();
 
   const handleClickDelete = () => {
     setOpenConfirmDeleteDialog(true);
   };
 
-    const handleConfirmDeleteUser = async () => {
+  const handleConfirmDeleteUser = async () => {
     try {
       const res = await deleteMutation.mutateAsync(user.id);
       if (res) {
@@ -45,9 +43,7 @@ const TableUserBody = ({ user, updateUser }: userBodyProps) => {
       </TableCell>
       <TableCell className="capitalize text-center">{user.name}</TableCell>
       <TableCell className="text-center">{user.email}</TableCell>
-      <TableCell className="text-center">
-        {user.phoneNumber || "-"}
-      </TableCell>
+      <TableCell className="text-center">{user.phoneNumber || "-"}</TableCell>
       <TableCell className="text-center capitalize">{user.role}</TableCell>
       <TableCell className="text-center">{user.points || "0"}</TableCell>
       <TableCell className="text-center">{user.coupon || "0"}</TableCell>
@@ -72,12 +68,12 @@ const TableUserBody = ({ user, updateUser }: userBodyProps) => {
           <Trash className="text-red-500" />
         </Button>
         <ConfirmDeleteDialog
-            open={openConfirmDeleteDialog}
-            setOpen={setOpenConfirmDeleteDialog}
-            itemName={"cupon"}
-            handleConfirmDelete={handleConfirmDeleteUser}
-            isPending={deleteMutation.isPending}
-          />
+          open={openConfirmDeleteDialog}
+          setOpen={setOpenConfirmDeleteDialog}
+          itemName={"user "}
+          handleConfirmDelete={handleConfirmDeleteUser}
+          isPending={deleteMutation.isPending}
+        />
       </TableCell>
     </TableRow>
   );
