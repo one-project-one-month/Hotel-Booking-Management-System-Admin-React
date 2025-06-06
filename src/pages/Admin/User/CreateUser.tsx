@@ -209,7 +209,10 @@ const CreateUser = () => {
               )}
             </div>
             <div className="w-[180px] h-[180px] shadow-lg rounded-md mx-auto mt-4">
-              {images && (
+              {loading ?
+              (<div className="rounded-2xl aspect-video w-full animate-pulse bg-muted flex items-center justify-center col-span-1 h-[100%]">
+                <span className="text-sm text-muted-foreground">Uploading image...</span>
+              </div>): (
                 <img src={images} className="w-full h-full rounded-md" />
               )}
             </div>

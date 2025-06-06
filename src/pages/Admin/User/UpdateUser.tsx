@@ -34,7 +34,7 @@ const UpdateUser = () => {
 
   const { control, reset, handleSubmit } = form;
 
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -86,7 +86,7 @@ const UpdateUser = () => {
     try {
       const res = await updateMutation.mutateAsync(dataToSubmit);
       reset();
-      setImage(null);
+      setImage('');
       toast(`${res.message}`, {
         position: "top-center",
         style: {
@@ -217,7 +217,11 @@ const UpdateUser = () => {
               )}
             </div>
             <div className="w-[180px] h-[180px] shadow-lg rounded-md mx-auto mt-4">
-              {image && (
+              {loading ?(
+                <div className="rounded-2xl aspect-video w-full animate-pulse bg-muted flex items-center justify-center col-span-1 h-[100%]">
+                <span className="text-sm text-muted-foreground">Uploading image...</span>
+              </div>
+              ): (
                 <img
                   src={image}
                   alt="profile_img"
