@@ -3,10 +3,35 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { Edit, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { userBodyProps } from "@/utils/types/UserTypes/userTypes";
+import { useState } from "react";
+import { ConfirmDeleteDialog } from "../shared/ConfirmDeleteDialog/ConfirmDeleteDialog";
+import { toast } from "sonner";
+import { errorToastStyle, successToastStyle } from "@/utils/dummy/Toast/toast";
+import { useUser } from "@/hooks/useUser";
 
 
 
-const TableUserBody = ({ user, updateUser, deleteUser }: userBodyProps) => {
+const TableUserBody = ({ user, updateUser }: userBodyProps) => {
+    const [openConfirmDeleteDialog, setOpenConfirmDeleteDialog] = useState(false);
+
+    const {deleteMutation} = useUser()
+
+  const handleClickDelete = () => {
+    setOpenConfirmDeleteDialog(true);
+  };
+
+    const handleConfirmDeleteUser = async () => {
+    try {
+      const res = await deleteMutation.mutateAsync(user.id);
+      if (res) {
+        toast("User is deleted successfully", successToastStyle);
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast(`${error.response.data.message}`, errorToastStyle);
+    }
+  };
+
   return (
     <TableRow key={user.id}>
       <TableCell>
@@ -42,10 +67,17 @@ const TableUserBody = ({ user, updateUser, deleteUser }: userBodyProps) => {
           size="icon"
           variant="outline"
           className="cursor-pointer"
-          onClick={() => deleteUser(user.id)}
+          onClick={handleClickDelete}
         >
           <Trash className="text-red-500" />
         </Button>
+        <ConfirmDeleteDialog
+            open={openConfirmDeleteDialog}
+            setOpen={setOpenConfirmDeleteDialog}
+            itemName={"cupon"}
+            handleConfirmDelete={handleConfirmDeleteUser}
+            isPending={deleteMutation.isPending}
+          />
       </TableCell>
     </TableRow>
   );

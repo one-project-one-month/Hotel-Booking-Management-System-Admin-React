@@ -12,6 +12,7 @@ import PaginationTable from "@/components/shared/TablePagination/PaginationTable
 import BookingInput from "@/components/Booking/BookingInput";
 import CustomLoading from "@/components/shared/Loading/Loading";
 import { toast } from "sonner";
+import { errorToastStyle } from "@/utils/dummy/Toast/toast";
 
 const Booking = () => {
   const { bookingQuery } = useBooking();
@@ -84,19 +85,7 @@ const Booking = () => {
   }
 
   if (isError) {
-    return toast(`${error.message}`, {
-      position: "top-center",
-      style: {
-        backgroundColor: "red",
-        color: "white",
-        border: "none",
-        height: "60px",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        fontSize: "16px",
-      },
-    });
+    return toast(`${error.message}`,errorToastStyle);
   }
 
   return (

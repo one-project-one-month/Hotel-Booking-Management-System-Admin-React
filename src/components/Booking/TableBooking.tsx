@@ -6,6 +6,7 @@ import moment from "moment";
 import { useCheckIn } from "@/hooks/useCheckIn";
 import { toast } from "sonner";
 import { useMutateBooking } from "@/hooks/useBooking";
+import { errorToastStyle, successToastStyle } from "@/utils/dummy/Toast/toast";
 
 const TableBooking = ({ booking }: bookingProps) => {
   const navigate = useNavigate();
@@ -35,36 +36,12 @@ const TableBooking = ({ booking }: bookingProps) => {
 
         await mutate.mutateAsync({data})
 
-        toast(`${res.message}`, {
-          position: "top-center",
-          style: {
-            backgroundColor: "#228B22",
-            color: "white",
-            border: "none",
-            height: "60px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            fontSize: "16px",
-          },
-        });
+        toast(`${res.message}`,successToastStyle);
         navigate(`/booking/${res.data.data.id}`);
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast(`${error?.response?.data?.message}`, {
-        position: "top-center",
-        style: {
-          backgroundColor: "red",
-          color: "white",
-          border: "none",
-          height: "60px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          fontSize: "16px",
-        },
-      });
+      toast(`${error?.response?.data?.message}`,errorToastStyle);
     }
   };
 
@@ -77,7 +54,7 @@ const TableBooking = ({ booking }: bookingProps) => {
 
   return (
     <TableRow key={booking.id}>
-      <TableCell>{booking.user.name}</TableCell>
+      <TableCell>{booking?.user?.name || '-'}</TableCell>
       <TableCell className="text-center">{booking.room.roomNo}</TableCell>
       <TableCell className="text-center">
         {moment(booking.checkIn).format("MMMM Do YYYY, h:mm:ss A")}

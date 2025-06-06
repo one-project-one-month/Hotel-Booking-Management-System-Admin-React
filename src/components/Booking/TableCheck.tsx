@@ -9,6 +9,7 @@ import { useCheckInMutate } from "@/hooks/useCheckIn";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import type { Room } from "@/utils/types/roomTypes/roomTypes";
+import { errorToastStyle, successToastStyle } from "@/utils/dummy/Toast/toast";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const TableCheck = ({ check }: any) => {
@@ -58,37 +59,13 @@ const TableCheck = ({ check }: any) => {
     try {
       const res = await updateMutation.mutateAsync({ data });
       if (res.message === "Update Check-in/out Success!") {
-        toast(`${res.message}`, {
-          position: "top-center",
-          style: {
-            backgroundColor: "#228B22",
-            color: "white",
-            border: "none",
-            height: "60px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            fontSize: "16px",
-          },
-        });
+        toast(`${res.message}`, successToastStyle);
         setCheckList(res.data.data);
         setDataList(res.data.data);
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast(`${error?.response?.data?.message}`, {
-        position: "top-center",
-        style: {
-          backgroundColor: "red",
-          color: "white",
-          border: "none",
-          height: "60px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          fontSize: "16px",
-        },
-      });
+      toast(`${error?.response?.data?.message}`, errorToastStyle);
     }
   };
 
