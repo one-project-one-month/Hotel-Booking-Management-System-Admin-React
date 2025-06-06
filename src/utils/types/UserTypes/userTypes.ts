@@ -21,7 +21,6 @@ export interface menuItems {
 
 export interface userBodyProps {
     updateUser :(id:string) => void;
-    deleteUser : (id:string) => void;
     user:Username
 }
 

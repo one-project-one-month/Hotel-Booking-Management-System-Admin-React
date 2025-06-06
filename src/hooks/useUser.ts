@@ -39,22 +39,20 @@ export const useUser = () => {
     })
 
     const mutation = useMutation({
-        mutationKey:["users"],
+        mutationKey:["createUser"],
         mutationFn:createUser,
         onSuccess:()=>{
            queryClient.invalidateQueries({ queryKey: ["users"] });
         }
     })
 
-     const deleteMutation = useMutation({
-        mutationKey:["users"],
+      const deleteMutation = useMutation({
+        mutationKey:["deleteUser"],
         mutationFn:(id:string) => deleteUser(id),
         onSuccess:()=>{
            queryClient.invalidateQueries({ queryKey: ["users"] });
         }
     })
-
-    
 
     return {userQuery,mutation,deleteMutation};
 }
@@ -64,12 +62,12 @@ export const useMutate = ({id}:IdPrpos) =>{
     const queryClient = useQueryClient()
 
     const getIdquery = useQuery({
-        queryKey:["users",id],
+        queryKey:["uesr",id],
         queryFn:()=> getIdUser(id)
     })
 
     const updateMutation = useMutation({
-        mutationKey:["users",id],
+        mutationKey:["updateUser",id],
         mutationFn:(updateUser:CreateUser) => patchUser(id,updateUser),
         onSuccess:()=>{
            queryClient.invalidateQueries({ queryKey: ["users"] });

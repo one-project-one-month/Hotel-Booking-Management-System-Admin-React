@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useMutate } from "@/hooks/useUser";
+import { errorToastStyle, successToastStyle } from "@/utils/dummy/Toast/toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -34,7 +35,7 @@ const UpdateUser = () => {
 
   const { control, reset, handleSubmit } = form;
 
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,7 +43,7 @@ const UpdateUser = () => {
       reset({
         name: data?.name,
         email: data?.email,
-        phoneNumber: data?.phoneNumber,
+        phoneNumber: data?.phoneNumber.includes('+95') ? data?.phoneNumber.slice(3,14):data?.phoneNumber,
         role: data?.role,
         coupon: data?.coupon || 0,
         points: data?.points,
@@ -86,36 +87,12 @@ const UpdateUser = () => {
     try {
       const res = await updateMutation.mutateAsync(dataToSubmit);
       reset();
-      setImage(null);
-      toast(`${res.message}`, {
-        position: "top-center",
-        style: {
-          backgroundColor: "#228B22",
-          color: "white",
-          border: "none",
-          height: "60px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          fontSize: "16px",
-        },
-      });
+      setImage('');
+      toast(`${res.message}`,successToastStyle);
       navigate("/users");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      toast(`${err?.response?.data?.message}`, {
-        position: "top-center",
-        style: {
-          backgroundColor: "red",
-          color: "white",
-          border: "none",
-          height: "60px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          fontSize: "16px",
-        },
-      });
+      toast(`${err?.response?.data?.message}`,errorToastStyle);
     }
   };
 
@@ -217,7 +194,11 @@ const UpdateUser = () => {
               )}
             </div>
             <div className="w-[180px] h-[180px] shadow-lg rounded-md mx-auto mt-4">
-              {image && (
+              {loading ?(
+                <div className="rounded-2xl aspect-video w-full animate-pulse bg-muted flex items-center justify-center col-span-1 h-[100%]">
+                <span className="text-sm text-muted-foreground">Uploading image...</span>
+              </div>
+              ): (
                 <img
                   src={image}
                   alt="profile_img"
