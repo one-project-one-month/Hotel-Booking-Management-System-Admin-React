@@ -12,7 +12,7 @@ import CustomLoading from "@/components/shared/Loading/Loading";
 import { toast } from "sonner";
 
 const User = () => {
-  const { userQuery, deleteMutation } = useUser();
+  const { userQuery } = useUser();
   const { isSuccess, isError, data: user, isLoading, error } = userQuery;
   const [filterUser, setFilterUser] = useState<Username[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -58,11 +58,6 @@ const User = () => {
     setCurrentPage(Number(text));
   };
 
-  const deleteUser = (id: string) => {
-    if (window.confirm()) {
-      deleteMutation.mutate(id);
-    }
-  };
 
   useEffect(() => {
     if (isSuccess && user) {
@@ -122,7 +117,6 @@ const User = () => {
               return (
                 <TableUserBody
                   user={user}
-                  deleteUser={deleteUser}
                   updateUser={updateUser}
                   key={user.id}
                 />

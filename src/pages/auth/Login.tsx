@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Axios from "@/config/ApiConfig";
+import { errorToastStyle, successToastStyle } from "@/utils/dummy/Toast/toast";
 import { Eye, EyeClosed } from "lucide-react";
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
@@ -56,36 +57,12 @@ const Login = () => {
         .then((res) => {
           if (res.status === 200) {
             localStorage.setItem("token", res.data.data.token);
-            toast("Login Successfully", {
-              position: "top-center",
-              style: {
-                backgroundColor: "#228B22",
-                color: "white",
-                border: "none",
-                height: "60px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                fontSize: "16px",
-              },
-            });
+            toast("Login Successfully",successToastStyle);
             navigate("/dashboard");
           }
         })
         .catch((error) => {
-          toast(`${error.response.data.message}`, {
-            position: "top-center",
-            style: {
-              backgroundColor: "red",
-              color: "white",
-              border: "none",
-              height: "60px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              fontSize: "16px",
-            },
-          });
+          toast(`${error.response.data.message}`,errorToastStyle);
         });
     }
   };

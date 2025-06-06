@@ -10,6 +10,7 @@ import {
 
 import { Label } from "@/components/ui/label.tsx";
 import CreateNewButton from "@/components/shared/CustomButtons/CreateNewButton/CreateNewButton.tsx";
+// import { DatePicker } from "@/components/shared/DatePicker/DatePicker.tsx";
 import SubmitButton from "@/components/shared/CustomButtons/SubmitButton/SubmitButton.tsx";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -20,6 +21,7 @@ import InputFormField from "@/components/shared/FormFields/inputFormField.tsx";
 import SelectUserFormField from "@/components/Coupon/SelectUserFormField/SelectUserFormField.tsx";
 import { useCoupon } from "@/hooks/useCoupon.ts";
 import { toast } from "sonner";
+// import type { CouponList } from "@/utils/types/couponTypes/couponTypes.ts";
 import { useUser } from "@/hooks/useUser.ts";
 import {
   errorToastStyle,
@@ -34,6 +36,12 @@ const createCuponFormSchema = z.object({
   expiry_date: z.string().min(1, { message: "Expiry date is required" }),
 });
 
+interface TypeDiscount {
+  user_id:string;
+  discounts:number;
+  expiry_date:string
+}
+
 export function CreateCouponFormDialog() {
   const [date, setDate] = React.useState<Date>();
 
@@ -47,7 +55,7 @@ export function CreateCouponFormDialog() {
   });
 
   const onSubmit = async (formData: z.infer<typeof createCuponFormSchema>) => {
-    const newCoupon = {
+    const newCoupon: TypeDiscount = {
       user_id: formData.user_id,
       discounts: Number(formData.discount),
       expiry_date: formData.expiry_date,

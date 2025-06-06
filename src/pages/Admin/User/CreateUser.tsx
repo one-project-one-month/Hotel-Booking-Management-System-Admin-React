@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useUser } from "@/hooks/useUser";
+import { errorToastStyle, successToastStyle } from "@/utils/dummy/Toast/toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -93,37 +94,13 @@ const CreateUser = () => {
           phoneNumber: "",
         });
         setImage(null);
-        toast(`${res.message}`, {
-          position: "top-center",
-          style: {
-            backgroundColor: "#228B22",
-            color: "white",
-            border: "none",
-            height: "60px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            fontSize: "16px",
-          },
-        });
+        toast(`${res.message}`,successToastStyle);
         navigate("/users");
       }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast(`${error.response.data.message}`, {
-        position: "top-center",
-        style: {
-          backgroundColor: "red",
-          color: "white",
-          border: "none",
-          height: "60px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          fontSize: "16px",
-        },
-      });
+      toast(`${error.response.data.message}`,errorToastStyle);
       reset({
         name: "",
         email: "",
@@ -209,7 +186,10 @@ const CreateUser = () => {
               )}
             </div>
             <div className="w-[180px] h-[180px] shadow-lg rounded-md mx-auto mt-4">
-              {images && (
+              {loading ?
+              (<div className="rounded-2xl aspect-video w-full animate-pulse bg-muted flex items-center justify-center col-span-1 h-[100%]">
+                <span className="text-sm text-muted-foreground">Uploading image...</span>
+              </div>): (
                 <img src={images} className="w-full h-full rounded-md" />
               )}
             </div>
