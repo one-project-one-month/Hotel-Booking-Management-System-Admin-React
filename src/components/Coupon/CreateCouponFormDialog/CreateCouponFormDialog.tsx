@@ -37,9 +37,9 @@ const createCuponFormSchema = z.object({
 });
 
 interface TypeDiscount {
-  user_id:string;
-  discounts:number;
-  expiry_date:string
+  user_id: string;
+  discount: number;
+  expiry_date: string;
 }
 
 export function CreateCouponFormDialog() {
@@ -57,7 +57,7 @@ export function CreateCouponFormDialog() {
   const onSubmit = async (formData: z.infer<typeof createCuponFormSchema>) => {
     const newCoupon: TypeDiscount = {
       user_id: formData.user_id,
-      discounts: Number(formData.discount),
+      discount: Number(formData.discount),
       expiry_date: formData.expiry_date,
     };
     try {
