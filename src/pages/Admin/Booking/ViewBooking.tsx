@@ -64,22 +64,22 @@ const ViewBooking = () => {
         <DialogHeader>
           <DialogTitle className="text-center text-3xl">Hotel Receipt</DialogTitle>
         </DialogHeader>
-        <div className="mt-2 h-[calc(100vh-180px)]  rounded-md p-2 mx-auto">
+        <div className="mt-1 rounded-md p-2 mx-auto">
           <div className="flex flex-col justify-center">
-            <h3 className="flex gap-2 mt-2">
+            <h3 className="flex gap-2 mt-1">
               BookingNo:{" "}
               <p className="font-semibold text-nowrap text-sm">
                 INV-{dataList.bookingId || '00000000'}
               </p>
             </h3>
-            <h3 className="flex gap-2 mt-2">
+            <h3 className="flex gap-2 mt-1">
               Invoice Date:{" "}
               <p className="font-semibold">
                 {moment(dataList?.createdAt).format("MMMM Do YYYY, h:mm:ss A")}
               </p>
             </h3>
           </div>
-          <div className="mt-2">
+          <div className="mt-1">
             <h3 className="font-bold">Guest Details:</h3>
             <h3 className="flex gap-3">
               Name: <p className="font-semibold">{customer || "-"}</p>
@@ -102,7 +102,7 @@ const ViewBooking = () => {
             </h3>
           </div>
           <div>
-            <Table className="mt-2 border-1">
+            <Table className="mt-1 border-1">
               <TableHeader>
                 <TableRow>
                   <TableHead className="text-center text-nowrap">Room Number</TableHead>
@@ -146,7 +146,7 @@ const ViewBooking = () => {
             </Table>
           </div>
           <DialogFooter>
-            <div className="flex mt-4 justify-end w-[100%]">
+            <div className="flex mt-2 justify-end w-[100%]">
               <Button className="bg-green-600 w-[150px] py-5 cursor-pointer hover:bg-green-500">Print Invoice</Button>
             </div>
           </DialogFooter>
