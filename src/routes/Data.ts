@@ -10,7 +10,7 @@ import Login from "@/pages/auth/Login";
 import Logout from "@/pages/auth/Logout";
 import NotFound from "@/pages/Error/NotFound";
 import Layout from "@/shared/Layout";
-import CheckTable from "@/pages/Admin/Booking/CheckTable";
+// import CheckTable from "@/pages/Admin/Booking/CheckTable";
 import Coupon from "@/pages/Admin/Coupon/Coupon.tsx";
 import RoomDetails from "@/pages/Admin/Room/RoomDetails.tsx";
 
@@ -59,10 +59,10 @@ const Data = [
         path: "booking",
         Component: Booking,
       },
-      {
-        path:"booking/:id",
-        Component:CheckTable
-      },
+      // {
+      //   path:"booking/:id",
+      //   Component:CheckTable
+      // },
       {
         path: "coupon",
         Component: Coupon,

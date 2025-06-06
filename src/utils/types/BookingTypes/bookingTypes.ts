@@ -37,12 +37,12 @@ export interface BookingProps {
 }
 
 export interface DropDownProps {
-  CheckIn?: () => void;
-  status?: string;
-  CheckOutClick?:() =>void;
-  viewBooking?:() => void;
-  updateBooking?:() => void;
-  viewHistory?:() => void;
+//   CheckIn?: () => void;
+//   status?: string;
+//   CheckOutClick?:() =>void;
+//   viewBooking?:() => void;
+//   updateBooking?:() => void;
+//   viewHistory?:() => void;
 }
 
 export interface bookingProps{

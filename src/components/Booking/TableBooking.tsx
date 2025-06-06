@@ -1,55 +1,56 @@
 import { TableCell, TableRow } from "@/components/ui/table";
-import DropDown from "./DropDown";
 import type { bookingProps } from "@/utils/types/BookingTypes/bookingTypes";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import moment from "moment";
-import { useCheckIn } from "@/hooks/useCheckIn";
-import { toast } from "sonner";
-import { useMutateBooking } from "@/hooks/useBooking";
-import { errorToastStyle, successToastStyle } from "@/utils/dummy/Toast/toast";
+import ModalExtracharge from "./ModalExtracharge";
+import ViewBooking from "@/pages/Admin/Booking/ViewBooking";
+// import { useCheckIn } from "@/hooks/useCheckIn";
+// import { toast } from "sonner";
+// import { useMutateBooking } from "@/hooks/useBooking";
+// import { errorToastStyle, successToastStyle } from "@/utils/dummy/Toast/toast";
 
 const TableBooking = ({ booking }: bookingProps) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const { mutation } = useCheckIn();
+  // const { mutation } = useCheckIn();
 
-  const id = booking.id
+  // const id = booking.id
 
-  const {mutation:mutate} = useMutateBooking({id:id as string})
+  // const {mutation:mutate} = useMutateBooking({id:id as string})
 
-  const {query} = useCheckIn()
-  const {data} = query;
+  // const {query} = useCheckIn()
+  // const {data} = query;
 
-  const CheckInClick = async () => {
-    const pastData = {
-      bookingId: booking.id,
-      status: "Check-In",
-    };
-    try {
-      const res = await mutation.mutateAsync(pastData);
-      if (res.message === "Create Check-in/out Success!") {
+  // const CheckInClick = async () => {
+  //   const pastData = {
+  //     bookingId: booking.id,
+  //     status: "Check-In",
+  //   };
+  //   try {
+  //     const res = await mutation.mutateAsync(pastData);
+  //     if (res.message === "Create Check-in/out Success!") {
 
-        const data = {
-          id:id,
-          status:"approved"
-        }
+  //       const data = {
+  //         id:id,
+  //         status:"approved"
+  //       }
 
-        await mutate.mutateAsync({data})
+  //       await mutate.mutateAsync({data})
 
-        toast(`${res.message}`,successToastStyle);
-        navigate(`/booking/${res.data.data.id}`);
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      toast(`${error?.response?.data?.message}`,errorToastStyle);
-    }
-  };
+  //       toast(`${res.message}`,successToastStyle);
+  //       navigate(`/booking/${res.data.data.id}`);
+  //     }
+  //     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //   } catch (error: any) {
+  //     toast(`${error?.response?.data?.message}`,errorToastStyle);
+  //   }
+  // };
 
-  const viewHistory = () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const findId = data.data.find((data:any)=> data.bookingId === id)
-    navigate(`/booking/${findId.id}`);
-  }
+  // const viewHistory = () => {
+  //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //   const findId = data.data.find((data:any)=> data.bookingId === id)
+  //   navigate(`/booking/${findId.id}`);
+  // }
 
 
   return (
@@ -77,8 +78,14 @@ const TableBooking = ({ booking }: bookingProps) => {
       <TableCell>
         {moment(booking.createdAt).format("MMMM Do YYYY, h:mm:ss A")}
       </TableCell>
-      <TableCell className="flex justify-center items-center mt-6">
-        <DropDown CheckIn={CheckInClick} status={booking.status} viewHistory={viewHistory}/>
+      <TableCell className="flex justify-center gap-2 items-center mt-3">
+        <div>
+          <ModalExtracharge />
+        </div>
+        <div>
+          <ViewBooking />
+        </div>
+        {/* CheckIn={CheckInClick} viewHistory={viewHistory} status={booking.status} */}
       </TableCell>
     </TableRow>
   );

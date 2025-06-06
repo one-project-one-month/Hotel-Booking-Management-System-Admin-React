@@ -3,7 +3,7 @@ import { Loader2 } from "lucide-react";
 
 interface Props {
   text: string;
-  isPending: boolean;
+  isPending?: boolean;
   pendingText: string;
 }
 export default function SubmitButton({ text, isPending, pendingText }: Props) {

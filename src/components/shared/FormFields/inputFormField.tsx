@@ -38,7 +38,7 @@ export default function InputFormField({
                 render={({ field }) => (
                     <FormItem>
                         <FormControl>
-                            <Input type={type} placeholder={placeholder} inputMode={inputMode} maxLength={maxLength} {...field} disabled={disabled} pattern={pattern} className="[&::-webkit-inner-spin-button]:appearance-none"/>
+                            <Input type={type} autoComplete="off" placeholder={placeholder} inputMode={inputMode} maxLength={maxLength} {...field} disabled={disabled} pattern={pattern} className="[&::-webkit-inner-spin-button]:appearance-none py-5"/>
                         </FormControl>
                         <FormMessage />
                     </FormItem>
