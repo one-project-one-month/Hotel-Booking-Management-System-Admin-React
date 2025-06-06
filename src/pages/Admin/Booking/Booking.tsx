@@ -70,11 +70,11 @@ const Booking = () => {
   const bookingChange = (event: ChangeEvent<HTMLInputElement>) => {
     const filter = booking.filter((book: bookingFilter) => {
       return (
-        book.user.name
+        book?.user?.name
           .toLowerCase()
           .includes(event.target.value.toLowerCase()) ||
-        book.depositAmount.toString().includes(event.target.value.toString()) ||
-        book.room.roomNo.toString().includes(event.target.value.toString())
+        book?.depositAmount.toString().includes(event.target.value.toString()) ||
+        book?.room?.roomNo.toString().includes(event.target.value.toString())
       );
     });
     setFilterBooking(filter);
