@@ -2,7 +2,7 @@
 import { Card, CardContent } from "@/components/ui/card.tsx";
 import type { Room } from "@/utils/types/roomTypes/roomTypes.ts";
 import { Badge } from "@/components/ui/badge.tsx";
-import { BedDouble, DollarSign, Users } from "lucide-react";
+import {BedDouble, DollarSign, Loader2, Users} from "lucide-react";
 import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 import { ActionDropdown } from "@/components/shared/ActionDropdown/ActionDropdown .tsx";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +17,7 @@ import { useDraggable } from "@dnd-kit/core";
 import { cn } from "@/lib/utils.ts";
 import { useRoomById } from "@/hooks/useRooms.ts";
 import { toast } from "sonner";
+import {errorToastStyle, successToastStyle} from "@/utils/dummy/Toast/toast.ts";
 
 interface Props {
   room: Room;
@@ -58,36 +59,12 @@ export function RoomCard({ room }: Props) {
 
       if (res) {
         setOpenConfirmDeleteDialog(false);
-        toast(`Room No ${room.roomNo} is deleted successfully`, {
-          position: "top-center",
-          style: {
-            backgroundColor: "#228B22",
-            color: "white",
-            border: "none",
-            height: "60px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            fontSize: "16px",
-          },
-        });
+        toast(`Room No ${room.roomNo} is deleted successfully`, successToastStyle);
       }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast(`${error.response.data.message}`, {
-        position: "top-center",
-        style: {
-          backgroundColor: "red",
-          color: "white",
-          border: "none",
-          height: "60px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          fontSize: "16px",
-        },
-      });
+      toast(`${error.response.data.message}`, errorToastStyle);
     }
   };
 
@@ -102,7 +79,7 @@ export function RoomCard({ room }: Props) {
         badgeBgColors[room.status]
       } ${badgeTextColors[room.status]}`}
     >
-      {room.status}
+      {patchRoomStatusMutation.isPending? <> <Loader2 className="mr-2 h-4 w-4 animate-spin" /> updating...</>:room.status}
     </Badge>
   );
 
@@ -113,36 +90,12 @@ export function RoomCard({ room }: Props) {
           const res = await patchRoomStatusMutation.mutateAsync(currentStatus);
 
           if (res) {
-            toast("Room status is updated successfully", {
-              position: "top-center",
-              style: {
-                backgroundColor: "#228B22",
-                color: "white",
-                border: "none",
-                height: "60px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                fontSize: "16px",
-              },
-            });
+            toast("Room status is updated successfully", successToastStyle);
           }
 
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
-          toast(`${error.response.data.message}`, {
-            position: "top-center",
-            style: {
-              backgroundColor: "red",
-              color: "white",
-              border: "none",
-              height: "60px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              fontSize: "16px",
-            },
-          });
+          toast(`${error.response.data.message}`, errorToastStyle);
         }
 
         // const newRooms = rooms.map((r) =>

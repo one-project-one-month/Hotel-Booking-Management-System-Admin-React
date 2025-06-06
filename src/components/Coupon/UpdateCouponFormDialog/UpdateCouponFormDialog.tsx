@@ -128,21 +128,13 @@ export function UpdateCouponFormDialog({ couponId }: Props) {
               <div className="grid gap-2">
                 <Label>
                   {" "}
-                  Expiry Date : ({cuponToBeUpdated?.expiry_date.split("T")[0]})
+                  Expiry Date: ({cuponToBeUpdated?.expiry_date.split("T")[0]})
                 </Label>
                 <Input
-                  type={"date"}
-                  value={date?.toISOString().split("T")[0] ?? ""}
-                  onChange={(e) => setDate(new Date(e.target.value))}
+                    type={"date"}
+                    value={date?.toISOString().split("T")[0] ?? ""}
+                    onChange={(e) => setDate(new Date(e.target.value))}
                 />
-
-                {form.formState.errors.expiry_date && !date ? (
-                  <label className={"text-red-600 text-sm"}>
-                    {form.formState.errors.expiry_date.message}
-                  </label>
-                ) : (
-                  <></>
-                )}
               </div>
             </div>
             <DialogFooter>
