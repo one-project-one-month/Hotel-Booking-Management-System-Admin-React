@@ -5,7 +5,7 @@ import { TableHead, TableRow, TableHeader } from "@/components/ui/table";
 const TableHeaders = () => {
   
 
-  const tables = ["Customer Name","Room Number", "Check-In", "Check-Out","Guest Count","Deposit Amount","Total Amount","Status","CreatedAt","Action"]
+  const tables = ["Customer Name","Room Number", "Check-In", "Check-Out","Guest Count","Deposit Amount","Extra Charge","Total Amount","Status","CreatedAt","Action"]
 
   return (
     <TableHeader>

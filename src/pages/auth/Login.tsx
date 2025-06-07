@@ -56,6 +56,7 @@ const Login = () => {
       await Axios.post("auth/signin", users)
         .then((res) => {
           if (res.status === 200) {
+            console.log(res)
             localStorage.setItem("token", res.data.data.token);
             toast("Login Successfully",successToastStyle);
             navigate("/dashboard");

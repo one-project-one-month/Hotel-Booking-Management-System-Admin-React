@@ -91,7 +91,7 @@ const Booking = () => {
   return (
     <div>
       <BookingInput bookingChange={bookingChange} />
-      <div className="h-[calc(100vh-200px)] w-[81vw] overflow-auto rounded-md shadow-lg mt-[10px] px-[20px]">
+      <div className="h-[calc(100vh-200px)] overflow-auto rounded-md shadow-lg mt-[10px] px-[20px]">
         <Table>
           <TableHeaders />
           <TableBody>
