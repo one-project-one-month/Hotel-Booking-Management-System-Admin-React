@@ -37,7 +37,7 @@ export const useMutateBooking = ({id}:Props) => {
 
     const getIdBooking = useQuery({
         queryKey:['bookingid',id],
-        queryFn:()=>getBookingId(id)
+        queryFn:()=>getBookingId(id),
     })
 
     const mutation = useMutation({
@@ -45,7 +45,7 @@ export const useMutateBooking = ({id}:Props) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         mutationFn:({data}:{data:any}) => patchBooking(data.id,data),
             onSuccess:()=>{
-               queryClient.invalidateQueries({ queryKey: ["users"] });
+               queryClient.invalidateQueries({ queryKey: ["booking"] });
             }
     })
 

@@ -22,18 +22,17 @@ const extraChargeSchema = z.object({
 interface Props {
   updateId:string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  setOpen:any
+  setOpen:any,
+  data:string
 }
 
-const ModalExtracharge = ({updateId,setOpen}:Props) => {
-  // const { dataListId } = useCheckOut();
-  // const { updateMutation } = useCheckInMutate({ id: dataListId as string });
+const ModalExtracharge = ({updateId,setOpen,data}:Props) => {
 
   const form = useForm<z.infer<typeof extraChargeSchema>>({
     resolver: zodResolver(extraChargeSchema),
     mode: "all",
     defaultValues: {
-      charge: "",
+      charge: Number(data) === 0 ? '':data,
     },
   });
 
@@ -48,7 +47,6 @@ const ModalExtracharge = ({updateId,setOpen}:Props) => {
       extraCharge:Number(values.charge)
     };
 
-    console.log(data)
    
     try {
         const res = await updateMutation.mutateAsync({ data });
@@ -65,16 +63,6 @@ const ModalExtracharge = ({updateId,setOpen}:Props) => {
 
 
   return (
-    // <Dialog open={open} onOpenChange={setOpen}>
-    //   <DialogTrigger asChild>
-    //      {/* <div className="bg-white shadow-md rounded-lg p-2 w-[80px] cursor-pointer text-center">
-    //         <p>Pay</p>
-    //      </div> */}
-    //   </DialogTrigger>
-    //   <DialogContent className="sm:max-w-[440px]">
-    //     <DialogHeader>
-    //       <DialogTitle className="text-center text-2xl pb-4">Update Booking</DialogTitle>
-    //     </DialogHeader>
         <Form {...form}>
           <form onSubmit={handleSubmit(onsubmit)}>
             <div>
@@ -90,13 +78,11 @@ const ModalExtracharge = ({updateId,setOpen}:Props) => {
               <SubmitButton
                 text={"Update"}
                 pendingText={"Updating"}
-                // isPending={updateMutation.isPending}
+                isPending={updateMutation.isPending}
               />
             </DialogFooter>
           </form>
         </Form>
-    //   </DialogContent>
-    // </Dialog>
   );
 };
 

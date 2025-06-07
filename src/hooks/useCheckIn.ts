@@ -60,7 +60,7 @@ export const useCheckInMutate = ( { id }:Props) => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             mutationFn:({data}:{data:any}) => patchCheckIn(data.id,data),
             onSuccess:()=>{
-               queryClient.invalidateQueries({ queryKey: ["users"] });
+               queryClient.invalidateQueries({ queryKey: ["bookings"] });
             }
     })
 
