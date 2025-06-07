@@ -12,13 +12,19 @@ const patchBooking = async(id:string,dataList:any) => {
     return data.data;
 }
 
+const getBookingId = async(id:string) => {
+    const data = await Axios.get(`bookings/${id}`)
+
+    return data.data;
+}
+
 interface Props {
   id: string;
 }
 
 export const useBooking = () => {
     const bookingQuery = useQuery({
-        queryKey:['booking'],
+        queryKey:['bookings'],
         queryFn:getBooking
     })
 
@@ -28,6 +34,12 @@ export const useBooking = () => {
 
 export const useMutateBooking = ({id}:Props) => {
     const queryClient = useQueryClient()
+
+    const getIdBooking = useQuery({
+        queryKey:['bookingid',id],
+        queryFn:()=>getBookingId(id)
+    })
+
     const mutation = useMutation({
         mutationKey:['booking',id],
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -37,6 +49,6 @@ export const useMutateBooking = ({id}:Props) => {
             }
     })
 
-    return {mutation}
+    return {mutation,getIdBooking}
 
 }

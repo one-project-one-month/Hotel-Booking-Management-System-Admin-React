@@ -8,9 +8,13 @@ export interface Book {
     room:{
         roomNo:number
     },
+    checkInOut:{
+        extra_charge:string
+    },
     checkIn:string,
     checkOut:string,
     guestCount:number,
+    checkInOutId:string,
     depositAmount:number,
     totalAmount:number,
     status:status
@@ -36,14 +40,14 @@ export interface BookingProps {
     bookingChange:(e:ChangeEvent<HTMLInputElement>) => void;
 }
 
-export interface DropDownProps {
+// export interface DropDownProps {
 //   CheckIn?: () => void;
 //   status?: string;
 //   CheckOutClick?:() =>void;
 //   viewBooking?:() => void;
 //   updateBooking?:() => void;
 //   viewHistory?:() => void;
-}
+// }
 
 export interface bookingProps{
     booking:Book

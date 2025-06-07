@@ -1,12 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
   DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   Table,
@@ -17,65 +12,59 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import useCheckOut from "@/hooks/useCheckOut";
-import { useRoom } from "@/hooks/useRooms";
-import { useUser } from "@/hooks/useUser";
-import type { Room } from "@/utils/types/roomTypes/roomTypes";
-import type { Username } from "@/utils/types/UserTypes/userTypes";
+import { useMutateBooking } from "@/hooks/useBooking";
 import moment from "moment";
 
-const ViewBooking = () => {
-  const { dataList } = useCheckOut();
+interface Props{
+  invoice:string,
+}
 
-  const { userQuery } = useUser();
+const ViewBooking = ({invoice}:Props) => {
 
-  const { getAllRoomsQuery } = useRoom();
 
-  const { data: room } = getAllRoomsQuery;
-  const { data: user } = userQuery;
+  const {getIdBooking} = useMutateBooking({id:invoice as string})
 
-  const roomList = room?.find(
-    (room: Room) => room.id === dataList?.booking?.roomId
-  );
-  const roomNo = roomList?.roomNo || "";
+  const {data} = getIdBooking;
 
-  const customerName = user?.find(
-    (userList: Username) => userList.id === dataList?.booking?.userId
-  );
+  const mainData = data?.data
+  
 
-  const customer = customerName?.name || "";
+  const roomNo = mainData?.room?.roomNo|| "";
 
-  const roomPrice = roomList?.price || 0;
+  const customer = mainData?.user?.name || ''
+
+
+  const roomPrice = mainData?.room?.price || 0;
 
   const pay =
-    dataList?.booking?.totalAmount -
-    dataList?.booking?.depositAmount +
-    dataList.extraCharge;
-  const total = pay + dataList?.booking?.depositAmount;
+    mainData?.totalAmount -
+    mainData?.depositAmount +
+    mainData?.checkInOut?.extra_charge;
+  const total = pay + mainData?.depositAmount;
 
   return (
-    <Dialog>
-      <DialogTrigger>
-        <div className="bg-white shadow-md rounded-lg p-2 w-[80px] cursor-pointer text-center">
-            <p>Invoice</p>
-         </div>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[440px]">
-        <DialogHeader>
-          <DialogTitle className="text-center text-3xl">Hotel Receipt</DialogTitle>
-        </DialogHeader>
+    // <Dialog open={invoiceOpen} onOpenChange={setInvoiceOpen}>
+    //   <DialogTrigger>
+    //     {/* <div className="bg-white shadow-md rounded-lg p-2 w-[80px] cursor-pointer text-center">
+    //         <p>Invoice</p>
+    //      </div> */}
+    //   </DialogTrigger>
+    //   <DialogContent className="sm:max-w-[440px]">
+    //     <DialogHeader>
+    //       <DialogTitle className="text-center text-3xl">Hotel Receipt</DialogTitle>
+    //     </DialogHeader>
         <div className="mt-1 rounded-md p-2 mx-auto">
           <div className="flex flex-col justify-center">
             <h3 className="flex gap-2 mt-1">
               BookingNo:{" "}
               <p className="font-semibold text-nowrap text-sm">
-                INV-{dataList.bookingId || '00000000'}
+                INV-{mainData?.bookingId || '00000000'}
               </p>
             </h3>
             <h3 className="flex gap-2 mt-1">
               Invoice Date:{" "}
               <p className="font-semibold">
-                {moment(dataList?.createdAt).format("MMMM Do YYYY, h:mm:ss A")}
+                {moment(mainData?.createdAt).format("MMMM Do YYYY, h:mm:ss A")}
               </p>
             </h3>
           </div>
@@ -87,18 +76,18 @@ const ViewBooking = () => {
             <h3 className="flex gap-2 items-center">
               CheckIn:{" "}
               <p className="font-semibold text-nowrap text-sm">
-                {moment(dataList?.checkIn).format("MMMM Do YYYY, h:mm:ss A")}
+                {moment(mainData?.checkIn).format("MMMM Do YYYY, h:mm:ss A")}
               </p>
             </h3>
             <h3 className="flex gap-2 items-center">
               CheckOut:{" "}
               <p className="font-semibold text-nowrap text-sm">
-                {moment(dataList?.checkOut).format("MMMM Do YYYY, h:mm:ss A")}
+                {moment(mainData?.checkOut).format("MMMM Do YYYY, h:mm:ss A")}
               </p>
             </h3>
             <h3 className="flex gap-3">
               Guest Count:{" "}
-              <p className="font-semibold">{dataList?.booking?.guestCount || "0"}</p>
+              <p className="font-semibold">{mainData?.guestCount || "0"}</p>
             </h3>
           </div>
           <div>
@@ -117,7 +106,7 @@ const ViewBooking = () => {
                   <TableCell className="text-right">${roomPrice || "0"}</TableCell>
                   <TableCell className="text-center">3days</TableCell>
                   <TableCell className="text-right">
-                    ${dataList?.booking?.totalAmount || "0"}
+                    ${mainData?.totalAmount || "0"}
                   </TableCell>
                 </TableRow>
               </TableBody>
@@ -125,13 +114,13 @@ const ViewBooking = () => {
                 <TableRow>
                   <TableCell colSpan={3}>Deposit Amount</TableCell>
                   <TableCell className="text-right">
-                    ${dataList?.booking?.depositAmount || "0"}
+                    ${mainData?.depositAmount || "0"}
                   </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell colSpan={3}>Extra Charge Amount</TableCell>
                   <TableCell className="text-right">
-                    ${dataList.extraCharge || "0"}
+                    ${mainData?.checkInOut?.extra_charge || "0"}
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -151,8 +140,8 @@ const ViewBooking = () => {
             </div>
           </DialogFooter>
         </div>
-      </DialogContent>
-    </Dialog>
+    //   </DialogContent>
+    // </Dialog>
   );
 };
 

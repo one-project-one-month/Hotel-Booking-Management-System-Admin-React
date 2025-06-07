@@ -109,7 +109,7 @@ const User = () => {
     <div>
       <UserInput userChange={userChange} createUser={createUser} />
 
-      <div className="h-[calc(100vh-200px)] w-[81vw] overflow-auto rounded-md shadow-lg mt-[10px] px-[10px]">
+      <div className="h-[calc(100vh-200px)] overflow-auto rounded-md shadow-lg mt-[10px] px-[10px]">
         <Table>
           <TableUserHeader />
           <TableBody>
